@@ -6,17 +6,39 @@ import { useAppDispatch } from '../../hooks';
 import { register } from '../../store/slices/auth/authSlice';
 import './index.css';
 
+// Added
+import { useEffect } from 'react';
+// Added
+
 const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Added
+  const [validLength, setValidLength] = useState(false);
+  const [hasNumber, setHasNumber] = useState(false);
+  const [upperCase, setUpperCase] = useState(false);
+  const [lowerCase, setLowerCase] = useState(false);
+  const [specialChar, setSpecialChar] = useState(false);
+  const [requiredLength] = useState(8);
+
+  useEffect(() => {
+    setValidLength(password.length >= requiredLength ? true : false);
+    setUpperCase(password.toString().toLowerCase() !== password);
+    setLowerCase(password.toString().toUpperCase() !== password);
+    setHasNumber(/\d/.test(password));
+    setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password));
+
+  }, [password, requiredLength]);
+  // Added
 
   const dispatch = useAppDispatch();
 
   function handleRegister() {
     dispatch(register({ username, email, password }));
   }
-  
+
   return (
     <div className="Register">
       <header className="Register-header">
@@ -42,6 +64,25 @@ const Register: FC = () => {
               type="password"
             />
           </label>
+          {/* Added */}
+          <ul>
+            <li>
+              Valid Length: {validLength ? <span>✓</span> : <span>✗</span>}
+            </li>
+            <li>
+              Has a Number: {hasNumber ? <span>✓</span> : <span>✗</span>}
+            </li>
+            <li>
+              UpperCase: {upperCase ? <span>✓</span> : <span>✗</span>}
+            </li>
+            <li>
+              LowerCase: {lowerCase ? <span>✓</span> : <span>✗</span>}
+            </li>
+            <li>
+              Special Character: {specialChar ? <span>✓</span> : <span>✗</span>}
+            </li>
+          </ul>
+          {/* Added */}
         </div>
         <div className="button">
           <button onClick={handleRegister}>Submit</button>
