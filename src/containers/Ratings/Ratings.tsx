@@ -6,16 +6,16 @@ import { setToken } from '../../store/slices/auth/authSlice';
 import { makeRequest } from '../../store/utils/makeRequest';
 import './index.css';
 
-interface APOD {
-  hdurl: string;
-  explanation: string;
-  date: string;
-  url: string;
-  copyright: string;
-  media_type: string;
-  service_version: string;
-  title: string;
-}
+// interface APOD {
+//   hdurl: string;
+//   explanation: string;
+//   date: string;
+//   url: string;
+//   copyright: string;
+//   media_type: string;
+//   service_version: string;
+//   title: string;
+// }
 
 interface Tether {
   media_type: string;
@@ -34,11 +34,11 @@ interface Tether {
 
 const Ratings: FC = () => {
   const dispatch = useAppDispatch();
-  const [apod, setApod] = useState<APOD | null>(null);
+  // const [apod, setApod] = useState<APOD | null>(null);
   const [date, setDate] = useState(new Date());
   const [tether, setTether] = useState<Tether | null>(null);
 
-  console.log(apod);
+  // console.log(apod);
   console.log(tether);
 
   const fetchTether = useCallback(async () => {
@@ -47,10 +47,13 @@ const Ratings: FC = () => {
     const url = `http://localhost:8000/tethers`;
     console.log(url);
     const { success, data, error } = await makeRequest(url, 'GET');
+    console.log(`Data Received ${data}`);
     if (success) {
       // setApod(data);
-      setTether(data);
+      // setTether(data);
+      console.log(data);
     } else {
+      console.log(`Error Received at Fetch Tether function`);
       console.log(error);
     }
   }, []);
@@ -95,7 +98,7 @@ const Ratings: FC = () => {
   // }, [apod]);
 
   const media = useMemo(() => {
-    const { media_type = 'image', id = '', name = '', opened_on = '', completed_on = '', full_on = '', created_by = '', action = '', quantity = '', noun = '' } = tether ?? {};
+    const { media_type = '', id = '', name = '', opened_on = '', completed_on = '', full_on = '', created_by = '', action = '', quantity = '', noun = '' } = tether ?? {};
 
     switch (media_type) {
       // case 'video':
@@ -111,7 +114,14 @@ const Ratings: FC = () => {
             <source srcSet={url} />
             <img style={{ maxWidth: '100%', height: '500px' }} alt={title} /> */}
             {id} <br />
-            {name}
+            {name} <br />
+            {opened_on} <br />
+            {completed_on} <br />
+            {full_on} <br />
+            {created_by} <br />
+            {action} <br />
+            {quantity} <br />
+            {noun} <br />
           </p>
         );
       default:
