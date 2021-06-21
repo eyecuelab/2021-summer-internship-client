@@ -7,7 +7,7 @@ import { register } from '../../store/slices/auth/authSlice';
 import './index.css';
 
 // Added
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 // Added
 
 const Register: FC = () => {
@@ -16,21 +16,21 @@ const Register: FC = () => {
   const [password, setPassword] = useState('');
 
   // Added
-  const [validLength, setValidLength] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [upperCase, setUpperCase] = useState(false);
-  const [lowerCase, setLowerCase] = useState(false);
-  const [specialChar, setSpecialChar] = useState(false);
-  const [requiredLength] = useState(8);
+  // const [validLength, setValidLength] = useState(false);
+  // const [hasNumber, setHasNumber] = useState(false);
+  // const [upperCase, setUpperCase] = useState(false);
+  // const [lowerCase, setLowerCase] = useState(false);
+  // const [specialChar, setSpecialChar] = useState(false);
+  // const [requiredLength] = useState(8);
 
-  useEffect(() => {
-    setValidLength(password.length >= requiredLength ? true : false);
-    setUpperCase(password.toString().toLowerCase() !== password);
-    setLowerCase(password.toString().toUpperCase() !== password);
-    setHasNumber(/\d/.test(password));
-    setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password));
+  // useEffect(() => {
+  //   setValidLength(password.length >= requiredLength ? true : false);
+  //   setUpperCase(password.toString().toLowerCase() !== password);
+  //   setLowerCase(password.toString().toUpperCase() !== password);
+  //   setHasNumber(/\d/.test(password));
+  //   setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password));
 
-  }, [password, requiredLength]);
+  // }, [password, requiredLength]);
   // Added
 
   const dispatch = useAppDispatch();
@@ -65,7 +65,7 @@ const Register: FC = () => {
             />
           </label>
           {/* Added */}
-          <ul>
+          {/* <ul>
             <li>
               Valid Length: {validLength ? <span>✓</span> : <span>✗</span>}
             </li>
@@ -81,7 +81,7 @@ const Register: FC = () => {
             <li>
               Special Character: {specialChar ? <span>✓</span> : <span>✗</span>}
             </li>
-          </ul>
+          </ul> */}
           {/* Added */}
         </div>
         <div className="button">
