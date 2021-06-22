@@ -1,8 +1,8 @@
-.Ratings {
+.Users {
   text-align: center;
 }
 
-.Ratings-logo {
+.Users-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -15,12 +15,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .Ratings-logo {
+  .Users-logo {
     animation: App-logo-float infinite 3s ease-in-out;
   }
 }
 
-.Ratings-header {
+.Users-header {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -33,9 +33,11 @@
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(10px);
   }
+
   100% {
     transform: translateY(0px);
   }

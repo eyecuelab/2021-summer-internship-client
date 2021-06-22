@@ -4,7 +4,7 @@ import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import './index.css';
 
-const Ratings: FC = () => {
+const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
@@ -23,7 +23,7 @@ const Ratings: FC = () => {
   }
 
   return (
-    <div className="Ratings">
+    <div className="Users">
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
         Get Users
       </button>
@@ -31,12 +31,12 @@ const Ratings: FC = () => {
         Logout
       </button>
       {users?.map((user) => {
-          return (
-            <p key={user.id}>{user.email}</p>
-          );
-        })}
+        return (
+          <p key={user.id}>{user.email}</p>
+        );
+      })}
     </div>
   );
 };
 
-export default Ratings;
+export default Users;
