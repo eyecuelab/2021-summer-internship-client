@@ -1,5 +1,4 @@
 export async function makeRequest(url: string, method: string, data?: unknown, token?: string) {
-  console.log(`Token is ${token}`);
   const init: RequestInit = {
     method,
     mode: 'cors',
