@@ -4,7 +4,7 @@ import { Routes } from './constants/routes';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
-import Ratings from './containers/Ratings';
+import Users from './containers/Users';
 import { useAppSelector } from './hooks';
 
 const App: FC = () => {
@@ -20,8 +20,8 @@ const App: FC = () => {
       );
     } else {
       jsx.push(
-        <Route path={Routes.Ratings} exact component={Ratings} />,
-        <Redirect to={Routes.Ratings} />,
+        <Route path={Routes.Users} exact component={Users} />,
+        <Redirect to={Routes.Users} />,
       );
     }
     return jsx;
