@@ -5,6 +5,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import Users from './containers/Users';
+import Tethers from './containers/Tethers';
 import { useAppSelector } from './hooks';
 
 const App: FC = () => {
@@ -20,8 +21,10 @@ const App: FC = () => {
       );
     } else {
       jsx.push(
-        <Route path={Routes.Users} exact component={Users} />,
-        <Redirect to={Routes.Users} />,
+        <Route path={Routes.Tethers} exact component={Tethers} />,
+        <Redirect to={Routes.Tethers} />,
+        // <Route path={Routes.Users} exact component={Users} />,
+        // <Redirect to={Routes.Users} />,
       );
     }
     return jsx;

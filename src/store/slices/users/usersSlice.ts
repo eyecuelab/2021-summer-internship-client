@@ -7,10 +7,13 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     setUsers(state, action) {
+      console.log(`set users`);
       const users = action.payload;
       return users;
     },
-    getUsers() {},
+    getUsers() {
+      console.log(`get users`);
+    },
   },
 });
 
