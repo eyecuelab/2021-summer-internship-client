@@ -6,7 +6,6 @@ function* fetchAllUsers() {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/users', 'GET');
   if (success) {
     console.log(`successfully fetched all users`);
-    console.log(success, data);
     yield put(setUsers(data));
   }
   if (error) {

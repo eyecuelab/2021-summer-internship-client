@@ -5,7 +5,6 @@ import { setTethers, getTethers } from './tethersSlice';
 function* fetchAllTethers() {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'GET');
   if (success) {
-    console.log(success, data);
     yield put(setTethers(data));
   }
   if (error) {

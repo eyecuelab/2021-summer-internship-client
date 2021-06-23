@@ -7,7 +7,6 @@ import { PayloadAction } from '@reduxjs/toolkit';
 function* registerUser(action: PayloadAction<{ username: string; password: string; email: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/register', 'POST', action.payload);
   if (success) {
-    console.log(success, data);
     yield put(setUser(data));
   }
   if (error) {
