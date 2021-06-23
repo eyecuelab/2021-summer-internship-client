@@ -32,42 +32,27 @@ const Users: FC = () => {
   }
 
   return (
-    <>
-      <div className="Users">
-        <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
-          Get Users
-        </button>
-        <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
-          Get Tethers
-        </button>
-        <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
-          Logout
-        </button>
-        {users?.map((user) => {
-          return (
-            <p key={user.id}>{user.email}</p>
-          );
-        })}
-        {tethers?.map((tether) => {
-          return (
-            <p key={tether.id}>{tether.name}</p>
-          );
-        })}
-      </div>
-      {/* <div className="Tethers">
-        <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
-          Get Tethers
-        </button>
-        <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
-          Logout
-        </button>
-        {tethers?.map((tether) => {
-          return (
-            <p key={tether.id}>{tether.name}</p>
-          );
-        })}
-      </div> */}
-    </>
+    <div className="Users">
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
+        Get Users
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
+        Get Tethers
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
+        Logout
+      </button>
+      {users?.map((user) => {
+        return (
+          <p key={user.id}>{user.email}</p>
+        );
+      })}
+      {tethers?.map((tether) => {
+        return (
+          <p key={tether.id}>{tether.name}</p>
+        );
+      })}
+    </div>
   );
 };
 
