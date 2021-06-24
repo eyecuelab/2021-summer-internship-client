@@ -1,14 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
+import Form from '../../components/form';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
   const tethers = useAppSelector((state) => state.tethers);
   const dispatch = useAppDispatch();
+  const [show, setShow] = useState('');
 
   useEffect(() => {
     return () => {
@@ -23,13 +25,21 @@ const Users: FC = () => {
 
   function handleGetUsers() {
     dispatch(getUsers());
-    dispatch(setTethers([]));
+    setShow('users');
   }
 
   function handleGetTethers() {
     dispatch(getTethers());
-    dispatch(setUsers([]));
+    setShow('tethers');
   }
+
+  function handleShowCreateTetherPage() {
+    setShow('form');
+  }
+
+  // function handleExtractingTextFromForm() {
+  //
+  // }
 
   return (
     <div className="Users">
@@ -39,19 +49,29 @@ const Users: FC = () => {
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
         Get Tethers
       </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleShowCreateTetherPage}>
+        Create Tether
+      </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
       </button>
-      {users?.map((user) => {
-        return (
-          <p key={user.id}>{user.email}</p>
-        );
-      })}
-      {tethers?.map((tether) => {
-        return (
-          <p key={tether.id}>{tether.name}</p>
-        );
-      })}
+      {show === 'users' &&
+        users?.map((user) => {
+          return (
+            <p key={user.id}>{user.email}</p>
+          );
+        })}
+      {show === 'tethers' &&
+        tethers?.map((tether) => {
+          return (
+            <p key={tether.id}>{tether.name}</p>
+          );
+        })}
+      {show === 'form' &&
+        <>
+          <Form />
+        </>
+      }
     </div>
   );
 };

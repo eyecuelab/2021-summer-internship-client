@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any[] = [];
 
@@ -11,9 +11,10 @@ const tethersSlice = createSlice({
       return tethers;
     },
     getTethers() {},
+    createTether(state, action: PayloadAction<{ name: string, created_by: string, action: string, quantity: number, noun: string, duration: string }>) {},
   },
 });
 
-export const { setTethers, getTethers } = tethersSlice.actions;
+export const { setTethers, getTethers, createTether } = tethersSlice.actions;
 
 export default tethersSlice.reducer;
