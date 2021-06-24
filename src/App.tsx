@@ -5,7 +5,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import Users from './containers/Users';
-import Tethers from './containers/Tethers';
+// import Tethers from './containers/Tethers';
 import { useAppSelector } from './hooks';
 
 const App: FC = () => {

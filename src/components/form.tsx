@@ -23,23 +23,21 @@ const TetherForm = styled.div`
 
 
 const Form: FC = () => {
-  const [name, setName] = useState('');
-  const [created_by, setCreatedBy] = useState('');
-  const [action, setAction] = useState('');
-  const [quantity, setQuantity] = useState(0);
-  const [noun, setNoun] = useState('');
-  const [duration, setDuration] = useState('');
+  const [tether_action, setAction] = useState('');
+  const [tether_quantity, setQuantity] = useState(0);
+  const [tether_noun, setNoun] = useState('');
+  const [tether_duration, setDuration] = useState('');
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = (event: any) => {
-    dispatch(createTether({ name, created_by, action, quantity, noun, duration }));
-    alert(`
-    ${event.target.action.value}
-    ${event.target.quantity.value}
-    ${event.target.noun.value}
-    ${event.target.duration.value}
-    `);
+    dispatch(createTether({ tether_action, tether_quantity, tether_noun, tether_duration }));
+    // alert(`
+    // ${event.target.action.value}
+    // ${event.target.quantity.value}
+    // ${event.target.noun.value}
+    // ${event.target.duration.value}
+    // `);
   }
 
   return (
@@ -51,48 +49,36 @@ const Form: FC = () => {
         <p>CREATE TETHER FORM</p>
         <input
           type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          name="name"
-          placeholder="Name"
-        />
-        <input
-          type="text"
-          value={created_by}
-          onChange={(event) => setCreatedBy(event.target.value)}
-          name="created_by"
-          placeholder="Created By"
-        />
-        <input
-          type="text"
-          value={action}
+          value={tether_action}
           onChange={(event) => setAction(event.target.value)}
           name="action"
           placeholder="Action"
         />
         <input
           type="number"
-          value={quantity}
+          value={tether_quantity}
           onChange={(event) => setQuantity(parseInt(event.target.value))}
           name="quantity"
           placeholder="Quantity"
+          min="1"
         />
         <input
           type="text"
-          value={noun}
+          value={tether_noun}
           onChange={(event) => setNoun(event.target.value)}
           name="noun"
           placeholder="noun"
         />
         <label htmlFor="duration">Set Duration:</label>
-        <select name="duration" id="duration" onChange={(event) => setDuration(event.target.value)}>
+        <select name="duration" id="duration" onChange={(event) => setDuration(event.target.value)} defaultValue={"DEFAULT"}>
+          <option disabled value="DEFAULT"> -- Select a Duration --</option>
           <option value="Daily">Daily</option>
           <option value="Weekly">Weekly</option>
           <option value="Monthly">Monthly</option>
         </select>
         <button type="submit" value="Submit">SUBMIT</button>
       </TetherForm >
-    </form>
+    </form >
   );
 }
 

@@ -64,7 +64,7 @@ const Users: FC = () => {
       {show === 'tethers' &&
         tethers?.map((tether) => {
           return (
-            <p key={tether.id}>{tether.name}</p>
+            <p key={tether.tether_id}>{tether.tether_name}</p>
           );
         })}
       {show === 'form' &&

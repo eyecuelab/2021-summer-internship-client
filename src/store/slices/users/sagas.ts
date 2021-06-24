@@ -5,7 +5,6 @@ import { setUsers, getUsers } from './usersSlice';
 function* fetchAllUsers() {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/users', 'GET');
   if (success) {
-    console.log(`successfully fetched all users`);
     yield put(setUsers(data));
   }
   if (error) {

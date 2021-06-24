@@ -14,7 +14,7 @@ function* fetchAllTethers() {
   }
 }
 
-function* createNewTether(action: PayloadAction<{ action: string; quantity: number; noun: string; duration: string }>) {
+function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
   if (success) {
     yield put(createTether(data));
@@ -28,5 +28,5 @@ function* createNewTether(action: PayloadAction<{ action: string; quantity: numb
 // eslint-disable-next-line import/prefer-default-export
 export function* watchAllTethers() {
   yield takeEvery(getTethers().type, fetchAllTethers);
-  yield takeEvery(createTether({ name: '', created_by: '', action: '', quantity: 0, noun: '', duration: '' }).type, createNewTether);
+  yield takeEvery(createTether({ tether_action: '', tether_quantity: 0, tether_noun: '', tether_duration: '' }).type, createNewTether);
 }
