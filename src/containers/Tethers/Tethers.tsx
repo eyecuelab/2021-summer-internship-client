@@ -19,7 +19,7 @@ const Tethers: FC = () => {
   }
 
   function handleGetTethers() {
-    dispatch(getTethers());
+    // dispatch(getTethers());
   }
 
   return (
