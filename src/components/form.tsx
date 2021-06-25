@@ -30,7 +30,7 @@ const Form: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = () => {
     dispatch(createTether({ tether_action, tether_quantity, tether_noun, tether_duration }));
     // alert(`
     // ${event.target.action.value}
@@ -43,7 +43,7 @@ const Form: FC = () => {
   return (
     <form id="form" onSubmit={(event) => {
       event.preventDefault();
-      handleSubmit(event);
+      handleSubmit();
     }}>
       <TetherForm>
         <p>CREATE TETHER FORM</p>
