@@ -29,7 +29,7 @@ const Users: FC = () => {
   }
 
   function handleGetTethers() {
-    dispatch(setTethers([]));
+    // dispatch(setTethers([]));
     dispatch(getTethers());
     setShow('tethers');
   }

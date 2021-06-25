@@ -17,9 +17,9 @@ function* fetchAllTethers() {
 function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
   if (success) {
-    yield put(setTethers({
-      tethers: data
-    }));
+    // yield put(setTethers({
+    //   tethers: data
+    // }));
   }
   if (error) {
     // handle api error
