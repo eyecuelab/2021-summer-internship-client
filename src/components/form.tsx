@@ -1,9 +1,13 @@
-import { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { createTether } from '../store/slices/tethers/tethersSlice';
 import { useAppDispatch } from '../hooks';
 
-const TetherForm = styled.div`
+const TetherForm = styled.form`
   width: 100%;
   height: 100%;
   display: flex;
@@ -19,67 +23,70 @@ const TetherForm = styled.div`
       padding: 5px;
     }
   }
-`
+`;
 
+const ErrorMessage = styled.p`
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  color: red;
+`;
+interface TetherFormData {
+  tether_action: string;
+  tether_quantity: number;
+  tether_noun: string;
+  tether_duration: string;
+}
+const schema = yup.object().shape({
+  tether_action: yup.string().required(),
+  tether_quantity: yup.number().positive().integer().required(),
+  tether_noun: yup.string().required(),
+  tether_duration: yup.string().oneOf(['Daily', 'Weekly', 'Monthly']).required(),
+});
+
+const defaultValues = {
+  tether_quantity: 0,
+  tether_duration: 'DEFAULT',
+};
 
 const Form: FC = () => {
-  const [tether_action, setAction] = useState('');
-  const [tether_quantity, setQuantity] = useState(0);
-  const [tether_noun, setNoun] = useState('');
-  const [tether_duration, setDuration] = useState('');
-
   const dispatch = useAppDispatch();
 
-  const handleSubmit = () => {
-    dispatch(createTether({ tether_action, tether_quantity, tether_noun, tether_duration }));
-    // alert(`
-    // ${event.target.action.value}
-    // ${event.target.quantity.value}
-    // ${event.target.noun.value}
-    // ${event.target.duration.value}
-    // `);
-  }
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<TetherFormData>({ defaultValues, resolver: yupResolver(schema) });
+
+  const onSubmit = (data: TetherFormData) => {
+    dispatch(createTether(data));
+  };
 
   return (
-    <form id="form" onSubmit={(event) => {
-      event.preventDefault();
-      handleSubmit();
-    }}>
-      <TetherForm>
-        <p>CREATE TETHER FORM</p>
-        <input
-          type="text"
-          value={tether_action}
-          onChange={(event) => setAction(event.target.value)}
-          name="action"
-          placeholder="Action"
-        />
-        <input
-          type="number"
-          value={tether_quantity}
-          onChange={(event) => setQuantity(parseInt(event.target.value))}
-          name="quantity"
-          placeholder="Quantity"
-          min="1"
-        />
-        <input
-          type="text"
-          value={tether_noun}
-          onChange={(event) => setNoun(event.target.value)}
-          name="noun"
-          placeholder="noun"
-        />
-        <label htmlFor="duration">Set Duration:</label>
-        <select name="duration" id="duration" onChange={(event) => setDuration(event.target.value)} defaultValue={"DEFAULT"}>
-          <option disabled value="DEFAULT"> -- Select a Duration --</option>
-          <option value="Daily">Daily</option>
-          <option value="Weekly">Weekly</option>
-          <option value="Monthly">Monthly</option>
-        </select>
-        <button type="submit" value="Submit">SUBMIT</button>
-      </TetherForm >
-    </form >
+    <TetherForm id="form" onSubmit={handleSubmit(onSubmit)}>
+      <p>CREATE TETHER FORM</p>
+      <input type="text" placeholder="Action" {...register('tether_action')} />
+      <ErrorMessage>{errors.tether_action?.message}</ErrorMessage>
+      <input type="number" placeholder="Quantity" {...register('tether_quantity')} />
+      <ErrorMessage>{errors.tether_quantity?.message}</ErrorMessage>
+      <input type="text" placeholder="noun" {...register('tether_noun')} />
+      <ErrorMessage>{errors.tether_noun?.message}</ErrorMessage>
+      <label htmlFor="duration">Set Duration:</label>
+      <select id="duration" {...register('tether_duration')}>
+        <option disabled value="DEFAULT">
+          {' '}
+          -- Select a Duration --
+        </option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+      </select>
+      <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
+      <button type="submit" value="Submit">
+        SUBMIT
+      </button>
+    </TetherForm>
   );
-}
+};
 
 export default Form;
