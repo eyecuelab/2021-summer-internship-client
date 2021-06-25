@@ -29,7 +29,6 @@ const Users: FC = () => {
   }
 
   function handleGetTethers() {
-    // dispatch(setTethers([]));
     dispatch(getTethers());
     setShow('tethers');
   }
@@ -37,10 +36,6 @@ const Users: FC = () => {
   function handleShowCreateTetherPage() {
     setShow('form');
   }
-
-  // function handleExtractingTextFromForm() {
-  //
-  // }
 
   return (
     <div className="Users">
@@ -69,7 +64,6 @@ const Users: FC = () => {
           );
         })
       }
-      {/* {show === 'tethers' && console.log(tethers)} */}
       {show === 'form' &&
         <>
           <Form />

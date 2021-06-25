@@ -21,8 +21,6 @@ const App: FC = () => {
       );
     } else {
       jsx.push(
-        // <Route path={Routes.Tethers} exact component={Tethers} />,
-        // <Redirect to={Routes.Tethers} />,
         <Route path={Routes.Users} exact component={Users} />,
         <Redirect to={Routes.Users} />,
       );
