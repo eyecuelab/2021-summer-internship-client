@@ -8,6 +8,7 @@ import Register from './containers/Register';
 import Users from './containers/Users';
 // import Tethers from './containers/Tethers';
 import { useAppSelector } from './hooks';
+import Header from './components/Header'
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
@@ -28,7 +29,7 @@ const App: FC = () => {
 
   return (
     <AppContainer>
-      <HeaderContainer>stuff</HeaderContainer>
+      <HeaderContainer><Header /></HeaderContainer>
       <ContentContainer>
         <Switch>{routes}</Switch>
       </ContentContainer>
