@@ -5,9 +5,11 @@ import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
+import { getUser } from '../../store/slices/user/userSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
+  const user = useAppSelector((state) => state.user);
   const tethers = useAppSelector((state) => state.tethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
@@ -33,6 +35,12 @@ const Users: FC = () => {
     setShow('tethers');
   }
 
+  function handleMyUsername() {
+    // It is only getting the last user in the users array...
+    dispatch(getUser());
+    setShow('username');
+  }
+
   function handleShowCreateTetherPage() {
     setShow('form');
   }
@@ -47,6 +55,9 @@ const Users: FC = () => {
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleShowCreateTetherPage}>
         Create Tether
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleMyUsername}>
+        Get My Username
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
@@ -67,6 +78,11 @@ const Users: FC = () => {
       {show === 'form' &&
         <>
           <Form />
+        </>
+      }
+      {show === 'username' &&
+        <>
+          <p>{user.username}</p>
         </>
       }
     </div>
