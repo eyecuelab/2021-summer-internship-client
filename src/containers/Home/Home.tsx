@@ -1,10 +1,18 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { Routes } from '../../constants/routes';
+import { useAppSelector } from '../../hooks';
 import './index.css';
 
 const Home: FC = () => {
+  const token = useAppSelector(({ auth }) => auth.token);
+
+  // If user is logged in, redirect to /users route:
+  if (token) {
+    return <Redirect to={Routes.Users} />
+  };
+
   return (
     <div className="App">
       <header className="App-header">
