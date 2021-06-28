@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from 'react-bootstrap';
 
@@ -48,10 +48,10 @@ function Header() {
       <Nav>
         <Title>Tether</Title>
         <LinksContainer>
-            <p>Tethers</p>
-            <p>Activities</p>
-            <p>Friends</p>
-            <p>AV</p>
+            <Link to='/tethers'>Tethers</Link>
+            <Link to='/activity'>Activity</Link>
+            <Link to='/friends'>Friends</Link>
+            <Link to='/activity'>AV</Link>
         </LinksContainer>
       </Nav>
     </Navbar>

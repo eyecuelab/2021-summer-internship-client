@@ -6,7 +6,8 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import Users from './containers/Users';
-// import Tethers from './containers/Tethers';
+import Tethers from './containers/Tethers';
+import Activity from './containers/Activity';
 import { useAppSelector } from './hooks';
 import Header from './components/Header'
 
@@ -21,8 +22,13 @@ const App: FC = () => {
         <Route path={Routes.Register} exact component={Register} />,
         <Redirect to={Routes.Home} />
       );
-    } else {
-      jsx.push(<Route path={Routes.Users} exact component={Users} />, <Redirect to={Routes.Users} />);
+    } if (token) {
+      jsx.push(
+      <Route path={Routes.Users} exact component={Users} />,
+      <Route path={Routes.Tethers} exact component={Tethers} />,
+      <Route path={Routes.Activity} exact component={Activity} />,
+      <Redirect to={Routes.Tethers} />
+      );
     }
     return jsx;
   }, [token]);
@@ -59,4 +65,8 @@ const HeaderContainer = styled.div`
 `;
 const ContentContainer = styled.div`
   grid-area: 'content';
+  margin-top: 69px;
+  margin-left: 77px;
+  margin-right: 77px;
+  color: #FFFFFF;
 `;
