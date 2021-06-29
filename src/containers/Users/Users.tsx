@@ -1,11 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setToken } from '../../store/slices/auth/authSlice';
+// eslint-disable-next-line
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
+// eslint-disable-next-line
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
-import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
+// eslint-disable-next-line
+import { getOneUser, getOneUsersTethers, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -41,6 +44,11 @@ const Users: FC = () => {
     setShow('username');
   }
 
+  function handleGetMyTethers() {
+    dispatch(getOneUsersTethers(user.id));
+    setShow('userId');
+  }
+
   function handleShowCreateTetherPage() {
     setShow('form');
   }
@@ -58,6 +66,9 @@ const Users: FC = () => {
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleMyUsername}>
         Get My Username
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetMyTethers}>
+        Get My Tethers
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
@@ -83,6 +94,11 @@ const Users: FC = () => {
       {show === 'username' &&
         <>
           <p>{user?.username}</p>
+        </>
+      }
+      {show === 'userId' &&
+        <>
+          <p>{user?.id}</p>
         </>
       }
     </div>
