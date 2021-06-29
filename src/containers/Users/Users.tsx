@@ -9,6 +9,8 @@ import './index.css';
 import Form from '../../components/form';
 // eslint-disable-next-line
 import { getOneUser, getOneUsersTethers, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import { useCallback } from 'react';
+import { makeRequest } from '../../store/utils/makeRequest';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -48,6 +50,30 @@ const Users: FC = () => {
     dispatch(getOneUsersTethers(user.id));
     setShow('userId');
   }
+
+  const fetchMyTethers = useCallback(async () => {
+    const url = `http://localhost:8000/users/${user.id}/tethers`;
+    console.log(url);
+    const { success, data, error } = await makeRequest(url, 'GET');
+    if (success) {
+      setTethers(data);
+    }
+    else {
+      console.log(error);
+    }
+  }, [user.id]);
+
+  // const fetchAPOTD = useCallback(async () => {
+  //   const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  //   const url = `https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_NASA_API_KEY}&date=${formattedDate}`;
+  //   console.log(url);
+  //   const { success, data, error } = await makeRequest(url, 'GET');
+  //   if (success) {
+  //     setApod(data);
+  //   } else {
+  //     console.log(error);
+  //   }
+  // }, [date]);
 
   function handleShowCreateTetherPage() {
     setShow('form');
