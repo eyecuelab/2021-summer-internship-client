@@ -5,11 +5,11 @@ import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
-import { getUser } from '../../store/slices/user/userSlice';
+import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.oneUser);
   const tethers = useAppSelector((state) => state.tethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
@@ -18,6 +18,7 @@ const Users: FC = () => {
     return () => {
       dispatch(setUsers([]));
       dispatch(setTethers([]));
+      dispatch(setOneUser([]));
     }
   }, [dispatch])
 
@@ -36,8 +37,7 @@ const Users: FC = () => {
   }
 
   function handleMyUsername() {
-    // It is only getting the last user in the users array...
-    dispatch(getUser());
+    dispatch(getOneUser());
     setShow('username');
   }
 
@@ -82,7 +82,7 @@ const Users: FC = () => {
       }
       {show === 'username' &&
         <>
-          <p>{user.username}</p>
+          <p>{user?.username}</p>
         </>
       }
     </div>

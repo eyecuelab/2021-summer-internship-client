@@ -7,10 +7,16 @@ import Login from './containers/Login';
 import Register from './containers/Register';
 import Users from './containers/Users';
 // import Tethers from './containers/Tethers';
-import { useAppSelector } from './hooks';
+import { useAppSelector, useAppDispatch } from './hooks';
+import { setUser } from './store/slices/user/userSlice';
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
+  const dispatch = useAppDispatch();
+
+  if (token) {
+    dispatch(setUser([]));
+  }
 
   const routes = useMemo(() => {
     const jsx = [<Route path={Routes.Home} exact component={Home} />];
