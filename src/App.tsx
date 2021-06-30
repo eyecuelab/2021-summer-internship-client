@@ -46,8 +46,8 @@ const App: FC = () => {
 export default App;
 
 const AppContainer = styled.div`
-background: #0069B5;
-opacity: 0.85;
+  /* background: #0069B5;
+  opacity: 0.85; */
   position: absolute;
   bottom: 0;
   top: 0;

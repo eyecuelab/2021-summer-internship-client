@@ -177,8 +177,12 @@ const defaultValues = {
   tether_quantity: 0,
   tether_duration: 'DEFAULT',
 };
+interface ModalProps {
+  closeModal: any
+}
 
-const Form: FC = () => {
+const Form: FC<ModalProps> = (props) => {
+  const { closeModal } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -234,7 +238,7 @@ const Form: FC = () => {
         </FormInputRow>
       </FormInputs>
       <FormButtons>
-        <button>Cancel</button>
+        <button onClick={closeModal}>Cancel</button>
         <button type="submit" value="Submit">
           Next Step
         </button>

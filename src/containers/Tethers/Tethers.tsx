@@ -75,7 +75,7 @@ const Tethers: FC = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
   const [activeLink, setActiveLink] = useState('current');
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -99,7 +99,7 @@ const Tethers: FC = () => {
   }
 
   function openModal() {
-    setIsOpen(true);
+    setModalIsOpen(true);
   }
 
   function afterOpenModal() {
@@ -108,7 +108,7 @@ const Tethers: FC = () => {
   }
 
   function closeModal() {
-    setIsOpen(false);
+    setModalIsOpen(false);
   }
 
   function handleShowCreateTetherPage() {
@@ -136,7 +136,7 @@ const Tethers: FC = () => {
           className="Modal"
           overlayClassName="Overlay"
       >
-        <Form />
+        <Form closeModal={closeModal} />
       </Modal>
       </MainHeader>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
