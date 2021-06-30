@@ -5,10 +5,14 @@ import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
+import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
+  const user = useAppSelector((state) => state.oneUser);
   const tethers = useAppSelector((state) => state.tethers);
+  const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
 
@@ -16,6 +20,8 @@ const Users: FC = () => {
     return () => {
       dispatch(setUsers([]));
       dispatch(setTethers([]));
+      dispatch(setOneUser([]));
+      dispatch(setOneUsersTethers([]));
     }
   }, [dispatch])
 
@@ -33,6 +39,16 @@ const Users: FC = () => {
     setShow('tethers');
   }
 
+  function handleMyUsername() {
+    dispatch(getOneUser());
+    setShow('username');
+  }
+
+  function handleGetMyTethers() {
+    dispatch(getOneUsersTethers(user.id));
+    setShow('myTethers');
+  }
+
   function handleShowCreateTetherPage() {
     setShow('form');
   }
@@ -48,6 +64,12 @@ const Users: FC = () => {
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleShowCreateTetherPage}>
         Create Tether
       </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleMyUsername}>
+        Get My Username
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetMyTethers}>
+        Get My Tethers
+      </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
       </button>
@@ -60,7 +82,7 @@ const Users: FC = () => {
       {show === 'tethers' &&
         tethers?.map((tether) => {
           return (
-            <p key={tether.tether_id}>{tether.tether_name}</p>
+            <p key={tether.tether_id}>{tether.tether_name} created by {tether.tether_created_by_plain}</p>
           );
         })
       }
@@ -68,6 +90,18 @@ const Users: FC = () => {
         <>
           {/* <Form /> */}
         </>
+      }
+      {show === 'username' &&
+        <>
+          <p>{user?.username}</p>
+        </>
+      }
+      {show === 'myTethers' && (myTethers) &&
+        myTethers?.map((myTether) => {
+          return (
+            <p key={myTether.tether_id}>{myTether.tether_name} created by {myTether.tether_created_by_plain}</p>
+          );
+        })
       }
     </div>
   );
