@@ -2,12 +2,12 @@ import React from 'react';
 import Loading from '../../components/Loading';
 
 // Lazily load routes and code split with webpack
-const LazyHomePage = React.lazy(() => import(/* webpackChunkName: "HomePage" */ './Home'));
+const LazyTethersPage = React.lazy(() => import(/* webpackChunkName: "LoginPage" */ './Tethers'));
 
-const HomePage = () => (
+const TethersPage = () => (
   <React.Suspense fallback={<Loading />}>
-    <LazyHomePage />
+    <LazyTethersPage />
   </React.Suspense>
 );
 
-export default HomePage;
+export default TethersPage;

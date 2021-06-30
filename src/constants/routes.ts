@@ -4,4 +4,5 @@ export enum Routes {
   Register = '/register',
   Users = '/users',
   Tethers = '/tethers',
+  Activity = '/activity'
 }
