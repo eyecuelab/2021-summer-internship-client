@@ -6,9 +6,10 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import Users from './containers/Users';
-// import Tethers from './containers/Tethers';
-import { useAppSelector, useAppDispatch } from './hooks';
-import { setUser } from './store/slices/user/userSlice';
+import Tethers from './containers/Tethers';
+import Activity from './containers/Activity';
+import { useAppSelector } from './hooks';
+import Header from './components/Header'
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
@@ -26,15 +27,20 @@ const App: FC = () => {
         <Route path={Routes.Register} exact component={Register} />,
         <Redirect to={Routes.Home} />
       );
-    } else {
-      jsx.push(<Route path={Routes.Users} exact component={Users} />, <Redirect to={Routes.Users} />);
+    } if (token) {
+      jsx.push(
+      <Route path={Routes.Users} exact component={Users} />,
+      <Route path={Routes.Tethers} exact component={Tethers} />,
+      <Route path={Routes.Activity} exact component={Activity} />,
+      <Redirect to={Routes.Tethers} />
+      );
     }
     return jsx;
   }, [token]);
 
   return (
     <AppContainer>
-      <HeaderContainer>stuff</HeaderContainer>
+      <HeaderContainer><Header /></HeaderContainer>
       <ContentContainer>
         <Switch>{routes}</Switch>
       </ContentContainer>
@@ -45,6 +51,8 @@ const App: FC = () => {
 export default App;
 
 const AppContainer = styled.div`
+  /* background: #0069B5;
+  opacity: 0.85; */
   position: absolute;
   bottom: 0;
   top: 0;
@@ -64,4 +72,8 @@ const HeaderContainer = styled.div`
 `;
 const ContentContainer = styled.div`
   grid-area: 'content';
+  margin-top: 10vh;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  color: #FFFFFF;
 `;

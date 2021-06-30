@@ -16,6 +16,10 @@ function* fetchAllTethers() {
 
 function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
+  // does this do anything
+  if (success) {
+    return data;
+  }
   if (error) {
     // handle api error
     console.error(error);
@@ -25,5 +29,5 @@ function* createNewTether(action: PayloadAction<{ tether_action: string; tether_
 // eslint-disable-next-line import/prefer-default-export
 export function* watchAllTethers() {
   yield takeEvery(getTethers().type, fetchAllTethers);
-  yield takeEvery(createTether({ tether_action: '', tether_quantity: 0, tether_noun: '', tether_duration: '' }).type, createNewTether);
+  yield takeEvery(createTether({ tether_activity: '', tether_duration: 0, tether_duration_noun: '', tether_frequency: '', tether_timespan: '' }).type, createNewTether);
 }
