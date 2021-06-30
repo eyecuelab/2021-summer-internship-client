@@ -11,7 +11,7 @@ const tethersSlice = createSlice({
       return tethers;
     },
     getTethers() {},
-    createTether(state, action: PayloadAction<{ tether_action: string, tether_quantity: number, tether_noun: string, tether_duration: string }>) {},
+    createTether(state, action: PayloadAction<{ tether_activity: string, tether_duration: number, tether_duration_noun: string, tether_frequency: string, tether_timespan: string }>) {},
   },
 });
 
