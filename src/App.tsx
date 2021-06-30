@@ -46,6 +46,8 @@ const App: FC = () => {
 export default App;
 
 const AppContainer = styled.div`
+background: #0069B5;
+opacity: 0.85;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -65,8 +67,8 @@ const HeaderContainer = styled.div`
 `;
 const ContentContainer = styled.div`
   grid-area: 'content';
-  margin-top: 69px;
-  margin-left: 77px;
-  margin-right: 77px;
+  margin-top: 10vh;
+  margin-left: 10vw;
+  margin-right: 10vw;
   color: #FFFFFF;
 `;

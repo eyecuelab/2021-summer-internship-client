@@ -6,11 +6,15 @@ import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice'
 import './index.css';
 import Form from '../../components/form';
 import styled from 'styled-components';
+import Modal from 'react-modal';
 
 const CurrentCompleted = styled.div`
   display: flex;
+  cursor: pointer;
   p {
     padding-right:20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
   }
   font-style: normal;
   font-weight: 800;
@@ -19,20 +23,59 @@ const CurrentCompleted = styled.div`
 `
 
 const MainHeader = styled.div`
-h1 {
+  display: flex;
+  align-items: center;
+  h1 {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 56px;
+    text-transform: uppercase;
+    margin-right: 15px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+`
+const AddNewTether = styled.button`
+  cursor: pointer;
+  width: 200px;
+  height: 34px;
+  background: #003E6A;
+  border: none;
+  border-radius: 10px;
+  font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
-  font-size: 48px;
-  line-height: 56px;
-  text-transform: uppercase;
-}
+  font-size: 18px;
+  line-height: 21px;
+  color: #FFFFFF;
 `
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    inset: '50% auto auto 50%',
+    border: 'none',
+    overflow: 'auto',
+    borderRadius: '12px',
+    outline: 'none',
+    padding: '0px',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  }
+};
+
+Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
   const users = useAppSelector((state) => state.users);
   const tethers = useAppSelector((state) => state.tethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
+  const [activeLink, setActiveLink] = useState('current');
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -55,27 +98,52 @@ const Tethers: FC = () => {
     setShow('tethers');
   }
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   function handleShowCreateTetherPage() {
-    setShow('form');
+    openModal();
+    // setShow('form');
   }
 
   return (
     <div className="Tethers">
       <CurrentCompleted>
-        <p>Current</p>
-        <p>Completed</p>
+        <p id='current' onClick={handleGetTethers}>Current</p>
+        <p id='completed'>Completed</p>
       </CurrentCompleted>
       <MainHeader>
         <h1>Your Tethers</h1>
+        <AddNewTether onClick={handleShowCreateTetherPage}>
+        Add New
+        </AddNewTether>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+          className="Modal"
+          overlayClassName="Overlay"
+      >
+        <Form />
+      </Modal>
       </MainHeader>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
         Get Users
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
         Get Tethers
-      </button>
-      <button style={{ margin: '1rem', height: '25px' }} onClick={handleShowCreateTetherPage}>
-        Create Tether
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
@@ -92,11 +160,6 @@ const Tethers: FC = () => {
             <p key={tether.tether_id}>{tether.tether_name}</p>
           );
         })
-      }
-      {show === 'form' &&
-        <>
-          <Form />
-        </>
       }
     </div>
   );

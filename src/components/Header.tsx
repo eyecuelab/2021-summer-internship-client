@@ -25,14 +25,14 @@ const Nav = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.35);
   ${Title} {
     margin-left: 80px;
-    margin-top: 51px;
+    margin-top: 40px;
   }
 `
 const LinksContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 50%;
-  margin-right: 80px;
+  margin-right: 6vw;
   margin-left: 55%;
   font-family: Work Sans;
   font-style: normal;
