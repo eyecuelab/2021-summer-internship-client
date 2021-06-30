@@ -20,7 +20,7 @@ const Users: FC = () => {
     return () => {
       dispatch(setUsers([]));
       dispatch(setTethers([]));
-      dispatch(setOneUser([]));
+      // dispatch(setOneUser([]));
       dispatch(setOneUsersTethers([]));
     }
   }, [dispatch])

@@ -13,11 +13,11 @@ import Header from './components/Header'
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  if (token) {
-    dispatch(setUser([]));
-  }
+  // if (token) {
+  //   dispatch(setUser([]));
+  // }
 
   const routes = useMemo(() => {
     const jsx = [<Route path={Routes.Home} exact component={Home} />];
@@ -29,10 +29,10 @@ const App: FC = () => {
       );
     } if (token) {
       jsx.push(
-      <Route path={Routes.Users} exact component={Users} />,
-      <Route path={Routes.Tethers} exact component={Tethers} />,
-      <Route path={Routes.Activity} exact component={Activity} />,
-      <Redirect to={Routes.Tethers} />
+        <Route path={Routes.Users} exact component={Users} />,
+        <Route path={Routes.Tethers} exact component={Tethers} />,
+        <Route path={Routes.Activity} exact component={Activity} />,
+        <Redirect to={Routes.Tethers} />
       );
     }
     return jsx;
@@ -51,8 +51,6 @@ const App: FC = () => {
 export default App;
 
 const AppContainer = styled.div`
-  /* background: #0069B5;
-  opacity: 0.85; */
   position: absolute;
   bottom: 0;
   top: 0;

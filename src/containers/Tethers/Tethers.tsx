@@ -7,6 +7,8 @@ import './index.css';
 import Form from '../../components/form';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 
 const CurrentCompleted = styled.div`
   display: flex;
@@ -71,7 +73,9 @@ Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
   const users = useAppSelector((state) => state.users);
+  const user = useAppSelector((state) => state.oneUser);
   const tethers = useAppSelector((state) => state.tethers);
+  const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
   const [activeLink, setActiveLink] = useState('current');
@@ -94,7 +98,8 @@ const Tethers: FC = () => {
   }
 
   function handleGetTethers() {
-    dispatch(getTethers());
+    dispatch(getOneUser());
+    dispatch(getOneUsersTethers(user.id));
     setShow('tethers');
   }
 
@@ -125,7 +130,7 @@ const Tethers: FC = () => {
       <MainHeader>
         <h1>Your Tethers</h1>
         <AddNewTether onClick={handleShowCreateTetherPage}>
-        Add New
+          Add New
         </AddNewTether>
         <Modal
           isOpen={modalIsOpen}
@@ -135,9 +140,9 @@ const Tethers: FC = () => {
           contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"
-      >
-        <Form closeModal={closeModal} />
-      </Modal>
+        >
+          <Form closeModal={closeModal} />
+        </Modal>
       </MainHeader>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
         Get Users
@@ -155,9 +160,9 @@ const Tethers: FC = () => {
           );
         })}
       {show === 'tethers' &&
-        tethers?.map((tether) => {
+        myTethers?.map((myTether) => {
           return (
-            <p key={tether.tether_id}>{tether.tether_name}</p>
+            <p key={myTether.tether_id}>{myTether.tether_name} created by {myTether.tether_created_by_plain}</p>
           );
         })
       }
