@@ -11,14 +11,9 @@ const oneUserSlice = createSlice({
       return user;
     },
     getOneUser() {},
-    getOneUserId() {},
-    getOneUsersTethers(state, action) {
-      const tethers = action.payload;
-      return tethers;
-    },
   },
 });
 
-export const { setOneUser, getOneUser, getOneUserId, getOneUsersTethers } = oneUserSlice.actions;
+export const { setOneUser, getOneUser } = oneUserSlice.actions;
 
 export default oneUserSlice.reducer;

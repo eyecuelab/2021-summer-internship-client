@@ -15,7 +15,6 @@ function* fetchAllTethers() {
 }
 
 function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
-  // eslint-disable-next-line
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
   if (error) {
     // handle api error
