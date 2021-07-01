@@ -82,7 +82,7 @@ const Users: FC = () => {
       {show === 'tethers' &&
         tethers?.map((tether) => {
           return (
-            <p key={tether.tether_id}>{tether.tether_name} created by {tether.tether_created_by_plain}</p>
+            <p key={tether.tether_id}>{tether.tether_name} created by {tether.tether_created_by_plain} at {tether.tether_opened_on}</p>
           );
         })
       }

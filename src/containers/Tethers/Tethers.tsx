@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import plus from '../../assets/Vector.png';
 
 const CurrentCompleted = styled.div`
   display: flex;
@@ -39,6 +40,10 @@ const MainHeader = styled.div`
   }
 `
 const AddNewTether = styled.button`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 53px;
   cursor: pointer;
   width: 200px;
   height: 34px;
@@ -78,7 +83,7 @@ const Tethers: FC = () => {
   const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
-  const [activeLink, setActiveLink] = useState('current');
+  const [activeLink, setActiveLink] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
@@ -121,15 +126,27 @@ const Tethers: FC = () => {
     // setShow('form');
   }
 
+  function toggleClass() {
+    setActiveLink(!activeLink);
+  }
+
   return (
     <div className="Tethers">
       <CurrentCompleted>
-        <p id='current' onClick={handleGetTethers}>Current</p>
-        <p id='completed'>Completed</p>
+        <p className={activeLink ? 'inactive' : 'active'}
+          onClick={() => {
+            toggleClass();
+            handleGetTethers();
+          }
+          }>Current</p>
+        <p className={!activeLink ? 'inactive' : 'active'}
+          onClick={toggleClass}
+        >Completed</p>
       </CurrentCompleted>
       <MainHeader>
         <h1>Your Tethers</h1>
         <AddNewTether onClick={handleShowCreateTetherPage}>
+          <img src={plus} alt="plus-sign" />
           Add New
         </AddNewTether>
         <Modal
@@ -144,29 +161,26 @@ const Tethers: FC = () => {
           <Form closeModal={closeModal} />
         </Modal>
       </MainHeader>
-      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetUsers}>
-        Get Users
-      </button>
-      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetTethers}>
-        Get Tethers
-      </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
       </button>
-      {show === 'users' &&
+      {
+        show === 'users' &&
         users?.map((user) => {
           return (
             <p key={user.id}>{user.email}</p>
           );
-        })}
-      {show === 'tethers' &&
+        })
+      }
+      {
+        show === 'tethers' &&
         myTethers?.map((myTether) => {
           return (
             <p key={myTether.tether_id}>{myTether.tether_name} created by {myTether.tether_created_by_plain}</p>
           );
         })
       }
-    </div>
+    </div >
   );
 };
 

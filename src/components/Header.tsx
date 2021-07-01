@@ -21,8 +21,8 @@ const Nav = styled.div`
   height: 100px;
   left: 0px;
   top: 0px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(90deg, rgba(32,79,119,1) 0%, rgba(46,129,188,1) 70%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   ${Title} {
     margin-left: 80px;
     margin-top: 40px;
@@ -34,12 +34,18 @@ const LinksContainer = styled.div`
   width: 50%;
   margin-right: 6vw;
   margin-left: 55%;
-  font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
   font-size: 17px;
   line-height: 23px;
   text-transform: uppercase;
+  a {
+    text-decoration: none;
+    color: white;
+    &:hover {
+      opacity: .8;
+    }
+  }
 `
 
 function Header() {

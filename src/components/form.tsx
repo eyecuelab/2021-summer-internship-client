@@ -13,10 +13,8 @@ const TetherForm = styled.form`
   grid-template-rows: .5fr 1fr 2fr .5fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  width: 700px;
-  height: 500px;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(25px);
+  width: 710px;
+  height: 550px;
   border-radius: 12px;
   grid-template-areas:
     'header',
@@ -24,10 +22,10 @@ const TetherForm = styled.form`
     'inputs',
     'buttons';
   input {
-    margin: 10px 0px;
+    margin: 12px 0px;
   }
   select {
-    margin: 10px 0px;
+    margin: 12px 0px;
     option {
       padding: 5px;
     }
@@ -56,8 +54,7 @@ const FormTitle = styled.div`
   font-weight: normal;
   font-size: 28px;
   line-height: 32px;
-  background-color: #003E6A;
-  opacity: .6;
+  background-color: rgba(0, 62, 106, .5);
   color: #FFFFFF;
 `
 const FormInputs = styled.div`
@@ -113,7 +110,7 @@ const FormInputRow = styled.div`
   align-items: center;
 `
 const TetherActivity = styled.input`
-  width: 330px;
+  width: 360px;
 `
 const TetherDuration = styled.input`
   width: 97px;
@@ -122,10 +119,10 @@ const TetherDurationNoun = styled.input`
   width: 200px;
 `
 const TetherFrequency = styled.select`
-  width: 330px;
+  width: 360px;
 `
 const TetherTimespan = styled.select`
-  width: 330px;
+  width: 360px;
 `
 const FormButtons = styled.div`
   grid-area: 'buttons';
@@ -134,7 +131,7 @@ const FormButtons = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
   button {
     margin-right: 5px;
     margin-left: 5px;
@@ -154,10 +151,13 @@ const FormButtons = styled.div`
 `
 
 const ErrorMessage = styled.p`
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
   font-size: 12px;
   padding: 0;
   margin: 0;
-  color: red;
+  color: yellow;
 `;
 interface TetherFormData {
   tether_activity: string;
@@ -175,8 +175,9 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
-  tether_duration: 0,
-  tether_frequency: 'DEFAULT',
+  tether_duration: 1,
+  tether_frequency: 'Day',
+  tether_timespan: 'Week',
 };
 interface FormProps {
   closeModal: () => void
@@ -204,14 +205,14 @@ const Form: FC<FormProps> = (props) => {
         <FormInputRow>
           <label htmlFor="activity">ACTIVITY</label>
           <TetherActivity type="text" {...register('tether_activity')} />
-          <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
         </FormInputRow>
+        <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
         <FormInputRow>
           <label htmlFor="duration">DURATION</label>
-          <TetherDuration type="number" placeholder="Quantity" {...register('tether_duration')} />
+          <TetherDuration type="number" placeholder="Quantity" min="1" {...register('tether_duration')} />
           <TetherDurationNoun type="text" placeholder="Minutes, Pages, etc..." {...register('tether_duration_noun')} />
-          <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
         </FormInputRow>
+        <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
         <FormInputRow>
           <label htmlFor="frequency">FREQUENCY</label>
           <TetherFrequency id="frequency" {...register('tether_frequency')}>
@@ -223,8 +224,8 @@ const Form: FC<FormProps> = (props) => {
             <option value="Week">Week</option>
             <option value="Month">Month</option>
           </TetherFrequency>
-          <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
         </FormInputRow>
+        <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
         <FormInputRow>
           <label htmlFor="timespan">TIMESPAN</label>
           <TetherTimespan id="timespan" {...register('tether_timespan')}>
@@ -235,8 +236,8 @@ const Form: FC<FormProps> = (props) => {
             <option value="Week">Week</option>
             <option value="Month">Month</option>
           </TetherTimespan>
-          <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
         </FormInputRow>
+        <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
       </FormInputs>
       <FormButtons>
         <button onClick={closeModal}>Cancel</button>

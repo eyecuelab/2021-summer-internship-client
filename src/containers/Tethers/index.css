@@ -4,7 +4,7 @@
   left: 40px;
   right: 40px;
   bottom: 40px;
-  opacity: .99;
+  background-color: rgba(255, 255, 255, .1);
   backdrop-filter: blur(25px);
   border-radius: 12px;
 }
@@ -15,7 +15,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.1);
+}
+
+.inactive {
+  opacity: .6;
 }
 
 /* .Tethers {
