@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import styled from 'styled-components';
+import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
-import styled from 'styled-components';
-import Modal from 'react-modal';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import plus from '../../assets/Vector.png';
@@ -85,6 +86,7 @@ const Tethers: FC = () => {
   const [show, setShow] = useState('');
   const [activeLink, setActiveLink] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [activeStatus, setActiveStatus] = useState('current');
 
   useEffect(() => {
     return () => {
@@ -126,22 +128,23 @@ const Tethers: FC = () => {
     // setShow('form');
   }
 
-  function toggleClass() {
-    setActiveLink(!activeLink);
-  }
 
   return (
     <div className="Tethers">
       <CurrentCompleted>
-        <p className={activeLink ? 'inactive' : 'active'}
+        <StatusText
+          inactive={activeStatus === 'completed'}
           onClick={() => {
-            toggleClass();
+            setActiveStatus('current');
             handleGetTethers();
-          }
-          }>Current</p>
-        <p className={!activeLink ? 'inactive' : 'active'}
-          onClick={toggleClass}
-        >Completed</p>
+          }}
+        >
+          Current
+        </StatusText>
+        <StatusText
+          inactive={activeStatus === 'current'}
+          onClick={() => setActiveStatus('completed')}
+        >Completed</StatusText>
       </CurrentCompleted>
       <MainHeader>
         <h1>Your Tethers</h1>
@@ -175,8 +178,11 @@ const Tethers: FC = () => {
       {
         show === 'tethers' &&
         myTethers?.map((myTether) => {
+          const formattedDate = dayjs(myTether.tether_opened_on).format('MM/DD/YYYY');
           return (
-            <p key={myTether.tether_id}>{myTether.tether_name} created by {myTether.tether_created_by_plain}</p>
+            <p key={myTether.tether_id}>
+              {myTether.tether_name} created by {myTether.tether_created_by_plain} and created on {formattedDate}
+            </p>
           );
         })
       }
@@ -185,3 +191,7 @@ const Tethers: FC = () => {
 };
 
 export default Tethers;
+
+const StatusText = styled.p<{inactive: Boolean}>`
+  ${(props) => props.inactive && 'opacity: 0.5;'}
+`;
