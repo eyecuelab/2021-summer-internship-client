@@ -4,14 +4,6 @@ import { setToken } from '../../store/slices/auth/authSlice';
 import './index.css';
 import styled from 'styled-components';
 
-const Name = styled.div`
-  font-style: normal;
-  font-weight: 800;
-  font-size: 48px;
-  line-height: 56px;
-  text-transform: uppercase;
-`
-
 const Activity: FC = () => {
   const users = useAppSelector((state) => state.users);
   const tethers = useAppSelector((state) => state.tethers);
@@ -40,3 +32,11 @@ const Activity: FC = () => {
 };
 
 export default Activity;
+
+const Name = styled.div`
+  font-style: normal;
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 56px;
+  text-transform: uppercase;
+`

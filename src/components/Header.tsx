@@ -1,63 +1,47 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from 'react-bootstrap';
-
-const Title = styled.div`
-  font-family: MumboDisplaySSi;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 50px;
-  line-height: 48px;
-  letter-spacing: -0.08em;
-`
-const Nav = styled.div`
-  color: #FFFFFF;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  align-items: baseline;
-  width: 100%;
-  height: 100px;
-  left: 0px;
-  top: 0px;
-  background: linear-gradient(90deg, rgba(32,79,119,1) 0%, rgba(46,129,188,1) 70%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  ${Title} {
-    margin-left: 80px;
-    margin-top: 40px;
-  }
-`
-const LinksContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  width: 50%;
-  margin-right: 6vw;
-  margin-left: 55%;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 17px;
-  line-height: 23px;
-  text-transform: uppercase;
-  a {
-    text-decoration: none;
-    color: white;
-    &:hover {
-      opacity: .8;
-    }
-  }
-`
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { setToken } from '../store/slices/auth/authSlice';
+// import avatar from '../assets/avatar.png'
 
 function Header() {
+  const token = useAppSelector(({ auth }) => auth.token);
+  const dispatch = useAppDispatch();
+  const [activeLink, setActiveLink] = useState('');
+
+  function handleLogout() {
+    dispatch(setToken({ token: '' }));
+  }
+
   return (
     <Navbar sticky='top'>
       <Nav>
         <Title>Tether</Title>
         <LinksContainer>
-          <Link to='/tethers'>Tethers</Link>
-          <Link to='/activity'>Activity</Link>
-          <Link to='/friends'>Friends</Link>
-          <Link to='/activity'>AV</Link>
+          <HeaderLink to='/tethers'
+            active={activeLink === 'tethers'}
+            onClick={() => setActiveLink('tethers')}
+          >
+            Tethers
+          </HeaderLink>
+          <HeaderLink to='/activity'
+            active={activeLink === 'activity'}
+            onClick={() => setActiveLink('activity')}
+          >
+            Activity
+          </HeaderLink>
+          <HeaderLink to='/friends'
+            active={activeLink === 'friends'}
+            onClick={() => setActiveLink('friends')}
+          >
+            Friends
+          </HeaderLink>
+          {token &&
+          <Logout onClick={handleLogout} >Logout</Logout>
+          }
+          {/* <img src={avatar} alt='avatar'/> */}
         </LinksContainer>
       </Nav>
     </Navbar>
@@ -65,3 +49,64 @@ function Header() {
 };
 
 export default Header;
+
+const Title = styled.div`
+  font-family: MumboDisplaySSi;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+`;
+
+const Nav = styled.div`
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+  background: linear-gradient(145deg, rgba(31,75,112,1) 0%, rgba(47,131,192,1) 55%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  ${Title} {
+    margin-left: 80px;
+    margin-top: 35px;
+    cursor: default;
+  }
+`;
+
+const LinksContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+  margin-right: 5vw;
+  margin-left: 55%;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 16px;
+  text-transform: uppercase;
+  a {
+    padding-bottom: 26px;
+    text-decoration: none;
+    color: white;
+    &:hover {
+      opacity: .9;
+    }
+  }
+  img {
+    height: 35px;
+  }
+`;
+
+const HeaderLink = styled(Link)<{active: Boolean}>`
+  ${(props) => props.active &&
+  'border-bottom: 3px solid white'}
+`;
+
+const Logout = styled.div`
+  cursor: pointer;
+`

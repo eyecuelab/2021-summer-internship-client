@@ -4,19 +4,24 @@
   left: 40px;
   right: 40px;
   bottom: 40px;
+  background-color: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(25px);
   border-radius: 12px;
 }
 
 .Overlay {
   position: fixed;
-  background-color: rgba(0, 84, 145, .5);
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-/* .Users-logo {
+/* .Tethers {
+
+}
+
+.Users-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -54,4 +59,5 @@
 
   100% {
     transform: translateY(0px);
-  } */
+  }
+} */

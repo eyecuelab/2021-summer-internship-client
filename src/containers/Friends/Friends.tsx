@@ -10,10 +10,7 @@ import './index.css';
 import Form from '../../components/form';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
-import plus from '../../assets/Vector.png';
-import Chevron from '../../components/chevron';
-import { Drawer, Button } from 'antd';
-
+import searchIcon from '../../assets/search-icon.png';
 
 Modal.setAppElement('#root');
 
@@ -25,16 +22,7 @@ const Tethers: FC = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [activeStatus, setActiveStatus] = useState('current');
-  const [visible, setVisible] = useState(false);
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
+  const [activeStatus, setActiveStatus] = useState('your');
 
   useEffect(() => {
     return () => {
@@ -42,6 +30,10 @@ const Tethers: FC = () => {
       dispatch(setTethers([]));
     }
   }, [dispatch])
+
+  function handleLogout() {
+    dispatch(setToken({ token: '' }));
+  }
 
   function handleGetUsers() {
     dispatch(getUsers());
@@ -73,30 +65,30 @@ const Tethers: FC = () => {
   }
 
   return (
-    <div>
-      <CurrentCompleted>
+    <div className="Tethers">
+      <YourFind>
         <StatusText
-          inactive={activeStatus === 'completed'}
+          inactive={activeStatus === 'find'}
           onClick={() => {
-            setActiveStatus('current');
+            setActiveStatus('your');
             handleGetTethers();
           }}
         >
-          Current
+          Your
         </StatusText>
         <StatusText
-          inactive={activeStatus === 'current'}
-          onClick={() => setActiveStatus('completed')}
+          inactive={activeStatus === 'your'}
+          onClick={() => setActiveStatus('find')}
         >
-          Completed
+          Find
         </StatusText>
-      </CurrentCompleted>
+      </YourFind>
       <MainHeader>
-        <h1>Your Tethers</h1>
-        <AddNewTether onClick={handleShowCreateTetherPage}>
-          <img src={plus} alt="plus-sign" />
-          Add New
-        </AddNewTether>
+        <h1>Friends</h1>
+        <Search onClick={handleShowCreateTetherPage}>
+          <img src={searchIcon} alt="search-icon" />
+          Search Your Friends
+        </Search>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -109,32 +101,30 @@ const Tethers: FC = () => {
           <Form closeModal={closeModal} />
         </Modal>
       </MainHeader>
+      <button
+        style={{ margin: '1rem', height: '25px' }}
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
       {
-        show === 'tethers' &&
-          myTethers?.map((myTether) => {
-            return (
-              <CurrentTethersList>
-                <Map key={myTether.tether_id}>
-                  <TitleAndEdit>
-                    {myTether.tether_name}
-                    <Edit><p>Edit</p></Edit>
-                  </TitleAndEdit>
-                  <Chev onClick={showDrawer}><Chevron /></Chev>
-                </Map>
-                {/* <Drawer
-                  title="Basic Drawer"
-                  placement="top"
-                  closable={false}
-                  onClose={onClose}
-                  visible={visible}
-                  getContainer={false}
-                >
-                  <p>Some contents...</p>
-                </Drawer> */}
-                <hr/>
-              </CurrentTethersList>
+        show === 'users' &&
+        users?.map((user) => {
+          return (
+            <p key={user.id}>{user.email}</p>
             );
           })
+        }
+      {
+        show === 'tethers' &&
+        myTethers?.map((myTether) => {
+          const formattedDate = dayjs(myTether.tether_opened_on).format('MM/DD/YYYY');
+          return (
+            <p key={myTether.tether_id}>
+              {myTether.tether_name} created by {myTether.tether_created_by_plain} and created on {formattedDate}
+            </p>
+          );
+        })
       }
     </div >
   );
@@ -142,28 +132,25 @@ const Tethers: FC = () => {
 
 export default Tethers;
 
-const CurrentCompleted = styled.div`
+const YourFind = styled.div`
   display: flex;
-  font-family: Work Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 28px;
+  cursor: pointer;
   p {
-    cursor: pointer;
     padding-right:20px;
     margin-block-start: 0;
     margin-block-end: 0;
   }
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 28px;
 `;
 
 const MainHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 60px;
-  cursor: default;
   h1 {
-    font-family: Work Sans;
+    font-family: Gotham-Black;
     font-style: normal;
     font-weight: 800;
     font-size: 48px;
@@ -172,16 +159,17 @@ const MainHeader = styled.div`
     margin-right: 21px;
     margin-block-start: 0;
     margin-block-end: 0;
+    padding-top: 8px;
   }
 `;
 
-const AddNewTether = styled.button`
+const Search = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 49px;
+  padding: 0px 19px;
   cursor: pointer;
-  width: 200px;
+  width: 240px;
   height: 34px;
   background: #003E6A;
   border: none;
@@ -191,6 +179,7 @@ const AddNewTether = styled.button`
   font-weight: 800;
   font-size: 18px;
   line-height: 21px;
+  letter-spacing: -0.01em;
   color: #FFFFFF;
 `;
 
@@ -214,62 +203,3 @@ const customStyles = {
 const StatusText = styled.p<{inactive: Boolean}>`
   ${(props) => props.inactive && 'opacity: 0.5;'}
 `;
-
-const CurrentTethersList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  font-family: Work Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 36px;
-  color: #C1ECFF;
-  p {
-    margin: 0;
-  }
-  hr {
-    opacity: .25;
-    border-radius: 80px;
-    width: 1238px;
-  }
-`;
-
-const TitleAndEdit = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-`;
-
-const Chev = styled.button`
-  cursor: pointer;
-  background: none;
-  border: none;
-`;
-
-const Map = styled.map`
-  cursor: default;
-  width: 1238px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: baseline;
-`;
-
-const Edit = styled.div`
-  font-family: Work Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  color: #71A8D0;
-  padding-left: 20px;
-  p {
-    cursor: pointer;
-  }
-`;
-
-const ProgressBar = styled.div`
-  width: 1055px;
-  height: 24px;
-  background: #FFFFFF;
-  border-radius: 12px;
-`

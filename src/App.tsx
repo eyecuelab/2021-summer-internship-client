@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Routes } from './constants/routes';
@@ -8,6 +8,7 @@ import Register from './containers/Register';
 import Users from './containers/Users';
 import Tethers from './containers/Tethers';
 import Activity from './containers/Activity';
+import Friends from './containers/Friends';
 import { useAppSelector } from './hooks';
 import Header from './components/Header'
 
@@ -32,6 +33,7 @@ const App: FC = () => {
         <Route path={Routes.Users} exact component={Users} />,
         <Route path={Routes.Tethers} exact component={Tethers} />,
         <Route path={Routes.Activity} exact component={Activity} />,
+        <Route path={Routes.Friends} exact component={Friends} />,
         <Redirect to={Routes.Tethers} />
       );
     }
@@ -65,13 +67,15 @@ const AppContainer = styled.div`
     'header'
     'content';
 `;
+
 const HeaderContainer = styled.div`
   grid-area: 'header';
 `;
+
 const ContentContainer = styled.div`
   grid-area: 'content';
-  margin-top: 10vh;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin-top: 9vh;
+  margin-left: 7vw;
+  margin-right: 7vw;
   color: #FFFFFF;
 `;
