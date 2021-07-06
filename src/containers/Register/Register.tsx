@@ -49,11 +49,11 @@ const Register: FC = () => {
         <div className="input-container">
           <label htmlFor="username">
             Username
-            <input value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
+            <input data-testid="register-username-input" value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
           </label>
           <label htmlFor="email">
             Email
-            <input value={email} onChange={(event) => setEmail(event.target.value)} name="email" type="email" />
+            <input data-testid="register-email-input" value={email} onChange={(event) => setEmail(event.target.value)} name="email" type="email" />
           </label>
           <label htmlFor="password">
             Password
@@ -62,6 +62,7 @@ const Register: FC = () => {
               onChange={(event) => setPassword(event.target.value)}
               name="password"
               type="password"
+              data-testid="register-password-input"
             />
           </label>
           {/* Added */}
@@ -85,11 +86,11 @@ const Register: FC = () => {
           {/* Added */}
         </div>
         <div className="button">
-          <button onClick={handleRegister}>Submit</button>
+          <button data-testid="register-submit-button" onClick={handleRegister}>Submit</button>
         </div>
         <div className="links">
           <Link to={Routes.Home}>Back Home</Link>
-          <Link to={Routes.Login}>Log In</Link>
+          <Link to={Routes.Login} data-testid="register-login-button">Log In</Link>
         </div>
       </header>
     </div>

@@ -23,7 +23,7 @@ const Home: FC = () => {
         </p>
         <div className="links">
           <Link to={Routes.Login}>Log In</Link>
-          <Link to={Routes.Register}>Register</Link>
+          <Link to={Routes.Register} data-testid="register-button">Register</Link>
         </div>
       </header>
     </div>

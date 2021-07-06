@@ -25,7 +25,7 @@ const Login: FC = () => {
         <div className="input-container">
           <label htmlFor="username">
             Username
-            <input value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
+            <input data-testid="login-username-input" value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
           </label>
           <label htmlFor="password">
             Password
@@ -34,11 +34,12 @@ const Login: FC = () => {
               onChange={(event) => setPassword(event.target.value)}
               name="password"
               type="password"
+              data-testid="login-password-input"
             />
           </label>
         </div>
         <div className="button">
-          <button onClick={handleLogin}>Submit</button>
+          <button onClick={handleLogin} data-testid="login-submit-button">Submit</button>
         </div>
         <div className="links">
           <Link to={Routes.Home}>Back Home</Link>

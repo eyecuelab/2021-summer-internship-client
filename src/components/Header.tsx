@@ -53,7 +53,7 @@ function Header() {
     <Navbar sticky='top'>
       <Nav>
         <Title>Tether</Title>
-        <LinksContainer>
+        <LinksContainer data-testid="nav-bar-links">
           <Link to='/tethers'>Tethers</Link>
           <Link to='/activity'>Activity</Link>
           <Link to='/friends'>Friends</Link>
