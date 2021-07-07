@@ -5,7 +5,7 @@ import { getOneUsersTethers, setOneUsersTethers } from './myTethersSlice';
 
 function* fetchOneUsersTethers(action: PayloadAction<{ id: string }>) {
   const id = action.payload;
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/users/${id}/tethers`, 'GET');
+  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/user/${id}`, 'GET');
   if (success) {
     yield put(setOneUsersTethers(data));
   }

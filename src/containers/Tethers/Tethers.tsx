@@ -12,7 +12,8 @@ import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice'
 import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import plus from '../../assets/Vector.png';
 import Chevron from '../../components/chevron';
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
+import { getParticipantLink } from '../../store/slices/createParticipantLink/createParticipantLinkSlice';
 
 Modal.setAppElement('#root');
 
@@ -47,6 +48,10 @@ const Tethers: FC = () => {
     setShow('users');
   }
 
+  // function handleCreateParticipantLink() {
+  //   dispatch(getParticipantLink(tether_id, user_id));
+  // }
+
   function handleGetTethers() {
     dispatch(getOneUser());
     dispatch(getOneUsersTethers(user.id));
@@ -59,7 +64,6 @@ const Tethers: FC = () => {
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
-
   }
 
   function closeModal() {
@@ -68,7 +72,6 @@ const Tethers: FC = () => {
 
   function handleShowCreateTetherPage() {
     openModal();
-    // setShow('form');
   }
 
   return (
@@ -104,41 +107,39 @@ const Tethers: FC = () => {
           contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"
-          >
+        >
           <Form closeModal={closeModal} />
         </Modal>
       </MainHeader>
       {
         show === 'tethers' &&
-          myTethers?.map((myTether) => {
-            const currentTetherIsExpanded = expandedTether === myTether.tether_id;
-            return (
-              <CurrentTethersList>
-                <Map key={myTether.tether_id}>
-                  <TitleAndEdit>
-                    {myTether.tether_name}
-                    <Edit><p>Edit</p></Edit>
-                  </TitleAndEdit>
-                  <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
-                    <Chevron />
-                  </Chev>
-                </Map>
+        myTethers?.map((myTether) => {
+          const currentTetherIsExpanded = expandedTether === myTether.tether_id;
+          return (
+            <CurrentTethersList>
+              <Map key={myTether.tether_id}>
+                <TitleAndEdit>
+                  {myTether.tether_name}
+                  <Edit><p>Edit</p></Edit>
+                </TitleAndEdit>
+                <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
+                  <Chevron />
+                </Chev>
+              </Map>
+              {
+                currentTetherIsExpanded &&
                 <Expanded>
-                  {
-                      currentTetherIsExpanded &&
-                      <>
-                        <NameAndPercent>
-                          <p>{myTether.tether_name}</p>
-                          <p>% Complete</p>
-                        </NameAndPercent>
-                        <ProgressBar />
-                      </>
-                  }
+                  <NameAndPercent>
+                    <p>{myTether.tether_name}</p>
+                    <p>{Math.floor(parseInt(myTether.links_completed) / parseInt(myTether.links_total)) * 100}% Complete</p>
+                  </NameAndPercent>
+                  <ProgressBar />
                 </Expanded>
-                <hr/>
-              </CurrentTethersList>
-            );
-          })
+              }
+              <hr />
+            </CurrentTethersList>
+          );
+        })
       }
     </div >
   );
@@ -215,7 +216,7 @@ const modalStyles = {
   }
 };
 
-const StatusText = styled.p<{inactive: Boolean}>`
+const StatusText = styled.p<{ inactive: Boolean }>`
   ${(props) => props.inactive && 'opacity: 0.5;'}
 `;
 

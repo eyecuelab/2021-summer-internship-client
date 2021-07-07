@@ -5,6 +5,7 @@ import usersReducer from './users/usersSlice';
 import tethersReducer from './tethers/tethersSlice';
 import oneUserReducer from './oneUser/oneUserSlice'
 import myTethersReducer from './myTethers/myTethersSlice'
+import participantLinkReducer from './createParticipantLink/createParticipantLinkSlice';
 
 export let rootReducer = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ export let rootReducer = combineReducers({
   tethers: tethersReducer,
   oneUser: oneUserReducer,
   myTethers: myTethersReducer,
+  participantLink: participantLinkReducer,
 });
 
 export default function createReducer(injectedReducers = {}) {
@@ -23,6 +25,7 @@ export default function createReducer(injectedReducers = {}) {
     tethers: tethersReducer,
     oneUser: oneUserReducer,
     myTethers: myTethersReducer,
+    participantLink: participantLinkReducer,
     ...injectedReducers,
   });
 
