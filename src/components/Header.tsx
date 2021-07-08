@@ -39,7 +39,7 @@ function Header() {
             Friends
           </HeaderLink>
           {token &&
-          <Logout onClick={handleLogout} >Logout</Logout>
+            <Logout onClick={handleLogout} >Logout</Logout>
           }
           {/* <img src={avatar} alt='avatar'/> */}
         </LinksContainer>
@@ -79,10 +79,9 @@ const Nav = styled.div`
 
 const LinksContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  width: 50%;
-  margin-right: 5vw;
-  margin-left: 55%;
+  justify-content: space-between;
+  width: 25%;
+  margin-right: 8vw;
   font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
@@ -91,6 +90,7 @@ const LinksContainer = styled.div`
   text-transform: uppercase;
   a {
     padding-bottom: 26px;
+    margin-right: 2vw;
     text-decoration: none;
     color: white;
     &:hover {
@@ -102,11 +102,11 @@ const LinksContainer = styled.div`
   }
 `;
 
-const HeaderLink = styled(Link)<{active: Boolean}>`
+const HeaderLink = styled(Link) <{ active: Boolean }>`
   ${(props) => props.active &&
-  'border-bottom: 3px solid white'}
+    'border-bottom: 3px solid white'}
 `;
 
 const Logout = styled.div`
   cursor: pointer;
-`
+`;

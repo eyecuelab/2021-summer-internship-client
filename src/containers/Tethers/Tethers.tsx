@@ -13,6 +13,7 @@ import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import plus from '../../assets/Vector.png';
 import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
+import BellCircle from '../../components/BellCircle';
 import { getParticipantLink } from '../../store/slices/createParticipantLink/createParticipantLinkSlice';
 
 Modal.setAppElement('#root');
@@ -23,7 +24,7 @@ const Tethers: FC = () => {
   const tethers = useAppSelector((state) => state.tethers);
   const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
-  const [show, setShow] = useState('');
+  const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
@@ -130,10 +131,15 @@ const Tethers: FC = () => {
                 currentTetherIsExpanded &&
                 <Expanded>
                   <NameAndPercent>
-                    <p>{myTether.tether_name}</p>
-                    <p>{Math.floor(parseInt(myTether.links_completed) / parseInt(myTether.links_total)) * 100}% Complete</p>
+                    <p>{myTether.tether_id.tether_name}</p>
+                    <p>Created by - {myTether.tether_id.tether_created_by_plain}</p>
+                    <p>Opened on - {myTether.tether_id.tether_opened_on}</p>
+                    <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                   </NameAndPercent>
-                  <ProgressBar />
+                  <ProgressAndBell>
+                    <ProgressBar />
+                    <BellCircle />
+                  </ProgressAndBell>
                 </Expanded>
               }
               <hr />
@@ -229,13 +235,14 @@ const CurrentTethersList = styled.div`
   font-weight: bold;
   font-size: 36px;
   color: #C1ECFF;
+  width: 100%;
   p {
     margin: 0;
   }
   hr {
     opacity: .25;
     border-radius: 80px;
-    width: 1238px;
+    width: 100%;
   }
 `;
 
@@ -247,7 +254,7 @@ const TitleAndEdit = styled.div`
 
 const Map = styled.map`
   cursor: default;
-  width: 1238px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -275,7 +282,7 @@ const Chev = styled.button`
 const Expanded = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1238px;
+  width: 100%;
   p {
     margin: 20px 0px;
     font-size: 24px;
@@ -285,5 +292,15 @@ const Expanded = styled.div`
 
 const NameAndPercent = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-`
+  width: 100%;
+`;
+
+const ProgressAndBell = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;

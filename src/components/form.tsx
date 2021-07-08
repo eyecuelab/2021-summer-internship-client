@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createTether } from '../store/slices/tethers/tethersSlice';
-import { useAppDispatch } from '../hooks';
+import { getUsers } from '../store/slices/users/usersSlice';
+import { useAppDispatch, useAppSelector } from '../hooks';
 interface TetherFormData {
   tether_activity: string;
   tether_duration: number;
@@ -33,6 +34,8 @@ interface FormProps {
 const Form: FC<FormProps> = (props) => {
   const { closeModal } = props;
   const dispatch = useAppDispatch();
+  const [formStep, setFormStep] = useState('one');
+  const users = useAppSelector((state) => state.users);
 
   const {
     register,
@@ -49,14 +52,26 @@ const Form: FC<FormProps> = (props) => {
 
   const onSubmit = (data: TetherFormData) => {
     dispatch(createTether(data));
-    closeModal();
+    dispatch(getUsers());
+    setFormStep('two');
+    // closeModal();
   };
 
   return (
-    <TetherForm id="form" onSubmit={handleSubmit(onSubmit)}>
+    <TetherForm
+      id="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormHeader>
         <p>Create Tether</p>
-        <p>Step 1/<span style={{fontSize: '24px'}}>2</span></p>
+        {
+          formStep === 'one' &&
+          <p>Step 1/<span style={{ fontSize: '24px' }}>2</span></p>
+        }
+        {
+          formStep === 'two' &&
+          <p>Step 2/<span style={{ fontSize: '24px' }}>2</span></p>
+        }
       </FormHeader>
       <FormTitle>
         <p>
@@ -69,61 +84,86 @@ const Form: FC<FormProps> = (props) => {
           times
         </p>
       </FormTitle>
-      <FormInputs>
-        <FormInputRow>
-          <label htmlFor="activity">ACTIVITY</label>
-          <TetherActivity
-            type="text"
-            {...register('tether_activity')}
-          />
-        </FormInputRow>
-        <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
-        <FormInputRow>
-          <label htmlFor="duration">DURATION</label>
-          <TetherDuration
-            type="number"
-            min="1"
-            {...register('tether_duration')}
-          />
-          <TetherDurationNoun
-            type="text" onFocus={(e) => e.target.placeholder = ''}
-            placeholder="Minutes, Pages, etc..."
-            {...register('tether_duration_noun')}
-          />
-        </FormInputRow>
-        <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
-        <FormInputRow>
-          <label htmlFor="frequency">FREQUENCY</label>
-          <TetherFrequency
-            id="frequency"
-            {...register('tether_frequency')}
-          >
-            <option disabled value="DEFAULT">
-              {' '}
-              -- Frequency --
-            </option>
-            <option value="Day">Day</option>
-            <option value="Week">Week</option>
-            <option value="Month">Month</option>
-          </TetherFrequency>
-        </FormInputRow>
-        <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
-        <FormInputRow>
-          <label htmlFor="timespan">TIMESPAN</label>
-          <TetherTimespan
-            type="number"
-            min="1"
-            {...register('tether_timespan')}
-          />
-          <p>Times</p>
-        </FormInputRow>
-        <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
-      </FormInputs>
+      {
+        formStep === 'one' &&
+        <FormInnerContent
+        // theme={theme}
+        >
+          <FormInputRow>
+            <label htmlFor="activity">ACTIVITY</label>
+            <TetherActivity
+              type="text"
+              {...register('tether_activity')}
+            />
+          </FormInputRow>
+          <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
+          <FormInputRow>
+            <label htmlFor="duration">DURATION</label>
+            <TetherDuration
+              type="number"
+              min="1"
+              {...register('tether_duration')}
+            />
+            <TetherDurationNoun
+              type="text" onFocus={(e) => e.target.placeholder = ''}
+              placeholder="Minutes, Pages, etc..."
+              {...register('tether_duration_noun')}
+            />
+          </FormInputRow>
+          <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
+          <FormInputRow>
+            <label htmlFor="frequency">FREQUENCY</label>
+            <TetherFrequency
+              id="frequency"
+              {...register('tether_frequency')}
+            >
+              <option disabled value="DEFAULT">
+                {' '}
+                -- Frequency --
+              </option>
+              <option value="Day">Day</option>
+              <option value="Week">Week</option>
+              <option value="Month">Month</option>
+            </TetherFrequency>
+          </FormInputRow>
+          <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
+          <FormInputRow>
+            <label htmlFor="timespan">TIMESPAN</label>
+            <TetherTimespan
+              type="number"
+              min="1"
+              {...register('tether_timespan')}
+            />
+            <p>Times</p>
+          </FormInputRow>
+          <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
+        </FormInnerContent>
+      }
+      {
+        formStep === 'two' &&
+        users?.map((user) => {
+          return (
+            <FriendsList>
+              <p key={user.id}>{user.username}</p>
+              <hr />
+            </FriendsList>
+          );
+        })
+      }
       <FormButtons>
         <button onClick={closeModal}>Cancel</button>
-        <button type="submit" value="Submit">
-          Next Step
-        </button>
+        {
+          formStep === 'one' &&
+          <button type="submit" value="Submit">
+            Next Step
+          </button>
+        }
+        {
+          formStep === 'two' &&
+          <button type="submit" value="Submit">
+            Request Tether
+          </button>
+        }
       </FormButtons>
     </TetherForm>
   );
@@ -159,6 +199,8 @@ const TetherForm = styled.form`
   }
 `;
 
+
+
 const FormHeader = styled.div`
   grid-area: 'header';
   background: rgba(255, 255, 255, 0.1);
@@ -191,7 +233,7 @@ const FormTitle = styled.div`
   color: #FFFFFF;
 `;
 
-const FormInputs = styled.div`
+const FormInnerContent = styled.div`
   grid-area: 'inputs';
   width: 508px;
   margin-left: 96px;
@@ -237,6 +279,38 @@ const FormInputs = styled.div`
     font-weight: bold;
     font-size: 18px;
     padding: 0px 10px;
+  }
+`;
+
+// FormInnerContent.defaultProps = {
+//   theme: {
+//     display: "grid"
+//   }
+// }
+
+// const theme = {
+//   display: "flex"
+// };
+
+const FriendsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  width: 680px;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 26px;
+  color: #FFFFFF;
+  border: 1px solid red;
+  p {
+    margin: 15px 13px;
+  }
+  hr {
+    opacity: .25;
+    border-radius: 80px;
+    width: 100%;
   }
 `;
 
