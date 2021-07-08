@@ -42,7 +42,9 @@ const App: FC = () => {
 
   return (
     <AppContainer>
-      <HeaderContainer><Header /></HeaderContainer>
+      <HeaderContainer>
+        <Header />
+      </HeaderContainer>
       <ContentContainer>
         <Switch>{routes}</Switch>
       </ContentContainer>

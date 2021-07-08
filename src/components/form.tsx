@@ -110,6 +110,7 @@ const Form: FC<FormProps> = (props) => {
               {...register('tether_duration_noun')}
             />
           </FormInputRow>
+          <ErrorMessage>{errors.tether_duration_noun?.message}</ErrorMessage>
           <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
           <FormInputRow>
             <label htmlFor="frequency">FREQUENCY</label>
