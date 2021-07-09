@@ -3,9 +3,8 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setToken } from '../../store/slices/auth/authSlice';
-import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
-import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
+import { setUsers } from '../../store/slices/users/usersSlice';
+import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
@@ -14,14 +13,11 @@ import plus from '../../assets/Vector.png';
 import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
-import { getParticipantLink } from '../../store/slices/createParticipantLink/createParticipantLinkSlice';
 
 Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
-  const users = useAppSelector((state) => state.users);
   const user = useAppSelector((state) => state.oneUser);
-  const tethers = useAppSelector((state) => state.tethers);
   const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
@@ -43,15 +39,6 @@ const Tethers: FC = () => {
       setExpandedTether(tether_id);
     }
   };
-
-  function handleGetUsers() {
-    dispatch(getUsers());
-    setShow('users');
-  }
-
-  // function handleCreateParticipantLink() {
-  //   dispatch(getParticipantLink(tether_id, user_id));
-  // }
 
   function handleGetTethers() {
     dispatch(getOneUser());
