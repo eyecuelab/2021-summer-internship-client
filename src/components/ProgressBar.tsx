@@ -25,7 +25,7 @@ const Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 62px;
+  width: 95%;
   height: 12px;
   background: #C1ECFF;
   border-radius: 60px;

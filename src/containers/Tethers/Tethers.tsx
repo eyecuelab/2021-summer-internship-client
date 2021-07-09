@@ -14,6 +14,7 @@ import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
+import ProgressBg from '../../components/ProgressBg'
 
 Modal.setAppElement('#root');
 
@@ -128,12 +129,13 @@ const Tethers: FC = () => {
                       <p>Opened on - {formattedDate}</p>
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
-                    <ProgressAndBell>
-                    {[...Array(currentPluses)].map(() => <ProgressBar key={myTether.tether_id}/>)}
-                    {[...Array(totalPluses)].map(() => <BlankBar key={myTether.tether_id}/>)}
-                      {/* <ProgressBar /> */}
-                      <BellCircle />
-                    </ProgressAndBell>
+                    <ProgressAndBellAndBell>
+                      <ProgressAndBell>
+                        {[...Array(currentPluses)].map(() => <ProgressBar key={myTether.id}/>)}
+                        {[...Array(totalPluses)].map(() => <BlankBar key={myTether.id}/>)}
+                      </ProgressAndBell>
+                          <BellCircle />
+                    </ProgressAndBellAndBell>
                   </Expanded>
                 }
                 <hr />
@@ -301,5 +303,17 @@ const ProgressAndBell = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 95%;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  margin: 50px 0px;
 `;
+
+const ProgressAndBellAndBell = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
