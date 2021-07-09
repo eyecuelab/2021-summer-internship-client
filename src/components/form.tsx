@@ -38,6 +38,7 @@ const Form: FC<FormProps> = (props) => {
   const dispatch = useAppDispatch();
   const [formStep, setFormStep] = useState('one');
   const users = useAppSelector((state) => state.users);
+  const loggedInUser = useAppSelector((state) => state.oneUser);
 
   const {
     register,
@@ -51,6 +52,8 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
+  const [activeStatus, setActiveStatus] = useState(false);
+  // const [selectedUsername, setSelectedUsername] = useState('');
 
   const onSubmit = (data: TetherFormData) => {
     dispatch(createTether(data));
@@ -58,6 +61,14 @@ const Form: FC<FormProps> = (props) => {
     setFormStep('two');
     // closeModal();
   };
+
+  // const handleSelectUsername = (user_id: string) => {
+  //   if (selectedUsername === user_id) {
+  //     setSelectedUsername('');
+  //   } else {
+  //     setSelectedUsername(user_id);
+  //   }
+  // };
 
   return (
     <TetherForm
@@ -158,11 +169,11 @@ const Form: FC<FormProps> = (props) => {
           formStep === 'two' &&
           <FriendsList>
           {
-            users?.map((user) => {
+            users?.filter(user => user.id !== loggedInUser.id).map((user) => {
               return (
                 <>
-                  <Map key={user.id}>{user.username}</Map>
-                  <hr />
+                    <Map key={user.id}>{user.username}</Map>
+                    <hr />
                 </>
               );
             })
@@ -393,6 +404,9 @@ const Map = styled.map`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
+  &:hover {
+      opacity: .7;
+  }
 `;
 
 const FormInputRow = styled.div`
