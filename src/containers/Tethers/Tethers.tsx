@@ -13,6 +13,7 @@ import plus from '../../assets/Vector.png';
 import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
+import BlankBar from '../../components/BlankBar';
 
 Modal.setAppElement('#root');
 
@@ -105,6 +106,7 @@ const Tethers: FC = () => {
           myTethers?.map((myTether) => {
             const currentTetherIsExpanded = expandedTether === myTether.tether_id;
             const totalPluses = myTether.links_total;
+            const currentPluses = myTether.links_current;
             const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
@@ -127,7 +129,8 @@ const Tethers: FC = () => {
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
                     <ProgressAndBell>
-                    {[...Array(totalPluses)].map(() => <ProgressBar key={myTether.tether_id}/>)}
+                    {[...Array(currentPluses)].map(() => <ProgressBar key={myTether.tether_id}/>)}
+                    {[...Array(totalPluses)].map(() => <BlankBar key={myTether.tether_id}/>)}
                       {/* <ProgressBar /> */}
                       <BellCircle />
                     </ProgressAndBell>
