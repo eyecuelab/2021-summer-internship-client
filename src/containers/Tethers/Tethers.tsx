@@ -112,42 +112,44 @@ const Tethers: FC = () => {
           <Form closeModal={closeModal} />
         </Modal>
       </MainHeader>
-      {
-        show === 'tethers' &&
-        myTethers?.map((myTether) => {
-          const currentTetherIsExpanded = expandedTether === myTether.tether_id;
-          const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
-          return (
-            <CurrentTethersList>
-              <Map key={myTether.tether_id}>
-                <TitleAndEdit>
-                  {myTether.tether_name}
-                  <Edit><p>Edit</p></Edit>
-                </TitleAndEdit>
-                <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
-                  <Chevron />
-                </Chev>
-              </Map>
-              {
-                currentTetherIsExpanded &&
-                <Expanded>
-                  <NameAndPercent>
-                    <p>{myTether.tether_id.tether_name}</p>
-                    <p>Created by - {myTether.tether_id.tether_created_by_plain}</p>
-                    <p>Opened on - {formattedDate}</p>
-                    <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
-                  </NameAndPercent>
-                  <ProgressAndBell>
-                    <ProgressBar />
-                    <BellCircle />
-                  </ProgressAndBell>
-                </Expanded>
-              }
-              <hr />
-            </CurrentTethersList>
-          );
-        })
-      }
+      <TethersListContainer>
+        {
+          show === 'tethers' &&
+          myTethers?.map((myTether) => {
+            const currentTetherIsExpanded = expandedTether === myTether.tether_id;
+            const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
+            return (
+              <CurrentTethersList>
+                <Map key={myTether.tether_id}>
+                  <TitleAndEdit>
+                    {myTether.tether_name}
+                    <Edit><p>Edit</p></Edit>
+                  </TitleAndEdit>
+                  <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
+                    <Chevron />
+                  </Chev>
+                </Map>
+                {
+                  currentTetherIsExpanded &&
+                  <Expanded>
+                    <NameAndPercent>
+                      <p>{myTether.tether_id.tether_name}</p>
+                      <p>Created by - {myTether.tether_id.tether_created_by_plain}</p>
+                      <p>Opened on - {formattedDate}</p>
+                      <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
+                    </NameAndPercent>
+                    <ProgressAndBell>
+                      <ProgressBar />
+                      <BellCircle />
+                    </ProgressAndBell>
+                  </Expanded>
+                }
+                <hr />
+              </CurrentTethersList>
+            );
+          })
+        }
+      </TethersListContainer>
     </div >
   );
 };
@@ -227,6 +229,10 @@ const StatusText = styled.p<{ inactive: Boolean }>`
   ${(props) => props.inactive && 'opacity: 0.5;'}
 `;
 
+const TethersListContainer = styled.div`
+
+`
+
 const CurrentTethersList = styled.div`
   display: flex;
   flex-direction: column;
@@ -260,7 +266,7 @@ const Map = styled.map`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
-`;
+  `;
 
 const Edit = styled.div`
   font-family: Work Sans;

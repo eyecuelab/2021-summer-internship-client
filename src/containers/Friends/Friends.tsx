@@ -11,6 +11,8 @@ import Form from '../../components/form';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import searchIcon from '../../assets/search-icon.png';
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 Modal.setAppElement('#root');
 
@@ -110,17 +112,19 @@ const Tethers: FC = () => {
             <hr />
           </FriendAttributesHeader>
         }
-        {
-          show === 'users' &&
-          users?.map((user) => {
-            return (
-              <YourFriendsList>
-                <p key={user.id}>{user.username}</p>
-                <hr />
-              </YourFriendsList>
-            );
-          })
-        }
+        <FriendsListContainer>
+            {
+              show === 'users' &&
+              users?.map((user) => {
+                return (
+                  <YourFriendsList>
+                    <p key={user.id}>{user.username}</p>
+                    <hr />
+                  </YourFriendsList>
+                );
+              })
+            }
+        </FriendsListContainer>
       </LeftSide>
       <RightSide>
         <FriendRequests>
@@ -149,8 +153,8 @@ const FriendsContainer = styled.div`
   grid-column-gap: 4vw;
   grid-row-gap: 0px;
   grid-template-areas:
-    'left'
-    'right';
+  'left'
+  'right';
 `;
 
 const LeftSide = styled.div`
@@ -168,8 +172,8 @@ const YourFind = styled.div`
   cursor: pointer;
   p {
     padding-right:20px;
-    margin-block-start: 0;
-    margin-block-end: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
   }
   font-style: normal;
   font-weight: 800;
@@ -216,18 +220,18 @@ const Search = styled.button`
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    inset: '50% auto auto 50%',
-    border: 'none',
-    overflow: 'auto',
-    borderRadius: '12px',
-    outline: 'none',
-    padding: '0px',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+  top: '50%',
+  left: '50%',
+  right: 'auto',
+  bottom: 'auto',
+  inset: '50% auto auto 50%',
+  border: 'none',
+  overflow: 'auto',
+  borderRadius: '12px',
+  outline: 'none',
+  padding: '0px',
+  marginRight: '-50%',
+  transform: 'translate(-50%, -50%)',
   }
 };
 
@@ -279,6 +283,15 @@ const FriendAttributes = styled.div`
   }
 `;
 
+const FriendsListContainer = styled.div`
+  height: 52vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const YourFriendsList = styled.div`
   display: flex;
   flex-direction: column;
@@ -309,7 +322,7 @@ const FriendRequests = styled.div`
     color: #FFFFFF;
     margin-bottom: 0;
   }
-`
+`;
 
 const Request = styled.div`
   display: flex;
@@ -333,7 +346,7 @@ const RequestHeader = styled.div`
   font-size: 14px;
   line-height: 16px;
   color: #FFFFFF;
-`
+`;
 
 const RequestXpAndBadges = styled.div`
   display: flex;
@@ -342,4 +355,4 @@ const RequestXpAndBadges = styled.div`
   p {
     margin: 0px 9px;
   }
-`
+`;

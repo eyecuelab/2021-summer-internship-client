@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createTether } from '../store/slices/tethers/tethersSlice';
 import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import FindFriendSearch from '../components/FindFriend';
+
 interface TetherFormData {
   tether_activity: string;
   tether_duration: number;
@@ -84,73 +86,90 @@ const Form: FC<FormProps> = (props) => {
           times
         </p>
       </FormTitle>
-      {
-        formStep === 'one' &&
-        <FormInnerContent
-        // theme={theme}
-        >
-          <FormInputRow>
-            <label htmlFor="activity">ACTIVITY</label>
-            <TetherActivity
-              type="text"
-              {...register('tether_activity')}
-            />
-          </FormInputRow>
-          <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
-          <FormInputRow>
-            <label htmlFor="duration">DURATION</label>
-            <TetherDuration
-              type="number"
-              min="1"
-              {...register('tether_duration')}
-            />
-            <TetherDurationNoun
-              type="text" onFocus={(e) => e.target.placeholder = ''}
-              placeholder="Minutes, Pages, etc..."
-              {...register('tether_duration_noun')}
-            />
-          </FormInputRow>
-          <ErrorMessage>{errors.tether_duration_noun?.message}</ErrorMessage>
-          <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
-          <FormInputRow>
-            <label htmlFor="frequency">FREQUENCY</label>
-            <TetherFrequency
-              id="frequency"
-              {...register('tether_frequency')}
-            >
-              <option disabled value="DEFAULT">
-                {' '}
-                -- Frequency --
-              </option>
-              <option value="Day">Day</option>
-              <option value="Week">Week</option>
-              <option value="Month">Month</option>
-            </TetherFrequency>
-          </FormInputRow>
-          <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
-          <FormInputRow>
-            <label htmlFor="timespan">TIMESPAN</label>
-            <TetherTimespan
-              type="number"
-              min="1"
-              {...register('tether_timespan')}
-            />
-            <p>Times</p>
-          </FormInputRow>
-          <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
-        </FormInnerContent>
-      }
-      {
-        formStep === 'two' &&
-        users?.map((user) => {
-          return (
-            <FriendsList>
-              <p key={user.id}>{user.username}</p>
-              <hr />
-            </FriendsList>
-          );
-        })
-      }
+
+      <FormInnerContent>
+        {
+          formStep === 'one' &&
+          <FormInputs>
+            <FormInputRow>
+              <label htmlFor="activity">ACTIVITY</label>
+              <TetherActivity
+                type="text"
+                {...register('tether_activity')}
+              />
+            </FormInputRow>
+            <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
+            <FormInputRow>
+              <label htmlFor="duration">DURATION</label>
+              <TetherDuration
+                type="number"
+                min="1"
+                {...register('tether_duration')}
+              />
+              <TetherDurationNoun
+                type="text" onFocus={(e) => e.target.placeholder = ''}
+                placeholder="Minutes, Pages, etc..."
+                {...register('tether_duration_noun')}
+              />
+            </FormInputRow>
+            <ErrorMessage>{errors.tether_duration_noun?.message}</ErrorMessage>
+            <ErrorMessage>{errors.tether_duration?.message}</ErrorMessage>
+            <FormInputRow>
+              <label htmlFor="frequency">FREQUENCY</label>
+              <TetherFrequency
+                id="frequency"
+                {...register('tether_frequency')}
+              >
+                <option disabled value="DEFAULT">
+                  {' '}
+                  -- Frequency --
+                </option>
+                <option value="Day">Day</option>
+                <option value="Week">Week</option>
+                <option value="Month">Month</option>
+              </TetherFrequency>
+            </FormInputRow>
+            <ErrorMessage>{errors.tether_frequency?.message}</ErrorMessage>
+            <FormInputRow>
+              <label htmlFor="timespan">TIMESPAN</label>
+              <TetherTimespan
+                type="number"
+                min="1"
+                {...register('tether_timespan')}
+              />
+              <p>Times</p>
+            </FormInputRow>
+            <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
+          </FormInputs>
+        }
+        {
+          formStep === 'two' &&
+          <FriendAttributesHeader>
+            <FriendAttributes>
+              <h1>FRIENDS</h1>
+              <p>TETHERS</p>
+              <p>SHARED</p>
+              <FindFriendSearch />
+            </FriendAttributes>
+            <hr />
+          </FriendAttributesHeader>
+        }
+        {
+          formStep === 'two' &&
+          <FriendsList>
+          {
+            users?.map((user) => {
+              return (
+                <>
+                  <Map key={user.id}>{user.username}</Map>
+                  <hr />
+                </>
+              );
+            })
+          }
+          </FriendsList>
+        }
+      </FormInnerContent>
       <FormButtons>
         <button onClick={closeModal}>Cancel</button>
         {
@@ -166,7 +185,7 @@ const Form: FC<FormProps> = (props) => {
           </button>
         }
       </FormButtons>
-    </TetherForm>
+    </TetherForm >
   );
 };
 
@@ -185,10 +204,10 @@ const TetherForm = styled.form`
   height: 550px;
   border-radius: 12px;
   grid-template-areas:
-    'header',
-    'title',
-    'inputs',
-    'buttons';
+  'header',
+  'title',
+  'inputs',
+  'buttons';
   input {
     margin: 12px 0px;
   }
@@ -199,8 +218,6 @@ const TetherForm = styled.form`
     }
   }
 `;
-
-
 
 const FormHeader = styled.div`
   grid-area: 'header';
@@ -236,6 +253,18 @@ const FormTitle = styled.div`
 
 const FormInnerContent = styled.div`
   grid-area: 'inputs';
+  display: flex;
+  flex-direction: column;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  text-transform: uppercase;
+  padding-top: 11px;
+`;
+
+const FormInputs = styled.div`
   width: 508px;
   margin-left: 96px;
   display: flex;
@@ -283,36 +312,87 @@ const FormInnerContent = styled.div`
   }
 `;
 
-// FormInnerContent.defaultProps = {
-//   theme: {
-//     display: "grid"
-//   }
-// }
-
-// const theme = {
-//   display: "flex"
-// };
-
 const FriendsList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  width: 680px;
+  width: 640px;
+  height: 190px;
+  margin-left: 32px;
   font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
   font-size: 22px;
   line-height: 26px;
-  color: #FFFFFF;
-  border: 1px solid red;
-  p {
-    margin: 15px 13px;
+  color: #003E6A;
+  padding-top: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 21px;
+  color: #003E6A;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
   }
   hr {
     opacity: .25;
     border-radius: 80px;
-    width: 100%;
   }
+`;
+
+const FriendAttributesHeader = styled.div`
+  margin-left: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #003E6A;
+  p {
+    margin: 0;
+  }
+  hr {
+    margin: 0;
+    opacity: .25;
+    border-radius: 80px;
+    width: 640px;
+  }
+`;
+
+const FriendAttributes = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #003E6A;
+  width: 100%;
+  h1 {
+    margin-right: 200px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+  }
+  p {
+    font-weight: 800;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0px 20px 0px;
+  }
+`;
+
+const Map = styled.map`
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
 `;
 
 const FormInputRow = styled.div`
@@ -343,7 +423,7 @@ const TetherDuration = styled.input`
 
 const TetherDurationNoun = styled.input`
   width: 200px;
-`;
+  `;
 
 const TetherFrequency = styled.select`
   width: 360px;
