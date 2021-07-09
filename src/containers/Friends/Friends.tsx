@@ -1,26 +1,18 @@
 import { FC, useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
-import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
+import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
-import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
-import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import searchIcon from '../../assets/search-icon.png';
-import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
   const users = useAppSelector((state) => state.users);
-  const user = useAppSelector((state) => state.oneUser);
-  const tethers = useAppSelector((state) => state.tethers);
-  const myTethers = useAppSelector((state) => state.myTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -38,19 +30,12 @@ const Tethers: FC = () => {
     setShow('users');
   }
 
-  function handleGetTethers() {
-    dispatch(getOneUser());
-    dispatch(getOneUsersTethers(user.id));
-    setShow('tethers');
-  }
-
   function openModal() {
     setModalIsOpen(true);
   }
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
-
   }
 
   function closeModal() {

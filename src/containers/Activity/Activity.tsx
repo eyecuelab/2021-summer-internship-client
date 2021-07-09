@@ -1,16 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setToken } from '../../store/slices/auth/authSlice';
-import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import { FC } from 'react';
+import { useAppSelector } from '../../hooks';
 import './index.css';
 import styled from 'styled-components';
 
 const Activity: FC = () => {
-  const users = useAppSelector((state) => state.users);
   const user = useAppSelector((state) => state.oneUser);
-  const tethers = useAppSelector((state) => state.tethers);
-  const dispatch = useAppDispatch();
-  const [show, setShow] = useState('');
 
   return (
     <div className="Activity">

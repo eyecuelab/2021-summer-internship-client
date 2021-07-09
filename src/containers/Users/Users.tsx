@@ -4,8 +4,7 @@ import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
-import Form from '../../components/form';
-import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 
 const Users: FC = () => {
@@ -20,7 +19,6 @@ const Users: FC = () => {
     return () => {
       dispatch(setUsers([]));
       dispatch(setTethers([]));
-      // dispatch(setOneUser([]));
       dispatch(setOneUsersTethers([]));
     }
   }, [dispatch])

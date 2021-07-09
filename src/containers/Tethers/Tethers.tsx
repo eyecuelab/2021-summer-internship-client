@@ -14,10 +14,7 @@ import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
-import ProgressBg from '../../components/ProgressBg'
-import { current } from 'immer';
 import DarkBar from '../../components/DarkBar'
-import { difference } from 'lodash';
 
 Modal.setAppElement('#root');
 
@@ -113,9 +110,6 @@ const Tethers: FC = () => {
             const currentPluses = 1;
             const darkBars = parseInt(myTether.links_completed);
             const differencePluses = totalBars - darkBars - 1;
-            console.log(`current pluses for ${myTether.tether_id.tether_name} should be ${currentPluses}`);
-            console.log(`total pluses for ${myTether.tether_id.tether_name} should be ${totalBars}`);
-            console.log(`difference in pluses for ${myTether.tether_id.tether_name} should be ${differencePluses}`);
             const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
