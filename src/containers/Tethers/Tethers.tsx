@@ -104,6 +104,7 @@ const Tethers: FC = () => {
           show === 'tethers' &&
           myTethers?.map((myTether) => {
             const currentTetherIsExpanded = expandedTether === myTether.tether_id;
+            const totalPluses = myTether.links_total;
             const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
@@ -126,7 +127,8 @@ const Tethers: FC = () => {
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
                     <ProgressAndBell>
-                      <ProgressBar />
+                    {[...Array(totalPluses)].map(() => <ProgressBar key={myTether.tether_id}/>)}
+                      {/* <ProgressBar /> */}
                       <BellCircle />
                     </ProgressAndBell>
                   </Expanded>
