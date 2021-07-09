@@ -15,6 +15,7 @@ import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar'
+import BellCircleDark from '../../components/BellCircleDark'
 
 Modal.setAppElement('#root');
 
@@ -106,11 +107,12 @@ const Tethers: FC = () => {
           show === 'tethers' &&
           myTethers?.map((myTether) => {
             const currentTetherIsExpanded = expandedTether === myTether.tether_id;
-            const totalBars = parseInt(myTether.links_total);
-            const currentPluses = 1;
-            const darkBars = parseInt(myTether.links_completed);
-            const differencePluses = totalBars - darkBars - 1;
+            const totalLinksRendered = parseInt(myTether.links_total);
+            const completeLinksRendered = parseInt(myTether.links_completed);
+            const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
+            const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
             const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
+            const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />;
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
@@ -133,14 +135,15 @@ const Tethers: FC = () => {
                     </NameAndPercent>
                     <ProgressAndBellAndBell>
                       <ProgressAndBell>
-                        {(darkBars > 0) &&
-                        [...Array(darkBars)]?.map(() => <DarkBar key={myTether.id}/>)}
+                        {(completeLinksRendered > 0) &&
+                        [...Array(completeLinksRendered)]?.map(() => <DarkBar key={myTether.id}/>)}
                         {(currentPluses > 0) &&
                         [...Array(currentPluses)].map(() => <ProgressBar key={myTether.id}/>)}
-                        {(differencePluses > 0) &&
-                        [...Array(differencePluses)].map(() => <BlankBar key={myTether.id}/>)}
+                        {(linksRemainingUntilComplete >= 1) &&
+                        [...Array(linksRemainingUntilComplete)].map(() => <BlankBar key={myTether.id}/>)}
                       </ProgressAndBell>
-                      <BellCircle />
+                      {bell}
+                      {/* <BellCircle /> */}
                     </ProgressAndBellAndBell>
                   </Expanded>
                 }
