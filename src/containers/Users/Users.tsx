@@ -4,8 +4,10 @@ import { setToken } from '../../store/slices/auth/authSlice';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
-import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
+import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getParticipatingTethers, setParticipatingTethers } from '../../store/slices/countParticipatingTethers/countParticipatingTethersSlice';
+import { setCompleteTethers } from '../../store/slices/countCompleteTethers/countCompleteTethersSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -25,6 +27,11 @@ const Users: FC = () => {
 
   function handleLogout() {
     dispatch(setToken({ token: '' }));
+    dispatch(setUsers([]));
+    dispatch(setTethers([]));
+    dispatch(setOneUser([]));
+    dispatch(setParticipatingTethers([]));
+    dispatch(setCompleteTethers([]));
   }
 
   function handleGetUsers() {
@@ -45,6 +52,12 @@ const Users: FC = () => {
   function handleGetMyTethers() {
     dispatch(getOneUsersTethers(user.id));
     setShow('myTethers');
+  }
+  
+  function handleGetParticipatingTethers() {
+    // dispatch(setParticipatingTethers([]));
+    dispatch(getParticipatingTethers(user.id));
+    setShow('participatingTethers');
   }
 
   function handleShowCreateTetherPage() {
@@ -67,6 +80,9 @@ const Users: FC = () => {
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetMyTethers}>
         Get My Tethers
+      </button>
+      <button style={{ margin: '1rem', height: '25px' }} onClick={handleGetParticipatingTethers}>
+        Get # of Participating Tethers
       </button>
       <button style={{ margin: '1rem', height: '25px' }} onClick={handleLogout}>
         Logout
@@ -97,7 +113,7 @@ const Users: FC = () => {
       {show === 'myTethers' && (myTethers) &&
         myTethers?.map((myTether) => {
           return (
-            <p key={myTether.tether_id}>{myTether.tether_name} created by {myTether.tether_created_by_plain}</p>
+            <p key={myTether.id}>{myTether.tether_id.tether_name} created by {myTether.tether_id.tether_created_by_plain}</p>
           );
         })
       }
