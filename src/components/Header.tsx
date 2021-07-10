@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import { Navbar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { setToken } from '../store/slices/auth/authSlice';
-// import avatar from '../assets/avatar.png'
+import { setUsers } from '../store/slices/users/usersSlice';
+import { setTethers } from '../store/slices/tethers/tethersSlice';
+import { setOneUser } from '../store/slices/oneUser/oneUserSlice';
+import { setParticipatingTethers } from '../store/slices/countParticipatingTethers/countParticipatingTethersSlice';
+import { setCompleteTethers } from '../store/slices/countCompleteTethers/countCompleteTethersSlice';
+import { setOneUsersTethers } from '../store/slices/myTethers/myTethersSlice';
 
 function Header() {
   const token = useAppSelector(({ auth }) => auth.token);
@@ -13,6 +18,12 @@ function Header() {
 
   function handleLogout() {
     dispatch(setToken({ token: '' }));
+    dispatch(setUsers([]));
+    dispatch(setTethers([]));
+    dispatch(setOneUser([]));
+    dispatch(setParticipatingTethers([]));
+    dispatch(setCompleteTethers([]));
+    dispatch(setOneUsersTethers([]));
   }
 
   return (
