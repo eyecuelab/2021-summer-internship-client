@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
 import { Routes } from '../../constants/routes';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/slices/auth/authSlice';
 import './index.css';
+import styled from 'styled-components';
 
 const Login: FC = () => {
   const [username, setUsername] = useState('');
@@ -18,10 +18,11 @@ const Login: FC = () => {
   return (
     <div className="Login">
       <header className="Login-header">
-        <img src={logo} className="Login-logo" alt="logo" />
+        <Title className="Login-logo">Tether</Title>
+        {/* <img src={logo} className="Login-logo" alt="logo" />
         <p>
           Edit <code>src/containers/Login.tsx</code> and save to reload.
-        </p>
+        </p> */}
         <div className="input-container">
           <label htmlFor="username">
             Username
@@ -38,11 +39,11 @@ const Login: FC = () => {
           </label>
         </div>
         <div className="button">
-          <button onClick={handleLogin}>Submit</button>
+          <LoginButton onClick={handleLogin}>Submit</LoginButton>
         </div>
         <div className="links">
-          <Link to={Routes.Home}>Back Home</Link>
-          <Link to={Routes.Register}>Register</Link>
+          <Link to={Routes.Home} style={{color: '#FFFFFF', textDecoration: 'none'}}>Back Home</Link>
+          <Link to={Routes.Register} style={{color: '#FFFFFF', textDecoration: 'none'}}>Register</Link>
         </div>
       </header>
     </div>
@@ -50,3 +51,15 @@ const Login: FC = () => {
 };
 
 export default Login;
+
+const Title = styled.div`
+  font-family: MumboDisplaySSi;
+  font-size: 14vw;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: -0.02em;
+`;
+
+const LoginButton = styled.button`
+
+`
