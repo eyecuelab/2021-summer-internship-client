@@ -9,7 +9,6 @@ const countCompleteTethersSlice = createSlice({
     getCompleteTethers(state, action) {},
     setCompleteTethers(state, action) {
       const completeTethers = action.payload;
-      console.error(completeTethers);
       return completeTethers;
     }
   },
