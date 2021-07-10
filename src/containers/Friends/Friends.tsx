@@ -1,21 +1,16 @@
 import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
-import Form from '../../components/form';
-import searchIcon from '../../assets/search-icon.png';
+import SearchIcon from '../../components/SearchIcon';
 import 'simplebar/dist/simplebar.min.css';
 
-Modal.setAppElement('#root');
-
-const Tethers: FC = () => {
+const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('your');
 
   useEffect(() => {
@@ -28,23 +23,6 @@ const Tethers: FC = () => {
   function handleGetUsers() {
     dispatch(getUsers());
     setShow('users');
-  }
-
-  function openModal() {
-    setModalIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
-  function closeModal() {
-    setModalIsOpen(false);
-  }
-
-  function handleShowCreateTetherPage() {
-    openModal();
-    // setShow('form');
   }
 
   return (
@@ -69,31 +47,22 @@ const Tethers: FC = () => {
         </YourFind>
         <MainHeader>
           <h1>Friends</h1>
-          <Search onClick={handleShowCreateTetherPage}>
-            <img src={searchIcon} alt="search-icon" />
-            Search Your Friends
+          <Search>
+            <SearchIcon />
+            <SearchInput type='text' placeholder='Search Your Friends' />
           </Search>
-          <Modal
-            isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-            className="Modal"
-            overlayClassName="Overlay"
-          >
-            <Form closeModal={closeModal} />
-          </Modal>
         </MainHeader>
         {
           show === 'users' &&
           <FriendAttributesHeader>
-            <FriendAttributes>
-              <p>TETHERS</p>
-              <p>SHARED</p>
-              <p>XP</p>
-              <p>BADGES</p>
-            </FriendAttributes>
+            <FriendAttributesContainer>
+              <FriendAttributes>
+                <p>TETHERS</p>
+                <p>SHARED</p>
+                <p>XP</p>
+                <p>BADGES</p>
+              </FriendAttributes>
+            </FriendAttributesContainer>
             <hr />
           </FriendAttributesHeader>
         }
@@ -103,7 +72,34 @@ const Tethers: FC = () => {
               users?.map((user) => {
                 return (
                   <YourFriendsList>
-                    <p key={user.id}>{user.username}</p>
+                    <FullRowContainer>
+                      <RowUsername>
+                        <p key={user.id}>{user.username}</p>
+                      </RowUsername>
+                      <RowDataContainer>
+                        <DataTethers>
+                          <FriendAttributes>
+                            <p>{user.tethers_completed}</p>
+                          </FriendAttributes>
+                        </DataTethers>
+                        <DataShared>
+                          <FriendAttributes>
+                            {/* temporary values */}
+                            <p>{user.tethers_completed}</p>
+                          </FriendAttributes>
+                        </DataShared>
+                        <DataXp>
+                          <FriendAttributes>
+                            <p>{user.xp}</p>
+                          </FriendAttributes>
+                        </DataXp>
+                        <DataBadges>
+                          <FriendAttributes>
+                            <p>{(user.xp) * 5}</p>
+                          </FriendAttributes>
+                        </DataBadges>
+                      </RowDataContainer>
+                    </FullRowContainer>
                     <hr />
                   </YourFriendsList>
                 );
@@ -129,7 +125,7 @@ const Tethers: FC = () => {
   );
 };
 
-export default Tethers;
+export default Friends;
 
 const FriendsContainer = styled.div`
   display: grid;
@@ -155,15 +151,15 @@ const RightSide = styled.div`
 const YourFind = styled.div`
   display: flex;
   cursor: pointer;
-  p {
-    padding-right:20px;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  }
   font-style: normal;
   font-weight: 800;
   font-size: 24px;
   line-height: 28px;
+  p {
+    padding-right:20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
 `;
 
 const MainHeader = styled.div`
@@ -183,12 +179,10 @@ const MainHeader = styled.div`
   }
 `;
 
-const Search = styled.button`
+const Search = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0px 19px;
-  cursor: pointer;
   width: 240px;
   height: 34px;
   background: #003E6A;
@@ -199,26 +193,43 @@ const Search = styled.button`
   font-weight: 800;
   font-size: 18px;
   line-height: 21px;
-  letter-spacing: -0.01em;
+  border-radius: 12px;
   color: #FFFFFF;
+  &::placeholder {
+    color: #FFFFFF;
+  }
+  &:focus {
+    outline: none;
+    &::placeholder {
+      color: #003E6A;
+    }
+  }
 `;
 
-const customStyles = {
-  content: {
-  top: '50%',
-  left: '50%',
-  right: 'auto',
-  bottom: 'auto',
-  inset: '50% auto auto 50%',
-  border: 'none',
-  overflow: 'auto',
-  borderRadius: '12px',
-  outline: 'none',
-  padding: '0px',
-  marginRight: '-50%',
-  transform: 'translate(-50%, -50%)',
+const SearchInput = styled.input`
+  width: 185px;
+  height: 20px;
+  background: #003E6A;
+  border:none;
+  color: #FFFFFF;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 21px;
+  padding-left: 5px;
+  margin-right: 0px;
+  margin-left: 13px;
+  &::placeholder {
+    color: #FFFFFF;
   }
-};
+  &:focus {
+    outline: none;
+    &::placeholder {
+      color: #003E6A;
+    }
+  }
+`
 
 const StatusText = styled.p<{ inactive: Boolean }>`
   ${(props) => props.inactive && 'opacity: 0.5;'}
@@ -245,6 +256,21 @@ const FriendAttributesHeader = styled.div`
   }
 `;
 
+const FriendAttributesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  width: 95%;
+`;
+
 const FriendAttributes = styled.div`
   display: flex;
   flex-direction: row;
@@ -257,14 +283,9 @@ const FriendAttributes = styled.div`
   line-height: 14px;
   text-transform: uppercase;
   color: #FFFFFF;
-  width: 100%;
+  width: 59%;
   p {
-    margin: 10px 33px;
-  }
-  hr {
-    opacity: .25;
-    border-radius: 80px;
-    width: 100%;
+    margin-left: auto;
   }
 `;
 
@@ -298,6 +319,7 @@ const YourFriendsList = styled.div`
 `;
 
 const FriendRequests = styled.div`
+  margin-left: 2vw;
   h1 {
     font-family: Work Sans;
     font-style: normal;
@@ -341,3 +363,40 @@ const RequestXpAndBadges = styled.div`
     margin: 0px 9px;
   }
 `;
+
+const FullRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`
+
+const RowUsername = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+`
+const RowDataContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  width: 95%;
+  justify-content: flex-end;
+  margin-right: 5%;
+`
+
+const DataTethers = styled.div`
+  margin-right: 6vw;
+`
+
+const DataShared = styled.div`
+  margin-right: 4.5vw;
+`
+
+const DataXp = styled.div`
+  margin-right: 4.2vw;
+`
+
+const DataBadges = styled.div`
+  /* margin-right: -10px; */
+`
