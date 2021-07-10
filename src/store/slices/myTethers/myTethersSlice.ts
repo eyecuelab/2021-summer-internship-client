@@ -6,10 +6,7 @@ const myTethersSlice = createSlice({
   name: 'oneUser',
   initialState,
   reducers: {
-    getOneUsersTethers(state, action) {
-      // const tethers = action.payload;
-      // return tethers;
-    },
+    getOneUsersTethers(state, action) {},
     setOneUsersTethers(state, action) {
       const tethers = action.payload;
       return tethers;
