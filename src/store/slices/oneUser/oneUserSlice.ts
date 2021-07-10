@@ -6,11 +6,11 @@ const oneUserSlice = createSlice({
   name: 'oneUser',
   initialState,
   reducers: {
+    getOneUser() {},
     setOneUser(state, action) {
       const user = action.payload;
       return user;
     },
-    getOneUser() {},
   },
 });
 
