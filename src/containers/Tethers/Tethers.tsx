@@ -8,20 +8,21 @@ import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
-import { getOneUser } from '../../store/slices/oneUser/oneUserSlice';
-import plus from '../../assets/Vector.png';
 import Chevron from '../../components/chevron';
 import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
-import DarkBar from '../../components/DarkBar'
+import DarkBar from '../../components/DarkBar';
+import PlusSign from '../../components/PlusSign';
 import BellCircleDark from '../../components/BellCircleDark'
+import { getOneUsersCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 
 Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
+  const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -44,17 +45,17 @@ const Tethers: FC = () => {
   };
 
   function handleGetTethers() {
-    dispatch(getOneUser());
     dispatch(getOneUsersTethers(user.id));
     setShow('tethers');
   }
 
-  function openModal() {
-    setModalIsOpen(true);
+  function handleGetCompletedTethers() {
+    dispatch(getOneUsersCompleteTethers(user.id));
+    setShow('completed');
   }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
+  function openModal() {
+    setModalIsOpen(true);
   }
 
   function closeModal() {
@@ -79,7 +80,10 @@ const Tethers: FC = () => {
         </StatusText>
         <StatusText
           inactive={activeStatus === 'current'}
-          onClick={() => setActiveStatus('completed')}
+          onClick={() => {
+            setActiveStatus('completed')
+            handleGetCompletedTethers();
+          }}
         >
           Completed
         </StatusText>
@@ -87,15 +91,13 @@ const Tethers: FC = () => {
       <MainHeader>
         <h1>Your Tethers</h1>
         <AddNewTether onClick={handleShowCreateTetherPage}>
-          <img src={plus} alt="plus-sign" />
+          <PlusSign />
           Add New
         </AddNewTether>
         <Modal
           isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
+          shouldCloseOnOverlayClick={false}
           style={modalStyles}
-          contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"
         >
@@ -111,13 +113,13 @@ const Tethers: FC = () => {
             const completeLinksRendered = parseInt(myTether.links_completed);
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
-            const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
+            // const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
             const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />;
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
                   <TitleAndEdit>
-                    {myTether.tether_name}
+                    {myTether.tether_id.tether_name}
                     <Edit><p>Edit</p></Edit>
                   </TitleAndEdit>
                   <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
@@ -129,24 +131,41 @@ const Tethers: FC = () => {
                   <Expanded>
                     <NameAndPercent>
                       <p>{myTether.tether_id.tether_name}</p>
-                      <p>Created by - {myTether.tether_id.tether_created_by_plain}</p>
-                      <p>Opened on - {formattedDate}</p>
+                      {/* <p>Created by - {myTether.tether_id.tether_created_by_plain}</p> */}
+                      {/* <p>Opened on - {formattedDate}</p> */}
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
                     <ProgressAndBellAndBell>
                       <ProgressAndBell>
                         {(completeLinksRendered > 0) &&
-                        [...Array(completeLinksRendered)]?.map(() => <DarkBar key={myTether.id}/>)}
+                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
                         [...Array(currentPluses)].map(() => <ProgressBar key={myTether.id}/>)}
                         {(linksRemainingUntilComplete >= 1) &&
-                        [...Array(linksRemainingUntilComplete)].map(() => <BlankBar key={myTether.id}/>)}
+                        [...Array(linksRemainingUntilComplete)].map((e, i) => <BlankBar key={i}/>)}
                       </ProgressAndBell>
                       {bell}
                       {/* <BellCircle /> */}
                     </ProgressAndBellAndBell>
                   </Expanded>
                 }
+                <hr />
+              </CurrentTethersList>
+            );
+          })
+        }
+        {
+          show === 'completed' &&
+          myCompleteTethers?.map((myCompleteTether) => {
+          const formattedDate = dayjs(myCompleteTether.tether_completed_on).format('MM/DD/YYYY');
+            return (
+              <CurrentTethersList>
+                <Map key={myCompleteTether.tether_id}>
+                  <TitleAndEdit>
+                    <p>{myCompleteTether.tether_name}</p>
+                    <p>Completed on {formattedDate}</p>
+                  </TitleAndEdit>
+                </Map>
                 <hr />
               </CurrentTethersList>
             );
@@ -180,7 +199,7 @@ const MainHeader = styled.div`
   margin-bottom: 60px;
   cursor: default;
   h1 {
-    font-family: Work Sans;
+    font-family: Gotham-Black;
     font-style: normal;
     font-weight: 800;
     font-size: 48px;
