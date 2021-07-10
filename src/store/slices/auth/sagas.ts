@@ -7,6 +7,8 @@ import { getOneUser } from '../oneUser/oneUserSlice';
 import { getOneUsersTethers } from '../myTethers/myTethersSlice';
 import { getParticipatingTethers } from '../countParticipatingTethers/countParticipatingTethersSlice';
 import { getCompleteTethers } from '../countCompleteTethers/countCompleteTethersSlice';
+import { getallParticipantLinks } from '../allParticipantLinks/allParticipantLinksSlice';
+import { getUsers } from '../users/usersSlice';
 
 function* registerUser(action: PayloadAction<{ username: string; password: string; email: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/register', 'POST', action.payload);
@@ -27,6 +29,8 @@ function* loginUser(action: PayloadAction<{ username: string; password: string }
     yield put(getOneUsersTethers(data.sessionUser.user.id));
     yield put(getParticipatingTethers(data.sessionUser.user.id));
     yield put(getCompleteTethers(data.sessionUser.user.id));
+    yield put(getUsers());
+    yield put(getallParticipantLinks());
   }
   if (error) {
     // handle api error

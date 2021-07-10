@@ -10,8 +10,9 @@ import 'simplebar/dist/simplebar.min.css';
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
-  const [show, setShow] = useState('');
+  const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');
+  const loggedInUser = useAppSelector((state) => state.oneUser);
 
   useEffect(() => {
     return () => {
@@ -69,7 +70,7 @@ const Friends: FC = () => {
         <FriendsListContainer>
             {
               show === 'users' &&
-              users?.map((user) => {
+              users?.filter(user => user.id !== loggedInUser.id).map((user) => {
                 return (
                   <YourFriendsList>
                     <FullRowContainer>

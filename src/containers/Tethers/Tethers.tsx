@@ -31,8 +31,8 @@ const Tethers: FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(setUsers([]));
-      dispatch(setTethers([]));
+      // dispatch(setUsers([]));
+      // dispatch(setTethers([]));
     }
   }, [dispatch])
 
