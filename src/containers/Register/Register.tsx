@@ -6,32 +6,10 @@ import { register } from '../../store/slices/auth/authSlice';
 import './index.css';
 import styled from 'styled-components';
 
-// Added
-// import { useEffect } from 'react';
-// Added
-
 const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // Added
-  // const [validLength, setValidLength] = useState(false);
-  // const [hasNumber, setHasNumber] = useState(false);
-  // const [upperCase, setUpperCase] = useState(false);
-  // const [lowerCase, setLowerCase] = useState(false);
-  // const [specialChar, setSpecialChar] = useState(false);
-  // const [requiredLength] = useState(8);
-
-  // useEffect(() => {
-  //   setValidLength(password.length >= requiredLength ? true : false);
-  //   setUpperCase(password.toString().toLowerCase() !== password);
-  //   setLowerCase(password.toString().toUpperCase() !== password);
-  //   setHasNumber(/\d/.test(password));
-  //   setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password));
-
-  // }, [password, requiredLength]);
-  // Added
 
   const dispatch = useAppDispatch();
 
@@ -43,10 +21,6 @@ const Register: FC = () => {
     <div className="Register">
       <header className="Register-header">
         <Title className="Register-logo">Tether</Title>
-        {/* <img src={logo} className="Register-logo" alt="logo" />
-        <p>
-          Edit <code>src/containers/Register.tsx</code> and save to reload.
-        </p> */}
         <div className="input-container">
           <label htmlFor="username">
             Username
@@ -65,25 +39,6 @@ const Register: FC = () => {
               type="password"
             />
           </label>
-          {/* Added */}
-          {/* <ul>
-            <li>
-              Valid Length: {validLength ? <span>✓</span> : <span>✗</span>}
-            </li>
-            <li>
-              Has a Number: {hasNumber ? <span>✓</span> : <span>✗</span>}
-            </li>
-            <li>
-              UpperCase: {upperCase ? <span>✓</span> : <span>✗</span>}
-            </li>
-            <li>
-              LowerCase: {lowerCase ? <span>✓</span> : <span>✗</span>}
-            </li>
-            <li>
-              Special Character: {specialChar ? <span>✓</span> : <span>✗</span>}
-            </li>
-          </ul> */}
-          {/* Added */}
         </div>
         <div className="button">
           <button onClick={handleRegister}>Submit</button>
