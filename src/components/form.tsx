@@ -7,6 +7,7 @@ import { createTether } from '../store/slices/tethers/tethersSlice';
 import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import FindFriendSearch from '../components/FindFriend';
+import ProposeTether from '../components/ProposeTether';
 
 interface TetherFormData {
   tether_activity: string;
@@ -52,7 +53,7 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
-  const [activeStatus, setActiveStatus] = useState(false);
+  const [friendSelected, setFriendSelected] = useState('unselected');
   // const [selectedUsername, setSelectedUsername] = useState('');
 
   const onSubmit = (data: TetherFormData) => {
@@ -172,8 +173,11 @@ const Form: FC<FormProps> = (props) => {
             users?.filter(user => user.id !== loggedInUser.id).map((user) => {
               return (
                 <>
-                    <Map key={user.id}>{user.username}</Map>
-                    <hr />
+                  <Map key={user.id}>
+                    <p>{user.username}</p>
+                    <ProposeTether />
+                  </Map>
+                  <hr />
                 </>
               );
             })
@@ -399,13 +403,13 @@ const FriendAttributes = styled.div`
 `;
 
 const Map = styled.map`
-  cursor: default;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;
-  &:hover {
-      opacity: .7;
+  align-items: center;
+  p {
+    cursor: default;
+    margin: 0;
   }
 `;
 
