@@ -4,7 +4,9 @@ import { watchAllUsers } from './users/sagas';
 import { watchAllTethers } from './tethers/sagas';
 import { watchOneUser } from './oneUser/sagas';
 import { watchOneUsersTethers } from './myTethers/sagas';
+import { watchCountParticipatingTethers } from './countParticipatingTethers/sagas'
+import { watchOneUsersCompleteTethers } from './myCompleteTethers/sagas';
 
 export default function* rootSaga() {
-  yield all([watchAllAuth(), watchAllUsers(), watchAllTethers(), watchOneUser(), watchOneUsersTethers()]);
+  yield all([watchAllAuth(), watchAllUsers(), watchAllTethers(), watchOneUser(), watchOneUsersTethers(), watchCountParticipatingTethers(), watchOneUsersCompleteTethers()]);
 }
