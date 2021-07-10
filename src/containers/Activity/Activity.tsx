@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
-  // const myParticipatingTethers = useAppSelector((state) => state.participatingTethers);
-  // const myCompleteTethers = useAppSelector((state) => state.completedTethers);
+  const myParticipatingTethers = useAppSelector((state) => state.myTethers);
+  const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
 
   return (
     <div className="Activity">
@@ -25,13 +25,13 @@ const Activity: FC = () => {
         </RowHeader>
         <RowData>
           <Cell>
-            {/* <p>{myParticipatingTethers}</p> */}
+            <p>{myParticipatingTethers.length}</p>
           </Cell>
           <Cell>
-            {/* <p>{myCompleteTethers.length}</p> */}
+            <p>{myCompleteTethers.length}</p>
           </Cell>
           <Cell>
-            <p>DATA</p>
+            <p>{((myParticipatingTethers.length) * 10) + ((myCompleteTethers.length) * 50)}</p>
           </Cell>
         </RowData>
       </DataTable>

@@ -9,7 +9,8 @@ const countParticipatingTethersSlice = createSlice({
     getParticipatingTethers(state, action) {},
     setParticipatingTethers(state, action) {
       const participatingTethers = action.payload;
-      return participatingTethers
+      console.error(participatingTethers);
+      return participatingTethers;
     }
   },
 });
