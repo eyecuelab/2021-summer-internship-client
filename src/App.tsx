@@ -14,11 +14,6 @@ import Header from './components/Header'
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
-  // const dispatch = useAppDispatch();
-
-  // if (token) {
-  //   dispatch(setUser([]));
-  // }
 
   const routes = useMemo(() => {
     const jsx = [<Route path={Routes.Home} exact component={Home} />];
