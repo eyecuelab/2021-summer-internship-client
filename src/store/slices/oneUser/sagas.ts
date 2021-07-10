@@ -8,7 +8,6 @@ function* fetchOneUser() {
     yield put(setOneUser(data));
   }
   if (error) {
-    // handle api error
     console.error(error);
   }
 }
