@@ -75,7 +75,7 @@ const Form: FC<FormProps> = (props) => {
 
   // Debugger flagged this as happening on every event relating to the form
   // Look into this!!
-  const handleTestAshPatience = (data: {tether_id: string, user_id: string}) => {
+  const handleCreateParticipantLink = (data: {tether_id: string, user_id: string}) => {
     dispatch(createParticipant(data));
   }
 
@@ -183,7 +183,7 @@ const Form: FC<FormProps> = (props) => {
                 <>
                   <Map key={user.id}>
                     <p>{user.username}</p>
-                    <button onClick={() => handleTestAshPatience({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></button>
+                    <ProposeButton onClick={() => handleCreateParticipantLink({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></ProposeButton>
                   </Map>
                   <hr />
                 </>
@@ -213,6 +213,11 @@ const Form: FC<FormProps> = (props) => {
 };
 
 export default Form;
+
+const ProposeButton = styled.button`
+  border: none;
+  background: none;
+`
 
 const TetherForm = styled.form`
   background: #FFFFFF;
