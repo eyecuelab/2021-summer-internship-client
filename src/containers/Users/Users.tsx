@@ -6,8 +6,8 @@ import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice'
 import './index.css';
 import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
 import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
-import { getParticipatingTethers, setParticipatingTethers } from '../../store/slices/countParticipatingTethers/countParticipatingTethersSlice';
-import { setCompleteTethers } from '../../store/slices/countCompleteTethers/countCompleteTethersSlice';
+// import { getParticipatingTethers, setParticipatingTethers } from '../../store/slices/countParticipatingTethers/countParticipatingTethersSlice';
+// import { setCompleteTethers } from '../../store/slices/countCompleteTethers/countCompleteTethersSlice';
 
 const Users: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -30,8 +30,8 @@ const Users: FC = () => {
     dispatch(setUsers([]));
     dispatch(setTethers([]));
     dispatch(setOneUser([]));
-    dispatch(setParticipatingTethers([]));
-    dispatch(setCompleteTethers([]));
+    // dispatch(setParticipatingTethers([]));
+    // dispatch(setCompleteTethers([]));
   }
 
   function handleGetUsers() {
@@ -56,7 +56,7 @@ const Users: FC = () => {
   
   function handleGetParticipatingTethers() {
     // dispatch(setParticipatingTethers([]));
-    dispatch(getParticipatingTethers(user.id));
+    // dispatch(getParticipatingTethers(user.id));
     setShow('participatingTethers');
   }
 

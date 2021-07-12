@@ -8,6 +8,7 @@ import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import FindFriendSearch from '../components/FindFriend';
 import ProposeTether from '../components/ProposeTether';
+import { createParticipant } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
 
 interface TetherFormData {
   tether_activity: string;
@@ -40,6 +41,7 @@ const Form: FC<FormProps> = (props) => {
   const [formStep, setFormStep] = useState('one');
   const users = useAppSelector((state) => state.users);
   const loggedInUser = useAppSelector((state) => state.oneUser);
+  const participantId = useAppSelector((state) => state.impendingParticipantLink);
 
   const {
     register,
@@ -70,6 +72,12 @@ const Form: FC<FormProps> = (props) => {
   //     setSelectedUsername(user_id);
   //   }
   // };
+
+  // Debugger flagged this as happening on every event relating to the form
+  // Look into this!!
+  const handleTestAshPatience = (data: {tether_id: string, user_id: string}) => {
+    dispatch(createParticipant(data));
+  }
 
   return (
     <TetherForm
@@ -175,7 +183,7 @@ const Form: FC<FormProps> = (props) => {
                 <>
                   <Map key={user.id}>
                     <p>{user.username}</p>
-                    <ProposeTether />
+                    <button onClick={() => handleTestAshPatience({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></button>
                   </Map>
                   <hr />
                 </>

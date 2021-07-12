@@ -15,7 +15,7 @@ import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
 import BellCircleDark from '../../components/BellCircleDark'
-import { getOneUsersCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 
 Modal.setAppElement('#root');
 
@@ -50,7 +50,7 @@ const Tethers: FC = () => {
   }
 
   function handleGetCompletedTethers() {
-    dispatch(getOneUsersCompleteTethers(user.id));
+    dispatch(getMyCompleteTethers(user.id));
     setShow('completed');
   }
 

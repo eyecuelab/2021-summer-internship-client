@@ -9,6 +9,7 @@ import 'simplebar/dist/simplebar.min.css';
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
+  const all = useAppSelector((state) => state.allParticipantLinks);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');
@@ -37,13 +38,13 @@ const Friends: FC = () => {
               handleGetUsers();
             }}
           >
-            Your
+          Your
           </StatusText>
           <StatusText
             inactive={activeStatus === 'your'}
             onClick={() => setActiveStatus('find')}
           >
-            Find
+          Find
           </StatusText>
         </YourFind>
         <MainHeader>
@@ -68,44 +69,58 @@ const Friends: FC = () => {
           </FriendAttributesHeader>
         }
         <FriendsListContainer>
-            {
-              show === 'users' &&
-              users?.filter(user => user.id !== loggedInUser.id).map((user) => {
-                return (
-                  <YourFriendsList>
-                    <FullRowContainer>
-                      <RowUsername>
-                        <p key={user.id}>{user.username}</p>
-                      </RowUsername>
-                      <RowDataContainer>
-                        <DataTethers>
-                          <FriendAttributes>
-                            <p>{user.tethers_completed}</p>
-                          </FriendAttributes>
-                        </DataTethers>
-                        <DataShared>
-                          <FriendAttributes>
-                            {/* temporary values */}
-                            <p>{user.tethers_completed}</p>
-                          </FriendAttributes>
-                        </DataShared>
-                        <DataXp>
-                          <FriendAttributes>
-                            <p>{user.xp}</p>
-                          </FriendAttributes>
-                        </DataXp>
-                        <DataBadges>
-                          <FriendAttributes>
-                            <p>{(user.xp) * 5}</p>
-                          </FriendAttributes>
-                        </DataBadges>
-                      </RowDataContainer>
-                    </FullRowContainer>
-                    <hr />
-                  </YourFriendsList>
-                );
-              })
-            }
+        {
+          show === 'users' &&
+          users?.filter(user => user.id !== loggedInUser.id).map((user) => {
+            // const filterIncludes = all.filter((e) => users.includes(e));
+            return (
+              <YourFriendsList>
+                <FullRowContainer>
+                  <RowUsername>
+                    <p key={user.id}>{user.username}</p>
+                  </RowUsername>
+                  <RowDataContainer>
+                    <DataTethers>
+                      <FriendAttributes>
+                        {/* Tethers Completed */}
+                        <p>{user.tethers_completed}</p>
+                      </FriendAttributes>
+                    </DataTethers>
+                    <DataShared>
+                      <FriendAttributes>
+                        {/* Shared... use Tethers Ongoing? */}
+                        <p>{user.tethers_completed}</p>
+                      </FriendAttributes>
+                    </DataShared>
+                    <DataXp>
+                      <FriendAttributes>
+                        {/* XP */}
+                        <p>{user.xp}</p>
+                      </FriendAttributes>
+                    </DataXp>
+                    <DataBadges>
+                      <FriendAttributes>
+                        {/* Badges (IN PROGRESS) */}
+                        <p>{(user.xp) * 5}</p>
+                      </FriendAttributes>
+                    </DataBadges>
+                  </RowDataContainer>
+                </FullRowContainer>
+                <hr />
+              </YourFriendsList>
+            );
+          })
+        }
+        {/* {
+          show === 'users' &&
+          all.flatMap((e) => {
+            return(
+              <p>
+                <p>{e.tether_id?.tether_name} created by {e.tether_id?.tether_created_by_plain}</p>
+              </p>
+            )
+          })
+        } */}
         </FriendsListContainer>
       </LeftSide>
       <RightSide>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: any[] = [];
 
@@ -6,16 +6,19 @@ const createParticipantLinkSlice = createSlice({
   name: 'createParticipantLink',
   initialState,
   reducers: {
-    getParticipantLink(state, action) {
-      // return;
-    },
-    setParticipantLink(state, action) {
+    getParticipant() {},
+    setParticipant(state, action) {
       const participantLink = action.payload;
       return participantLink;
-    }
+    },
+    // setLocalTetherLink(state, action) {
+    //   const localTetherLink = action.payload;
+    //   return localTetherLink;
+    // },
+    createParticipant(state, action: PayloadAction<{ tether_id: string, user_id: string }>) {},
   },
 });
 
-export const { getParticipantLink, setParticipantLink } = createParticipantLinkSlice.actions;
+export const { getParticipant, setParticipant, createParticipant } = createParticipantLinkSlice.actions;
 
 export default createParticipantLinkSlice.reducer;

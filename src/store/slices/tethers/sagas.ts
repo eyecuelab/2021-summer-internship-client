@@ -2,6 +2,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import { makeRequest } from '../../utils/makeRequest';
 import { setTethers, getTethers, createTether } from './tethersSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { setImpendingParticipantLink } from '../impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 function* fetchAllTethers() {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'GET');
@@ -17,6 +18,7 @@ function* fetchAllTethers() {
 function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
   if (success) {
+    yield put(setImpendingParticipantLink(data.tether_id));
     return data;
   }
   if (error) {

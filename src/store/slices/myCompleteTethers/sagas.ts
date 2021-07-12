@@ -1,13 +1,13 @@
 import { put, takeEvery, call } from '@redux-saga/core/effects';
 import { makeRequest } from '../../utils/makeRequest';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { getOneUsersCompleteTethers, setOneUsersCompleteTethers } from './myCompleteTethersSlice';
+import { getMyCompleteTethers, setMyCompleteTethers } from './myCompleteTethersSlice';
 
-function* fetchOneUsersCompleteTethers(action: PayloadAction<{ id: string }>) {
+function* fetchMyCompleteTethers(action: PayloadAction<{ id: string }>) {
   const id = action.payload;
   const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/complete/${id}`, 'GET');
   if (success) {
-    yield put(setOneUsersCompleteTethers(data));
+    yield put(setMyCompleteTethers(data));
   }
   if (error) {
     // handle api error
@@ -16,6 +16,6 @@ function* fetchOneUsersCompleteTethers(action: PayloadAction<{ id: string }>) {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function* watchOneUsersCompleteTethers() {
-  yield takeEvery(getOneUsersCompleteTethers({ id: '', }).type, fetchOneUsersCompleteTethers);
+export function* watchMyCompleteTethers() {
+  yield takeEvery(getMyCompleteTethers({ id: '', }).type, fetchMyCompleteTethers);
 }

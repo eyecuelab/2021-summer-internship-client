@@ -1,20 +1,21 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { takeEvery, call, put } from "redux-saga/effects";
 import { makeRequest } from "../../utils/makeRequest";
-import { getParticipantLink, setParticipantLink } from './createParticipantLinkSlice';
+import { createParticipant } from './createParticipantLinkSlice';
 
-function* createParticipantLink(action: PayloadAction<{ tether_id: string, user_id: string }>) {
-  const { tether_id, user_id } = action.payload;
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/${tether_id}/${user_id}`, 'GET');
+function* createParticipantLink(action: PayloadAction<{ tether_id: string; user_id: string; }>) {
+  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants`, 'POST', action.payload);
   if (success) {
-    yield put(setParticipantLink(data));
+    return data;
   }
   if (error) {
+    // handle api error
     console.error(error);
   }
 }
 
 export function* watchCreateParticipantLink() {
-  yield takeEvery(getParticipantLink({ tether_id: '', user_id: '' }).type, createParticipantLink
+  // yield takeEvery(getParticipant().type, fetchSpecialLink)
+  yield takeEvery(createParticipant({ tether_id: '', user_id: '' }).type, createParticipantLink
   );
 }

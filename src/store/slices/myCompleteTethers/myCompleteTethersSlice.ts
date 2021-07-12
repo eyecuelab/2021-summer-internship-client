@@ -6,14 +6,14 @@ const myCompleteTethersSlice = createSlice({
   name: 'oneUser',
   initialState,
   reducers: {
-    getOneUsersCompleteTethers(state, action) {},
-    setOneUsersCompleteTethers(state, action) {
+    getMyCompleteTethers(state, action) {},
+    setMyCompleteTethers(state, action) {
       const tethers = action.payload;
       return tethers;
     }
   },
 });
 
-export const { getOneUsersCompleteTethers, setOneUsersCompleteTethers } = myCompleteTethersSlice.actions;
+export const { getMyCompleteTethers, setMyCompleteTethers } = myCompleteTethersSlice.actions;
 
 export default myCompleteTethersSlice.reducer;
