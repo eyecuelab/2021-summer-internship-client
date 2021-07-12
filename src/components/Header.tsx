@@ -7,11 +7,11 @@ import { setToken } from '../store/slices/auth/authSlice';
 import { setUsers } from '../store/slices/users/usersSlice';
 import { setTethers } from '../store/slices/tethers/tethersSlice';
 import { setOneUser } from '../store/slices/oneUser/oneUserSlice';
-// import { setParticipatingTethers } from '../store/slices/countParticipatingTethers/countParticipatingTethersSlice';
-// import { setCompleteTethers } from '../store/slices/countCompleteTethers/countCompleteTethersSlice';
 import { setOneUsersTethers } from '../store/slices/myTethers/myTethersSlice';
-// import { setParticipantLink } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
 import { setMyCompleteTethers } from '../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { setUser } from '../store/slices/user/userSlice';
+import { setallParticipantLinks } from '../store/slices/allParticipantLinks/allParticipantLinksSlice';
+import { setImpendingParticipantLink } from '../store/slices/impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 function Header() {
   const token = useAppSelector(({ auth }) => auth.token);
@@ -20,14 +20,15 @@ function Header() {
 
   function handleLogout() {
     dispatch(setToken({ token: '' }));
+    dispatch(setUser([]));
     dispatch(setUsers([]));
     dispatch(setTethers([]));
     dispatch(setOneUser([]));
-    // dispatch(setParticipatingTethers([]));
-    // dispatch(setCompleteTethers([]));
     dispatch(setOneUsersTethers([]));
     dispatch(setMyCompleteTethers([]));
-    // dispatch(setParticipantLink(''));
+    dispatch(setallParticipantLinks([]));
+    dispatch(setImpendingParticipantLink([]));
+    setActiveLink('');
   }
 
   return (

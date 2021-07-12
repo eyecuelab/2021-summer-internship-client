@@ -12,7 +12,7 @@ const PlusCircle = () => {
   );
 };
 
-const Add = styled.button`
+const Add = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,6 +20,7 @@ const Add = styled.button`
   background: none;
   border: none;
   padding: 0;
+  pointer-events: none;
 `
 
 export default PlusCircle;

@@ -15,7 +15,7 @@ function* fetchAllTethers() {
   }
 }
 
-function* createNewTether(action: PayloadAction<{ tether_action: string; tether_quantity: number; tether_noun: string; tether_duration: string }>) {
+function* createNewTether(action: PayloadAction<{ tether_activity: string; tether_duration: number; tether_duration_noun: string; tether_frequency: string; tether_timespan: number }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
   if (success) {
     yield put(setImpendingParticipantLink(data.tether_id));

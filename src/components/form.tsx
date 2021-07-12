@@ -18,6 +18,12 @@ interface TetherFormData {
   tether_timespan: number;
 };
 
+interface ParticipantFormData {
+  tether_id: string;
+  user_id: string;
+  links_total: number;
+};
+
 const schema = yup.object().shape({
   tether_activity: yup.string().required(),
   tether_duration: yup.number().positive().integer().required(),
@@ -64,6 +70,12 @@ const Form: FC<FormProps> = (props) => {
     setFormStep('two');
     // closeModal();
   };
+  
+  // Debugger flagged this as happening on every event relating to the form
+  // Look into this!!
+  const handleCreateParticipantLink = (data: ParticipantFormData) => {
+    dispatch(createParticipant(data));
+  }
 
   // const handleSelectUsername = (user_id: string) => {
   //   if (selectedUsername === user_id) {
@@ -72,12 +84,6 @@ const Form: FC<FormProps> = (props) => {
   //     setSelectedUsername(user_id);
   //   }
   // };
-
-  // Debugger flagged this as happening on every event relating to the form
-  // Look into this!!
-  const handleCreateParticipantLink = (data: {tether_id: string, user_id: string}) => {
-    dispatch(createParticipant(data));
-  }
 
   return (
     <TetherForm
@@ -183,7 +189,16 @@ const Form: FC<FormProps> = (props) => {
                 <>
                   <Map key={user.id}>
                     <p>{user.username}</p>
-                    <ProposeButton type="button" onClick={() => handleCreateParticipantLink({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></ProposeButton>
+                    <ProposeButton
+                      type="button"
+                      onClick={
+                        () => {
+                          handleCreateParticipantLink(
+                          {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
+                        }
+                      }>
+                      <ProposeTether />
+                    </ProposeButton>
                   </Map>
                   <hr />
                 </>
@@ -203,7 +218,7 @@ const Form: FC<FormProps> = (props) => {
         }
         {
           formStep === 'two' &&
-          <button type="submit" value="Submit">
+          <button onClick={closeModal}>
             Request Tether
           </button>
         }

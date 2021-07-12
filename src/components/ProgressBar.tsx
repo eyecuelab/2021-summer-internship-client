@@ -1,14 +1,31 @@
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import PlusCircle from "./PlusCircle";
 // import { useAppSelector } from "../hooks";
 
-const ProgressBar = () => {
+
+
+const ProgressBar: FC = () => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   return (
     < Bar >
-      <Link><PlusCircle /></Link>
+      <TetherLink onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        {isHovering && <PlusCircle />}
+      </TetherLink>
     </Bar >
   )
 };
+
+export default ProgressBar;
 
 const Bar = styled.map`
   display: flex;
@@ -21,7 +38,7 @@ const Bar = styled.map`
   margin: 50px 0px;
 `;
 
-const Link = styled.div`
+const TetherLink = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,16 +46,7 @@ const Link = styled.div`
   height: 12px;
   background: #C1ECFF;
   border-radius: 60px;
+  border: none;
   margin: 5px;
+  cursor: pointer;
 `;
-
-export default ProgressBar;
-
-// const myTethers = useAppSelector((state) => state.myTethers);
-// myTethers?.map((myTether) => {
-//   return (
-//     <Bar key={myTether.tether_id}>
-//       <Link>{myTether.links_total}</Link>
-//     </Bar>
-//   );
-// });

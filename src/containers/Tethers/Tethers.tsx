@@ -14,6 +14,7 @@ import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
+import PlusCircle from '../../components/PlusCircle';
 import BellCircleDark from '../../components/BellCircleDark'
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 
@@ -28,6 +29,15 @@ const Tethers: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
 
   useEffect(() => {
     return () => {
@@ -115,6 +125,7 @@ const Tethers: FC = () => {
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
             // const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
             const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />;
+
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
@@ -140,7 +151,20 @@ const Tethers: FC = () => {
                         {(completeLinksRendered > 0) &&
                         [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
-                        [...Array(currentPluses)].map(() => <ProgressBar key={myTether.id}/>)}
+                        [...Array(currentPluses)].map(() =>
+                          // <ProgressBar onClick={() => alert('test')} key={myTether.id}/>
+                          // <ProgressBar>
+                            <ProgressButton
+                              onMouseOver={handleMouseOver}
+                              onMouseOut={handleMouseOut}
+                              onClick={() => alert(myTether.id)}
+                              key={myTether.id}
+                            >
+                            {isHovering && <PlusCircle />}
+                            </ProgressButton>
+                          // </ProgressBar>
+                          )
+                        }
                         {(linksRemainingUntilComplete >= 1) &&
                         [...Array(linksRemainingUntilComplete)].map((e, i) => <BlankBar key={i}/>)}
                       </ProgressAndBell>
@@ -177,6 +201,22 @@ const Tethers: FC = () => {
 };
 
 export default Tethers;
+
+const ProgressButton = styled.button`
+  border: none;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 12px;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding: 5px;
+  background: #C1ECFF;
+  border-radius: 60px;
+  cursor: pointer;
+`
 
 const CurrentCompleted = styled.div`
   display: flex;

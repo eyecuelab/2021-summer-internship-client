@@ -11,7 +11,7 @@ const createParticipantLinkSlice = createSlice({
       const participantLink = action.payload;
       return participantLink;
     },
-    createParticipant(state, action: PayloadAction<{ tether_id: string, user_id: string }>) {},
+    createParticipant(state, action: PayloadAction<{ tether_id: string, user_id: string, links_total: number }>) {},
   },
 });
 
