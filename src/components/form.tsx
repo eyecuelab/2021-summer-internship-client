@@ -55,7 +55,7 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
-  const [friendSelected, setFriendSelected] = useState('unselected');
+  // const [friendSelected, setFriendSelected] = useState('unselected');
   // const [selectedUsername, setSelectedUsername] = useState('');
 
   const onSubmit = (data: TetherFormData) => {
@@ -183,7 +183,7 @@ const Form: FC<FormProps> = (props) => {
                 <>
                   <Map key={user.id}>
                     <p>{user.username}</p>
-                    <ProposeButton onClick={() => handleCreateParticipantLink({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></ProposeButton>
+                    <ProposeButton type="button" onClick={() => handleCreateParticipantLink({tether_id: participantId.toString(), user_id: user.id})}><ProposeTether /></ProposeButton>
                   </Map>
                   <hr />
                 </>
