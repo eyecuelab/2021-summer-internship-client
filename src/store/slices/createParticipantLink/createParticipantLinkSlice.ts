@@ -11,10 +11,6 @@ const createParticipantLinkSlice = createSlice({
       const participantLink = action.payload;
       return participantLink;
     },
-    // setLocalTetherLink(state, action) {
-    //   const localTetherLink = action.payload;
-    //   return localTetherLink;
-    // },
     createParticipant(state, action: PayloadAction<{ tether_id: string, user_id: string }>) {},
   },
 });
