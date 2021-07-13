@@ -17,6 +17,7 @@ import PlusSign from '../../components/PlusSign';
 import PlusCircle from '../../components/PlusCircle';
 import BellCircleDark from '../../components/BellCircleDark'
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { createIncrementId, getIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 
 Modal.setAppElement('#root');
 
@@ -30,6 +31,7 @@ const Tethers: FC = () => {
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
   const [isHovering, setIsHovering] = useState(false);
+  const [rotateChevron, setRotateChevron] = useState(false);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -41,8 +43,7 @@ const Tethers: FC = () => {
 
   useEffect(() => {
     return () => {
-      // dispatch(setUsers([]));
-      // dispatch(setTethers([]));
+      // dispatch(getOneUsersTethers(user.id));
     }
   }, [dispatch])
 
@@ -53,6 +54,10 @@ const Tethers: FC = () => {
       setExpandedTether(tether_id);
     }
   };
+
+  const handleIncrement = (id: string) => {
+    dispatch(createIncrementId({id}));
+  }
 
   function handleGetTethers() {
     dispatch(getOneUsersTethers(user.id));
@@ -91,7 +96,7 @@ const Tethers: FC = () => {
         <StatusText
           inactive={activeStatus === 'current'}
           onClick={() => {
-            setActiveStatus('completed')
+            setActiveStatus('completed');
             handleGetCompletedTethers();
           }}
         >
@@ -133,7 +138,13 @@ const Tethers: FC = () => {
                     {myTether.tether_id.tether_name}
                     <Edit><p>Edit</p></Edit>
                   </TitleAndEdit>
-                  <Chev onClick={() => handleExpandTether(myTether.tether_id)}>
+                  <Chev
+                    rotate={ rotateChevron === true}
+                    onClick= {() => {
+                      handleExpandTether(myTether.tether_id);
+                      setRotateChevron(!rotateChevron);
+                    }}
+                  >
                     <Chevron />
                   </Chev>
                 </Map>
@@ -157,7 +168,7 @@ const Tethers: FC = () => {
                             <ProgressButton
                               onMouseOver={handleMouseOver}
                               onMouseOut={handleMouseOut}
-                              onClick={() => alert(myTether.id)}
+                              onClick={() => handleIncrement(myTether.id)}
                               key={myTether.id}
                             >
                             {isHovering && <PlusCircle />}
@@ -292,7 +303,6 @@ const StatusText = styled.p<{ inactive: Boolean }>`
 `;
 
 const TethersListContainer = styled.div`
-
 `
 
 const CurrentTethersList = styled.div`
@@ -328,7 +338,7 @@ const Map = styled.map`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
-  `;
+`;
 
 const Edit = styled.div`
   font-family: Work Sans;
@@ -342,10 +352,12 @@ const Edit = styled.div`
   }
 `;
 
-const Chev = styled.button`
+const Chev = styled.button<{ rotate: Boolean }>`
   cursor: pointer;
   background: none;
   border: none;
+  transition-duration:0.5s;
+  ${(props) => props.rotate && 'transform:rotate(180deg);'}
 `;
 
 const Expanded = styled.div`
@@ -384,4 +396,4 @@ const ProgressAndBellAndBell = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`
+`;
