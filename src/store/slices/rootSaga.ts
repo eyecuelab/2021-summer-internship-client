@@ -8,7 +8,8 @@ import { watchMyCompleteTethers } from './myCompleteTethers/sagas';
 import { watchallParticipantLinks } from './allParticipantLinks/sagas';
 import { watchCreateParticipantLink } from './createParticipantLink/sagas';
 import { watchIncrementId } from './incrementId/sagas';
+import { watchRingTheBell } from './ringTheBell/sagas';
 
 export default function* rootSaga() {
-  yield all([watchAllAuth(), watchAllUsers(), watchAllTethers(), watchOneUser(), watchOneUsersTethers(), watchMyCompleteTethers(), watchallParticipantLinks(), watchCreateParticipantLink(), watchIncrementId()]);
+  yield all([watchAllAuth(), watchAllUsers(), watchAllTethers(), watchOneUser(), watchOneUsersTethers(), watchMyCompleteTethers(), watchallParticipantLinks(), watchCreateParticipantLink(), watchIncrementId(), watchRingTheBell()]);
 }
