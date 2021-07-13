@@ -3,21 +3,19 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setUsers } from '../../store/slices/users/usersSlice';
-import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import Form from '../../components/form';
 import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import Chevron from '../../components/chevron';
-import ProgressBar from '../../components/ProgressBar';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
 import PlusCircle from '../../components/PlusCircle';
-import BellCircleDark from '../../components/BellCircleDark'
+// import BellCircleDark from '../../components/BellCircleDark'
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId, getIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 
 Modal.setAppElement('#root');
 
@@ -29,9 +27,9 @@ const Tethers: FC = () => {
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
-  const [expandedTether, setExpandedTether] = useState('');
   const [isHovering, setIsHovering] = useState(false);
-  const [rotateChevron, setRotateChevron] = useState(false);
+  const [expandedTether, setExpandedTether] = useState('');
+  const [rotateChevron, setRotateChevron] = useState('');
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -50,13 +48,20 @@ const Tethers: FC = () => {
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
       setExpandedTether('');
+      setRotateChevron('');
     } else {
       setExpandedTether(tether_id);
+      setRotateChevron(tether_id)
     }
   };
 
   const handleIncrement = (id: string) => {
     dispatch(createIncrementId({id}));
+  }
+
+  const handleRingTheBell = (tether_id: string) => {
+    alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
+    dispatch(createRingTheBell({tether_id}));
   }
 
   function handleGetTethers() {
@@ -128,9 +133,11 @@ const Tethers: FC = () => {
             const completeLinksRendered = parseInt(myTether.links_completed);
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
-            // const formattedDate = dayjs(myTether.tether_id.tether_opened_on).format('MM/DD/YYYY');
-            const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />;
-
+            const bell = (currentPluses) ? <BellCircle /> :
+              <TestBellButton
+                onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
+                key={myTether.id}
+              />
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
@@ -139,10 +146,9 @@ const Tethers: FC = () => {
                     <Edit><p>Edit</p></Edit>
                   </TitleAndEdit>
                   <Chev
-                    rotate={ rotateChevron === true}
+                    expanded={ rotateChevron === myTether.tether_id }
                     onClick= {() => {
                       handleExpandTether(myTether.tether_id);
-                      setRotateChevron(!rotateChevron);
                     }}
                   >
                     <Chevron />
@@ -153,18 +159,14 @@ const Tethers: FC = () => {
                   <Expanded>
                     <NameAndPercent>
                       <p>{myTether.tether_id.tether_name}</p>
-                      {/* <p>Created by - {myTether.tether_id.tether_created_by_plain}</p> */}
-                      {/* <p>Opened on - {formattedDate}</p> */}
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
-                    <ProgressAndBellAndBell>
+                    <TetherContainer>
                       <ProgressAndBell>
                         {(completeLinksRendered > 0) &&
                         [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
                         [...Array(currentPluses)].map(() =>
-                          // <ProgressBar onClick={() => alert('test')} key={myTether.id}/>
-                          // <ProgressBar>
                             <ProgressButton
                               onMouseOver={handleMouseOver}
                               onMouseOut={handleMouseOut}
@@ -173,15 +175,13 @@ const Tethers: FC = () => {
                             >
                             {isHovering && <PlusCircle />}
                             </ProgressButton>
-                          // </ProgressBar>
                           )
                         }
                         {(linksRemainingUntilComplete >= 1) &&
                         [...Array(linksRemainingUntilComplete)].map((e, i) => <BlankBar key={i}/>)}
                       </ProgressAndBell>
                       {bell}
-                      {/* <BellCircle /> */}
-                    </ProgressAndBellAndBell>
+                    </TetherContainer>
                   </Expanded>
                 }
                 <hr />
@@ -197,8 +197,7 @@ const Tethers: FC = () => {
               <CurrentTethersList>
                 <Map key={myCompleteTether.tether_id}>
                   <TitleAndEdit>
-                    <p>{myCompleteTether.tether_name}</p>
-                    <p>Completed on {formattedDate}</p>
+                    <p>{myCompleteTether.tether_name} Completed on {formattedDate}</p>
                   </TitleAndEdit>
                 </Map>
                 <hr />
@@ -212,6 +211,20 @@ const Tethers: FC = () => {
 };
 
 export default Tethers;
+
+const TestBellButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  opacity: .5;
+  width: 50px;
+  height: 50px;
+  background-image: 'url(https://cdn.discordapp.com/attachments/799876599372840964/864636702937448508/temp.png)';
+`
 
 const ProgressButton = styled.button`
   border: none;
@@ -352,12 +365,12 @@ const Edit = styled.div`
   }
 `;
 
-const Chev = styled.button<{ rotate: Boolean }>`
+const Chev = styled.button<{ expanded: Boolean }>`
   cursor: pointer;
   background: none;
   border: none;
-  transition-duration:0.5s;
-  ${(props) => props.rotate && 'transform:rotate(180deg);'}
+  transition-duration:0.3s;
+  ${(props) => props.expanded && 'transform:rotate(180deg);'}
 `;
 
 const Expanded = styled.div`
@@ -390,7 +403,7 @@ const ProgressAndBell = styled.div`
   margin: 50px 0px;
 `;
 
-const ProgressAndBellAndBell = styled.div`
+const TetherContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

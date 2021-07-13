@@ -14,6 +14,7 @@ const Friends: FC = () => {
   const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');
   const loggedInUser = useAppSelector((state) => state.oneUser);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     return () => {
@@ -51,7 +52,7 @@ const Friends: FC = () => {
           <h1>Friends</h1>
           <Search>
             <SearchIcon />
-            <SearchInput type='text' placeholder='Search Your Friends' />
+            <SearchInput type='text' placeholder='Search Your Friends' onChange={event => {setSearchTerm(event.target.value)}}/>
           </Search>
         </MainHeader>
         {
@@ -73,42 +74,81 @@ const Friends: FC = () => {
           show === 'users' &&
           users?.filter(user => user.id !== loggedInUser.id).map((user) => {
             // const filterIncludes = all.filter((e) => users.includes(e));
-            return (
-              <YourFriendsList>
-                <FullRowContainer>
-                  <RowUsername>
-                    <p key={user.id}>{user.username}</p>
-                  </RowUsername>
-                  <RowDataContainer>
-                    <DataTethers>
-                      <FriendAttributes>
-                        {/* Tethers Completed */}
-                        <p>{user.tethers_completed}</p>
-                      </FriendAttributes>
-                    </DataTethers>
-                    <DataShared>
-                      <FriendAttributes>
-                        {/* Shared... use Tethers Ongoing? */}
-                        <p>{user.tethers_completed}</p>
-                      </FriendAttributes>
-                    </DataShared>
-                    <DataXp>
-                      <FriendAttributes>
-                        {/* XP */}
-                        <p>{user.xp}</p>
-                      </FriendAttributes>
-                    </DataXp>
-                    <DataBadges>
-                      <FriendAttributes>
-                        {/* Badges (IN PROGRESS) */}
-                        <p>{(user.xp) * 5}</p>
-                      </FriendAttributes>
-                    </DataBadges>
-                  </RowDataContainer>
-                </FullRowContainer>
-                <hr />
-              </YourFriendsList>
-            );
+            if ( searchTerm === '') {
+              return (
+                <YourFriendsList>
+                  <FullRowContainer>
+                    <RowUsername>
+                      <p key={user.id}>{user.username}</p>
+                    </RowUsername>
+                    <RowDataContainer>
+                      <DataTethers>
+                        <FriendAttributes>
+                          {/* Tethers Completed */}
+                          <p>{user.tethers_completed}</p>
+                        </FriendAttributes>
+                      </DataTethers>
+                      <DataShared>
+                        <FriendAttributes>
+                          {/* Shared... use Tethers Ongoing? */}
+                          <p>{user.tethers_completed}</p>
+                        </FriendAttributes>
+                      </DataShared>
+                      <DataXp>
+                        <FriendAttributes>
+                          {/* XP */}
+                          <p>{user.xp}</p>
+                        </FriendAttributes>
+                      </DataXp>
+                      <DataBadges>
+                        <FriendAttributes>
+                          {/* Badges (IN PROGRESS) */}
+                          <p>{(user.xp) * 5}</p>
+                        </FriendAttributes>
+                      </DataBadges>
+                    </RowDataContainer>
+                  </FullRowContainer>
+                  <hr />
+                </YourFriendsList>
+              );
+            } else if (user.username.toLowerCase().includes(searchTerm.toLowerCase())) {
+              return (
+                <YourFriendsList>
+                  <FullRowContainer>
+                    <RowUsername>
+                      <p key={user.id}>{user.username}</p>
+                    </RowUsername>
+                    <RowDataContainer>
+                      <DataTethers>
+                        <FriendAttributes>
+                          {/* Tethers Completed */}
+                          <p>{user.tethers_completed}</p>
+                        </FriendAttributes>
+                      </DataTethers>
+                      <DataShared>
+                        <FriendAttributes>
+                          {/* Shared... use Tethers Ongoing? */}
+                          <p>{user.tethers_completed}</p>
+                        </FriendAttributes>
+                      </DataShared>
+                      <DataXp>
+                        <FriendAttributes>
+                          {/* XP */}
+                          <p>{user.xp}</p>
+                        </FriendAttributes>
+                      </DataXp>
+                      <DataBadges>
+                        <FriendAttributes>
+                          {/* Badges (IN PROGRESS) */}
+                          <p>{(user.xp) * 5}</p>
+                        </FriendAttributes>
+                      </DataBadges>
+                    </RowDataContainer>
+                  </FullRowContainer>
+                  <hr />
+                </YourFriendsList>
+              );
+            }
           })
         }
         {/* {

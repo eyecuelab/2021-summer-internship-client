@@ -10,7 +10,7 @@ const Loading: React.FC = () => (
       alignItems: 'center',
     }}
   >
-    <h1>Loading h1 component text</h1>
+    <h1>Loading...</h1>
   </div>
 );
 

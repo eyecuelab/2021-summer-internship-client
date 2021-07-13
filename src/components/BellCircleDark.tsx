@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-const BellCircle: FC = () => {
+const BellCircleDark: FC = () => {
   return (
     <Bell>
       <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,4 +37,4 @@ const Bell = styled.button`
   opacity: 1;
 `
 
-export default BellCircle;
+export default BellCircleDark;

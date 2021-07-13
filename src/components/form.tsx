@@ -7,6 +7,7 @@ import { createTether } from '../store/slices/tethers/tethersSlice';
 import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import FindFriendSearch from '../components/FindFriend';
+import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
 import { createParticipant } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
 
@@ -45,6 +46,7 @@ const Form: FC<FormProps> = (props) => {
   const { closeModal } = props;
   const dispatch = useAppDispatch();
   const [formStep, setFormStep] = useState('one');
+  const [searchTerm, setSearchTerm] = useState('');
   const users = useAppSelector((state) => state.users);
   const loggedInUser = useAppSelector((state) => state.oneUser);
   const participantId = useAppSelector((state) => state.impendingParticipantLink);
@@ -70,7 +72,7 @@ const Form: FC<FormProps> = (props) => {
     setFormStep('two');
     // closeModal();
   };
-  
+
   // Debugger flagged this as happening on every event relating to the form
   // Look into this!!
   const handleCreateParticipantLink = (data: ParticipantFormData) => {
@@ -175,7 +177,11 @@ const Form: FC<FormProps> = (props) => {
               <h1>FRIENDS</h1>
               <p>TETHERS</p>
               <p>SHARED</p>
-              <FindFriendSearch />
+              <Search>
+                <SearchIcon />
+                <SearchInput type='text' placeholder='Find Friend' onChange={event => {setSearchTerm(event.target.value)}}/>
+              </Search>
+              {/* <FindFriendSearch onChange={event => {setSearchTerm(event.target.value)}}/> */}
             </FriendAttributes>
             <hr />
           </FriendAttributesHeader>
@@ -185,24 +191,45 @@ const Form: FC<FormProps> = (props) => {
           <FriendsList>
           {
             users?.filter(user => user.id !== loggedInUser.id).map((user) => {
-              return (
-                <>
-                  <Map key={user.id}>
-                    <p>{user.username}</p>
-                    <ProposeButton
-                      type="button"
-                      onClick={
-                        () => {
-                          handleCreateParticipantLink(
-                          {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
-                        }
-                      }>
-                      <ProposeTether />
-                    </ProposeButton>
-                  </Map>
-                  <hr />
-                </>
-              );
+              if ( searchTerm === '') {
+                return (
+                  <>
+                    <Map key={user.id}>
+                      <p>{user.username}</p>
+                      <ProposeButton
+                        type="button"
+                        onClick={
+                          () => {
+                            handleCreateParticipantLink(
+                            {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
+                          }
+                        }>
+                        <ProposeTether />
+                      </ProposeButton>
+                    </Map>
+                    <hr />
+                  </>
+                );
+              } else if (user.username.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return (
+                  <>
+                    <Map key={user.id}>
+                      <p>{user.username}</p>
+                      <ProposeButton
+                        type="button"
+                        onClick={
+                          () => {
+                            handleCreateParticipantLink(
+                            {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
+                          }
+                        }>
+                        <ProposeTether />
+                      </ProposeButton>
+                    </Map>
+                    <hr />
+                  </>
+                );
+              }
             })
           }
           </FriendsList>
@@ -228,6 +255,56 @@ const Form: FC<FormProps> = (props) => {
 };
 
 export default Form;
+
+const Search = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 153px;
+  height: 30px;
+  margin-left: 28px;
+  background: #003E6A;
+  border:none;
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 16px;
+  &::placeholder {
+    color: #FFFFFF;
+  }
+  &:focus {
+    outline: none;
+    &::placeholder {
+      color: #003E6A;
+    }
+  }
+`;
+
+const SearchInput = styled.input`
+  width: 90px;
+  height: 20px;
+  background: #003E6A;
+  border:none;
+  color: #FFFFFF;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 16px;
+  padding-left: 5px;
+  &::placeholder {
+    color: #FFFFFF;
+  }
+  &:focus {
+    outline: none;
+    &::placeholder {
+      color: #003E6A;
+    }
+  }
+`
 
 const ProposeButton = styled.button`
   border: none;
