@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useAppSelector } from '../../hooks';
 import './index.css';
 import styled from 'styled-components';
-import AvatarCircle from '../../components/AvatarCircle'
+import AvatarCircle from '../../components/AvatarCircle';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
@@ -11,7 +11,7 @@ const Activity: FC = () => {
 
   return (
     <ActivityContainer className="Activity">
-      <AvatarCircle />
+        <AvatarCircle />
       <Profile>
         <Name>{user?.username}</Name>
         <DataTable>

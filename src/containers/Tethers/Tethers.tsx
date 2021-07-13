@@ -16,6 +16,7 @@ import PlusCircle from '../../components/PlusCircle';
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import BellCircleDark from '../../components/BellCircleDark';
 
 Modal.setAppElement('#root');
 
@@ -133,11 +134,11 @@ const Tethers: FC = () => {
             const completeLinksRendered = parseInt(myTether.links_completed);
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
-            const bell = (currentPluses) ? <BellCircle /> :
-              <button
-                onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
-                key={myTether.id}
-              />
+            const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />
+              // <button
+              //   onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
+              //   key={myTether.id}
+              // />
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
