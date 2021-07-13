@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createTether } from '../store/slices/tethers/tethersSlice';
 import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import FindFriendSearch from '../components/FindFriend';
 import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
 import { createParticipant } from '../store/slices/createParticipantLink/createParticipantLinkSlice';

@@ -134,7 +134,7 @@ const Tethers: FC = () => {
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
             const bell = (currentPluses) ? <BellCircle /> :
-              <TestBellButton
+              <button
                 onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
                 key={myTether.id}
               />
@@ -211,20 +211,6 @@ const Tethers: FC = () => {
 };
 
 export default Tethers;
-
-const TestBellButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  opacity: .5;
-  width: 50px;
-  height: 50px;
-  background-image: 'url(https://cdn.discordapp.com/attachments/799876599372840964/864636702937448508/temp.png)';
-`
 
 const ProgressButton = styled.button`
   border: none;
