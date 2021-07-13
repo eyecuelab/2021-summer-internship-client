@@ -8,6 +8,7 @@ import myTethersReducer from './myTethers/myTethersSlice'
 import myCompleteTethersReducer from './myCompleteTethers/myCompleteTethersSlice'
 import allParticipantLinksReducer from './allParticipantLinks/allParticipantLinksSlice';
 import fetchImpendingParticipantLinkReducer from './impendingParticipantLink/fetchImpendingParticipantLinkSlice';
+import incrementIdReducer from './incrementId/incrementIdSlice';
 
 export let rootReducer = combineReducers({
   auth: authReducer,
@@ -19,6 +20,7 @@ export let rootReducer = combineReducers({
   myCompleteTethers: myCompleteTethersReducer,
   allParticipantLinks: allParticipantLinksReducer,
   impendingParticipantLink: fetchImpendingParticipantLinkReducer,
+  incrementId: incrementIdReducer,
 });
 
 export default function createReducer(injectedReducers = {}) {
@@ -32,6 +34,7 @@ export default function createReducer(injectedReducers = {}) {
     myCompleteTethers: myCompleteTethersReducer,
     allParticipantLinks: allParticipantLinksReducer,
     impendingParticipantLink: fetchImpendingParticipantLinkReducer,
+    incrementId: incrementIdReducer,
     ...injectedReducers,
   });
 
