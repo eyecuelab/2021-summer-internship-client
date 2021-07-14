@@ -13,12 +13,17 @@
   justify-content: space-evenly;
   margin-bottom: 5rem;
 }
+.links a {
+  color: white;
+  text-decoration: none;
+}
 
 .input-container {
   display: flex;
-  width: 80%;
+  width: 50%;
   justify-content: space-evenly;
-  margin-bottom: 5rem;
+  align-items: baseline;
+  margin-bottom: 2rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -34,6 +39,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  font-weight: normal;
 }
 
 @keyframes App-logo-float {

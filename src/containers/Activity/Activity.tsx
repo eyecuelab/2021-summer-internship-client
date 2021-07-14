@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks';
 import './index.css';
 import styled from 'styled-components';
 import AvatarCircle from '../../components/AvatarCircle';
+import BellOval from '../../components/BellOval';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
@@ -46,6 +47,7 @@ const Activity: FC = () => {
               <p>Date</p>
               <Rings>
                 <p>Rings</p>
+                <BellOval />
               </Rings>
             </ActivityHeader>
           </ActivityCard>
@@ -161,6 +163,7 @@ const Rings = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   p {
     margin: 0px 9px;
   }

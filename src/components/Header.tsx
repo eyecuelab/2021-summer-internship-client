@@ -35,30 +35,32 @@ function Header() {
     <Navbar sticky='top'>
       <Nav>
         <Title>Tether</Title>
-        <LinksContainer>
-          <HeaderLink to='/tethers'
-            active={activeLink === 'tethers'}
-            onClick={() => setActiveLink('tethers')}
-          >
-            Tethers
-          </HeaderLink>
-          <HeaderLink to='/activity'
-            active={activeLink === 'activity'}
-            onClick={() => setActiveLink('activity')}
-          >
-            Activity
-          </HeaderLink>
-          <HeaderLink to='/friends'
-            active={activeLink === 'friends'}
-            onClick={() => setActiveLink('friends')}
-          >
-            Friends
-          </HeaderLink>
-          {token &&
-            <Logout onClick={handleLogout} >Logout</Logout>
-          }
-          {/* <img src={avatar} alt='avatar'/> */}
-        </LinksContainer>
+        {
+          token &&
+          <LinksContainer>
+            <HeaderLink to='/tethers'
+              active={activeLink === 'tethers'}
+              onClick={() => setActiveLink('tethers')}
+            >
+              Tethers
+            </HeaderLink>
+            <HeaderLink to='/activity'
+              active={activeLink === 'activity'}
+              onClick={() => setActiveLink('activity')}
+            >
+              Activity
+            </HeaderLink>
+            <HeaderLink to='/friends'
+              active={activeLink === 'friends'}
+              onClick={() => setActiveLink('friends')}
+            >
+              Friends
+            </HeaderLink>
+            {token &&
+              <Logout onClick={handleLogout} >Logout</Logout>
+            }
+          </LinksContainer>
+        }
       </Nav>
     </Navbar>
   );

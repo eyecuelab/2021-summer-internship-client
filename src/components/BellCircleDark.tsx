@@ -1,9 +1,13 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-const BellCircleDark: FC = () => {
+interface BellCircleDarkProps {
+  handleClick: () => void
+}
+
+const BellCircleDark: FC<BellCircleDarkProps> = (props) => {
   return (
-    <Bell>
+    <Bell onClick={props.handleClick}>
       <svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24.6195" r="24" fill="#00B2FF" />
         <g filter="url(#filter0_d)">

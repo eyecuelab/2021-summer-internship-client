@@ -33,7 +33,9 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
+  tether_activity: '',
   tether_duration: 1,
+  tether_duration_noun: '',
   tether_frequency: 'Day',
   tether_timespan: 10,
 };
@@ -104,13 +106,7 @@ const Form: FC<FormProps> = (props) => {
       </FormHeader>
       <FormTitle>
         <p>
-          {tetherActivity}{' '}
-          {tetherDuration}{' '}
-          {tetherDurationNoun}{' '}
-          a{' '}
-          {tetherFrequency}{' - '}
-          {tetherTimespan}{' '}
-          times
+        {`${tetherActivity} ${tetherDuration} ${tetherDurationNoun} a ${tetherFrequency} ${tetherTimespan} - times`}
         </p>
       </FormTitle>
 
@@ -121,7 +117,8 @@ const Form: FC<FormProps> = (props) => {
             <FormInputRow>
               <label htmlFor="activity">ACTIVITY</label>
               <TetherActivity
-                type="text"
+                type="text" onFocus={(e) => e.target.placeholder = ''}
+                placeholder="Read, Exercise, etc..."
                 {...register('tether_activity')}
               />
             </FormInputRow>
@@ -189,46 +186,25 @@ const Form: FC<FormProps> = (props) => {
           formStep === 'two' &&
           <FriendsList>
           {
-            users?.filter(user => user.id !== loggedInUser.id).map((user) => {
-              if ( searchTerm === '') {
-                return (
-                  <>
-                    <Map key={user.id}>
-                      <p>{user.username}</p>
-                      <ProposeButton
-                        type="button"
-                        onClick={
-                          () => {
-                            handleCreateParticipantLink(
-                            {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
-                          }
-                        }>
-                        <ProposeTether />
-                      </ProposeButton>
-                    </Map>
-                    <hr />
-                  </>
-                );
-              } else if (user.username.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return (
-                  <>
-                    <Map key={user.id}>
-                      <p>{user.username}</p>
-                      <ProposeButton
-                        type="button"
-                        onClick={
-                          () => {
-                            handleCreateParticipantLink(
-                            {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
-                          }
-                        }>
-                        <ProposeTether />
-                      </ProposeButton>
-                    </Map>
-                    <hr />
-                  </>
-                );
-              }
+            users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
+              return (
+                <>
+                  <Map key={user.id}>
+                    <p>{user.username}</p>
+                    <ProposeButton
+                      type="button"
+                      onClick={
+                        () => {
+                          handleCreateParticipantLink(
+                          {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
+                        }
+                      }>
+                      <ProposeTether />
+                    </ProposeButton>
+                  </Map>
+                  <hr />
+                </>
+              );
             })
           }
           </FriendsList>
@@ -412,7 +388,7 @@ const FormInputs = styled.div`
     line-height: 21px;
     padding: 0px 10px;
     &::placeholder {
-      color: #003E6A;
+      color: rgba(0, 62, 106, .75);
     }
   }
   select {

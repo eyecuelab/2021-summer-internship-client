@@ -13,6 +13,10 @@
   justify-content: space-evenly;
   margin-bottom: 5rem;
 }
+.links a {
+  color: white;
+  text-decoration: none;
+}
 
 .input-container {
   display: flex;

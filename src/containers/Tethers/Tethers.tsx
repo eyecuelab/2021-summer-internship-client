@@ -5,18 +5,18 @@ import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import './index.css';
 import Form from '../../components/form';
-import { getOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
 import Chevron from '../../components/chevron';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
 import PlusCircle from '../../components/PlusCircle';
-// import BellCircleDark from '../../components/BellCircleDark'
-import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
-import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import { getMyCompleteTethers, setMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { createIncrementId, getIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { createRingTheBell, getRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
+import Confetti from 'react-confetti'
 
 Modal.setAppElement('#root');
 
@@ -24,6 +24,7 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
+  const incrementId = useAppSelector((state) => state.incrementId);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -40,11 +41,7 @@ const Tethers: FC = () => {
     setIsHovering(false);
   };
 
-  useEffect(() => {
-    return () => {
-      // dispatch(getOneUsersTethers(user.id));
-    }
-  }, [dispatch])
+  useEffect(() => {}, []);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
@@ -52,39 +49,58 @@ const Tethers: FC = () => {
       setRotateChevron('');
     } else {
       setExpandedTether(tether_id);
-      setRotateChevron(tether_id)
+      setRotateChevron(tether_id);
     }
   };
 
   const handleIncrement = (id: string) => {
     dispatch(createIncrementId({id}));
+    dispatch(setIncrementId(incrementId));
   }
 
   const handleRingTheBell = (tether_id: string) => {
     alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
     dispatch(createRingTheBell({tether_id}));
+    dispatch(setOneUsersTethers(myTethers));
+    return (
+      <Confetti
+        width={1000}
+        height={1000}
+        numberOfPieces={200}
+        confettiSource={{x: 0, y: 0, w: 1000, h: 1000}}
+        friction={0.99}
+        wind={0}
+        gravity={0.1}
+        colors={['#f44336']}
+      />
+    )
   }
 
   function handleGetTethers() {
-    dispatch(getOneUsersTethers(user.id));
+    // dispatch(getOneUsersTethers(user.id));
+    dispatch(setOneUsersTethers(myTethers));
     setShow('tethers');
   }
-
+  
   function handleGetCompletedTethers() {
-    dispatch(getMyCompleteTethers(user.id));
+    // dispatch(getMyCompleteTethers(user.id));
+    dispatch(setMyCompleteTethers(myCompleteTethers));
     setShow('completed');
   }
-
+  
   function openModal() {
     setModalIsOpen(true);
+    dispatch(setOneUsersTethers(myTethers));
   }
 
   function closeModal() {
     setModalIsOpen(false);
+    dispatch(setOneUsersTethers(myTethers));
   }
-
+  
   function handleShowCreateTetherPage() {
     openModal();
+    dispatch(setOneUsersTethers(myTethers));
   }
 
   return (
@@ -134,7 +150,7 @@ const Tethers: FC = () => {
             const completeLinksRendered = parseInt(myTether.links_completed);
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
-            const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark />
+            const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark handleClick={() => {handleRingTheBell(myTether.tether_id.tether_id)}}/>
               // <button
               //   onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
               //   key={myTether.id}

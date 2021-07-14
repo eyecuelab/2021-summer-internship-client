@@ -6,6 +6,7 @@ import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import SearchIcon from '../../components/SearchIcon';
 import 'simplebar/dist/simplebar.min.css';
+import UserIcon from '../../components/UserIcon';
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -72,95 +73,46 @@ const Friends: FC = () => {
         <FriendsListContainer>
         {
           show === 'users' &&
-          users?.filter(user => user.id !== loggedInUser.id).map((user) => {
-            // const filterIncludes = all.filter((e) => users.includes(e));
-            if ( searchTerm === '') {
-              return (
-                <YourFriendsList>
-                  <FullRowContainer>
-                    <RowUsername>
-                      <p key={user.id}>{user.username}</p>
-                    </RowUsername>
-                    <RowDataContainer>
-                      <DataTethers>
-                        <FriendAttributes>
-                          {/* Tethers Completed */}
-                          <p>{user.tethers_completed}</p>
-                        </FriendAttributes>
-                      </DataTethers>
-                      <DataShared>
-                        <FriendAttributes>
-                          {/* Shared... use Tethers Ongoing? */}
-                          <p>{user.tethers_completed}</p>
-                        </FriendAttributes>
-                      </DataShared>
-                      <DataXp>
-                        <FriendAttributes>
-                          {/* XP */}
-                          <p>{user.xp}</p>
-                        </FriendAttributes>
-                      </DataXp>
-                      <DataBadges>
-                        <FriendAttributes>
-                          {/* Badges (IN PROGRESS) */}
-                          <p>{(user.xp) * 5}</p>
-                        </FriendAttributes>
-                      </DataBadges>
-                    </RowDataContainer>
-                  </FullRowContainer>
-                  <hr />
-                </YourFriendsList>
-              );
-            } else if (user.username.toLowerCase().includes(searchTerm.toLowerCase())) {
-              return (
-                <YourFriendsList>
-                  <FullRowContainer>
-                    <RowUsername>
-                      <p key={user.id}>{user.username}</p>
-                    </RowUsername>
-                    <RowDataContainer>
-                      <DataTethers>
-                        <FriendAttributes>
-                          {/* Tethers Completed */}
-                          <p>{user.tethers_completed}</p>
-                        </FriendAttributes>
-                      </DataTethers>
-                      <DataShared>
-                        <FriendAttributes>
-                          {/* Shared... use Tethers Ongoing? */}
-                          <p>{user.tethers_completed}</p>
-                        </FriendAttributes>
-                      </DataShared>
-                      <DataXp>
-                        <FriendAttributes>
-                          {/* XP */}
-                          <p>{user.xp}</p>
-                        </FriendAttributes>
-                      </DataXp>
-                      <DataBadges>
-                        <FriendAttributes>
-                          {/* Badges (IN PROGRESS) */}
-                          <p>{(user.xp) * 5}</p>
-                        </FriendAttributes>
-                      </DataBadges>
-                    </RowDataContainer>
-                  </FullRowContainer>
-                  <hr />
-                </YourFriendsList>
-              );
-            }
+          users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
+            return (
+              <YourFriendsList>
+                <FullRowContainer>
+                  <RowUsername>
+                    <UserIcon />
+                    <p key={user.id}>{user.username}</p>
+                  </RowUsername>
+                  <RowDataContainer>
+                    <DataTethers>
+                      <FriendAttributes>
+                        {/* Tethers Completed */}
+                        <p>{user.tethers_completed}</p>
+                      </FriendAttributes>
+                    </DataTethers>
+                    <DataShared>
+                      <FriendAttributes>
+                        {/* Shared... use Tethers Ongoing? */}
+                        <p>{user.tethers_completed}</p>
+                      </FriendAttributes>
+                    </DataShared>
+                    <DataXp>
+                      <FriendAttributes>
+                        {/* XP */}
+                        <p>{user.xp}</p>
+                      </FriendAttributes>
+                    </DataXp>
+                    <DataBadges>
+                      <FriendAttributes>
+                        {/* Badges (IN PROGRESS) */}
+                        <p>{(user.xp) * 5}</p>
+                      </FriendAttributes>
+                    </DataBadges>
+                  </RowDataContainer>
+                </FullRowContainer>
+                <hr />
+              </YourFriendsList>
+            );
           })
         }
-        {/* {
-          show === 'users' &&
-          all.flatMap((e) => {
-            return(
-              <p>
-                <p>{e.tether_id?.tether_name} created by {e.tether_id?.tether_created_by_plain}</p>
-              </p>
-            )
-          })
-        } */}
         </FriendsListContainer>
       </LeftSide>
       <RightSide>
@@ -423,6 +375,8 @@ const RequestXpAndBadges = styled.div`
 const FullRowContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 `
 
@@ -430,6 +384,7 @@ const RowUsername = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: left;
+  align-items: center;
 `
 const RowDataContainer = styled.div`
   display: flex;
