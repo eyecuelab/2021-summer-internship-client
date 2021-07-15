@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from 'react-modal';
@@ -39,10 +39,10 @@ const Tethers: FC = () => {
     setIsHovering(false);
   };
   
-  useEffect(() => {
-    dispatch(getMyCompleteTethers(user.id));
-    dispatch(getMyTethers(user.id));
-  }, [user]);
+  // useEffect(() => {
+  //   dispatch(getMyCompleteTethers(user.id));
+  //   dispatch(getMyTethers(user.id));
+  // }, [user]);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
@@ -54,13 +54,16 @@ const Tethers: FC = () => {
     }
   };
 
-  const handleIncrement = (id: string) => {
-    dispatch(setIncrementId({}));
-    dispatch(createIncrementId({id}));
+  const onSuccess = () => {
+    dispatch(getMyTethers(user.id));
   }
 
-  const handleRingTheBell = (tether_id: string) => {
-    dispatch(createRingTheBell({tether_id}));
+  const handleIncrement = (data:{id: string}) => {
+    dispatch(createIncrementId({data, onSuccess }));
+  }
+
+  const handleRingTheBell = (data:{tether_id: string}) => {
+    dispatch(createRingTheBell({data, onSuccess}));
   }
 
   function handleGetTethers() {
@@ -224,6 +227,7 @@ const ProgressButton = styled.button`
   background: #C1ECFF;
   border-radius: 60px;
   cursor: pointer;
+  transition: .3s;
 `
 
 const CurrentCompleted = styled.div`

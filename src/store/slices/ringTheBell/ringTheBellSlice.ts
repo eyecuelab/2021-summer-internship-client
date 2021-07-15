@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RingTheBellPayload } from './sagas';
 
 const initialState: any = "";
 
@@ -12,7 +13,7 @@ const ringTheBellSlice = createSlice({
       const increment = action.payload;
       return increment;
     },
-    createRingTheBell(state, action: PayloadAction<{ tether_id: string }>) {
+    createRingTheBell(state, action: PayloadAction<RingTheBellPayload>) {
       return state;
     },
   },

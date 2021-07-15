@@ -1,9 +1,6 @@
 import React, { FC, useState } from "react";
 import styled from "styled-components";
 import PlusCircle from "./PlusCircle";
-// import { useAppSelector } from "../hooks";
-
-
 
 const ProgressBar: FC = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -49,4 +46,5 @@ const TetherLink = styled.button`
   border: none;
   margin: 5px;
   cursor: pointer;
+  transition: .3s;
 `;

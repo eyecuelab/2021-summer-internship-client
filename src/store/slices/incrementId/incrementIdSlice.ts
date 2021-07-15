@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IncrementOneTetherPayload } from './sagas';
 
 const initialState: any = "";
 
@@ -12,7 +13,7 @@ const incrementIdSlice = createSlice({
       const increment = action.payload;
       return increment;
     },
-    createIncrementId(state, action: PayloadAction<{ id: string }>) {
+    createIncrementId(state, action: PayloadAction<IncrementOneTetherPayload>) {
       return state;
     },
   },
