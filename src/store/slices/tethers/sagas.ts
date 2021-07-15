@@ -15,10 +15,24 @@ function* fetchAllTethers() {
   }
 }
 
-function* createNewTether(action: PayloadAction<{ tether_activity: string; tether_duration: number; tether_duration_noun: string; tether_frequency: string; tether_timespan: number }>) {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload);
+export interface CreateTetherPayload {
+  data: {
+    tether_activity: string;
+    tether_duration: number;
+    tether_duration_noun: string;
+    tether_frequency: string;
+    tether_timespan: number
+    },
+    onSuccess: () => void 
+  }
+
+function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
+  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload.data);
   if (success) {
     yield put(setImpendingParticipantLink(data.tether_id));
+    if (action.payload.onSuccess) {
+      action.payload.onSuccess();
+    }
     return data;
   }
   if (error) {
@@ -27,8 +41,10 @@ function* createNewTether(action: PayloadAction<{ tether_activity: string; tethe
   }
 }
 
+const createTetherCallInitialData = { data: { tether_activity: '', tether_duration: 0, tether_duration_noun: '', tether_frequency: '', tether_timespan: 0 }, onSuccess: () => {} }
+
 // eslint-disable-next-line import/prefer-default-export
 export function* watchAllTethers() {
   yield takeEvery(getTethers().type, fetchAllTethers);
-  yield takeEvery(createTether({ tether_activity: '', tether_duration: 0, tether_duration_noun: '', tether_frequency: '', tether_timespan: 0 }).type, createNewTether);
+  yield takeEvery(createTether(createTetherCallInitialData).type, createNewTether);
 }

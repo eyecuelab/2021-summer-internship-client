@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createTether } from '../store/slices/tethers/tethersSlice';
-import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
@@ -48,10 +47,21 @@ const Form: FC<FormProps> = (props) => {
   const { closeModal } = props;
   const dispatch = useAppDispatch();
   const [formStep, setFormStep] = useState('one');
+  // const [formSubmitted, setFormSubmitted] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const users = useAppSelector((state) => state.users);
   const loggedInUser = useAppSelector((state) => state.oneUser);
   const participantId = useAppSelector((state) => state.impendingParticipantLink);
+
+  // useEffect(() => {
+  //   if (formSubmitted) {
+  //     dispatch(getMyTethers(loggedInUser.id));
+  //   }
+  //   return () => {
+  //     setFormSubmitted(false);
+  //   }
+  // }, [dispatch, formSubmitted, loggedInUser.id])
+
 
   const {
     register,
@@ -68,11 +78,13 @@ const Form: FC<FormProps> = (props) => {
   // const [friendSelected, setFriendSelected] = useState('unselected');
   // const [selectedUsername, setSelectedUsername] = useState('');
 
+  const onSuccess = () => {
+    dispatch(getMyTethers(loggedInUser.id));
+  }
+
   const onSubmit = (data: TetherFormData) => {
-    dispatch(createTether(data));
-    dispatch(getUsers());
+    dispatch(createTether({ data, onSuccess }));
     setFormStep('two');
-    // closeModal();
   };
 
   // Debugger flagged this as happening on every event relating to the form
