@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.16.6",
+    "canvas-confetti": "^1.4.0",
     "dayjs": "^1.10.5",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
