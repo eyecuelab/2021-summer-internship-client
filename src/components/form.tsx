@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
 import { createParticipantLink } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
+import { getMyTethers } from '../store/slices/myTethers/myTethersSlice';
 
 interface TetherFormData {
   tether_activity: string;

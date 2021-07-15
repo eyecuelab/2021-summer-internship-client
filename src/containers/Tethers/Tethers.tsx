@@ -17,6 +17,7 @@ import { createIncrementId, setIncrementId } from '../../store/slices/incrementI
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
 import Confetti from 'react-confetti';
+import { getImpendingParticipantLink } from '../../store/slices/impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 Modal.setAppElement('#root');
 
@@ -58,6 +59,7 @@ const Tethers: FC = () => {
   const handleIncrement = (id: string) => {
     dispatch(setIncrementId({}));
     dispatch(createIncrementId({id}));
+    dispatch(getMyTethers(user.id));
   }
 
   const handleRingTheBell = (tether_id: string) => {
