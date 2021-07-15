@@ -16,8 +16,6 @@ import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCom
 import { createIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
-import Confetti from 'react-confetti';
-import { getImpendingParticipantLink } from '../../store/slices/impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 Modal.setAppElement('#root');
 
@@ -59,28 +57,10 @@ const Tethers: FC = () => {
   const handleIncrement = (id: string) => {
     dispatch(setIncrementId({}));
     dispatch(createIncrementId({id}));
-    dispatch(getMyTethers(user.id));
   }
 
   const handleRingTheBell = (tether_id: string) => {
-    alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
     dispatch(createRingTheBell({tether_id}));
-    // confetti not working
-    return (
-      <>
-        <Confetti
-          width={1000}
-          height={1000}
-          numberOfPieces={200}
-          confettiSource={{x: 0, y: 0, w: 1000, h: 1000}}
-          friction={0.99}
-          wind={0}
-          gravity={0.1}
-          colors={['#f44336']}
-        />
-        {/* {dispatch(getMyTethers(user.id))} */}
-      </>
-    )
   }
 
   function handleGetTethers() {
@@ -156,10 +136,6 @@ const Tethers: FC = () => {
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
             const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark handleClick={() => {handleRingTheBell(myTether.tether_id.tether_id)}}/>
-              // <button
-              //   onClick={() => handleRingTheBell(myTether.tether_id.tether_id)}
-              //   key={myTether.id}
-              // />
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
