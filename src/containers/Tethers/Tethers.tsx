@@ -1,21 +1,22 @@
 import { FC, useState } from 'react';
-import dayjs from 'dayjs';
-import styled from 'styled-components';
-import Modal from 'react-modal';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import './index.css';
+import dayjs from 'dayjs';
+import Modal from 'react-modal';
+import styled from 'styled-components';
 import Form from '../../components/form';
-import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import Chevron from '../../components/chevron';
-import BellCircle from '../../components/BellCircle';
-import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
+import BlankBar from '../../components/BlankBar';
 import PlusSign from '../../components/PlusSign';
+import BellCircle from '../../components/BellCircle';
 import PlusCircle from '../../components/PlusCircle';
-import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
-import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import ConfettiEffect from '../../components/ConfettiEffect';
 import BellCircleDark from '../../components/BellCircleDark';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 
 Modal.setAppElement('#root');
 
@@ -30,6 +31,7 @@ const Tethers: FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [expandedTether, setExpandedTether] = useState('');
   const [rotateChevron, setRotateChevron] = useState('');
+  const [confettiVisible, setConfettiVisible] = useState(false);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -38,11 +40,6 @@ const Tethers: FC = () => {
   const handleMouseOut = () => {
     setIsHovering(false);
   };
-  
-  // useEffect(() => {
-  //   dispatch(getMyCompleteTethers(user.id));
-  //   dispatch(getMyTethers(user.id));
-  // }, [user]);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
@@ -64,6 +61,7 @@ const Tethers: FC = () => {
 
   const handleRingTheBell = (data:{tether_id: string}) => {
     dispatch(createRingTheBell({data, onSuccess}));
+    setConfettiVisible(true)
   }
 
   function handleGetTethers() {
@@ -94,6 +92,9 @@ const Tethers: FC = () => {
   return (
     <div>
       <CurrentCompleted>
+        {confettiVisible &&
+          <ConfettiEffect />
+        }
         <StatusText
           inactive={activeStatus === 'completed'}
           onClick={() => {
@@ -106,6 +107,7 @@ const Tethers: FC = () => {
         <StatusText
           inactive={activeStatus === 'current'}
           onClick={() => {
+            setExpandedTether('');
             setActiveStatus('completed');
             handleGetCompletedTethers();
           }}
@@ -227,7 +229,6 @@ const ProgressButton = styled.button`
   background: #C1ECFF;
   border-radius: 60px;
   cursor: pointer;
-  transition: .3s;
 `
 
 const CurrentCompleted = styled.div`
