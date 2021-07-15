@@ -6,7 +6,6 @@ import { createIncrementId, setIncrementId } from "./incrementIdSlice";
 function* createNewIncrement(action: PayloadAction<{ id: string }>) {
   const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/addIncrement/${action.payload.id}`, 'PATCH', action.payload);
   if (success) {
-    console.warn(data);
     yield put(setIncrementId(data));
     return data;
   }

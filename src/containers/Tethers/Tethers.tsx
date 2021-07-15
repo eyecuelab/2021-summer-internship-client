@@ -24,7 +24,6 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
-  const [magicVariable, setMagicVariable] = useState('');
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -35,41 +34,35 @@ const Tethers: FC = () => {
 
   const handleMouseOver = () => {
     setIsHovering(true);
-    // setMagicVariable('handleMouseOver');
   };
 
   const handleMouseOut = () => {
     setIsHovering(false);
-    // setMagicVariable('handleMouseOut');
   };
   
   useEffect(() => {
     dispatch(getMyCompleteTethers(user.id));
     dispatch(getMyTethers(user.id));
-  }, [magicVariable]);
+  }, [user]);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
       setExpandedTether('');
       setRotateChevron('');
-      setMagicVariable('expandedTetherNone');
     } else {
       setExpandedTether(tether_id);
       setRotateChevron(tether_id);
-      setMagicVariable('expandedTetherSome');
     }
   };
 
   const handleIncrement = (id: string) => {
     dispatch(setIncrementId({}));
     dispatch(createIncrementId({id}));
-    setMagicVariable('handleIncrement');
   }
 
   const handleRingTheBell = (tether_id: string) => {
     alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
     dispatch(createRingTheBell({tether_id}));
-    setMagicVariable('handleRingTheBell');
     // confetti not working
     return (
       <>
@@ -91,31 +84,26 @@ const Tethers: FC = () => {
   function handleGetTethers() {
     dispatch(getMyTethers(user.id));
     setShow('tethers');
-    setMagicVariable('handleGetTethers');
   }
 
   function handleGetCompletedTethers() {
     dispatch(getMyCompleteTethers(user.id));
     setShow('completed');
-    setMagicVariable('handleGetCompletedTethers');
   }
 
   function openModal() {
     setModalIsOpen(true);
     dispatch(setMyTethers(myTethers));
-    setMagicVariable('openModal');
   }
 
   function closeModal() {
     setModalIsOpen(false);
     dispatch(setMyTethers(myTethers));
-    setMagicVariable('closeModal');
   }
 
   function handleShowCreateTetherPage() {
     openModal();
     dispatch(setMyTethers(myTethers));
-    setMagicVariable('handleShowCreateTetherPage');
   }
 
   return (
