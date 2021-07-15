@@ -4,7 +4,7 @@ import { setUser } from '../user/userSlice';
 import { makeRequest } from '../../utils/makeRequest';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getOneUser } from '../oneUser/oneUserSlice';
-import { getOneUsersTethers } from '../myTethers/myTethersSlice';
+import { getMyTethers } from '../myTethers/myTethersSlice';
 import { getallParticipantLinks } from '../allParticipantLinks/allParticipantLinksSlice';
 import { getUsers } from '../users/usersSlice';
 import { getMyCompleteTethers } from '../myCompleteTethers/myCompleteTethersSlice';
@@ -25,7 +25,7 @@ function* loginUser(action: PayloadAction<{ username: string; password: string }
   if (success) {
     yield put(setToken({ token: data.access_token }));
     yield put(getOneUser());
-    yield put(getOneUsersTethers(data.sessionUser.user.id));
+    yield put(getMyTethers(data.sessionUser.user.id));
     yield put(getMyCompleteTethers(data.sessionUser.user.id));
     yield put(getUsers());
     yield put(getallParticipantLinks());

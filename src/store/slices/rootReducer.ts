@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import userReducer from './user/userSlice';
 import authReducer from './auth/authSlice';
 import usersReducer from './users/usersSlice';
 import tethersReducer from './tethers/tethersSlice';
@@ -13,7 +12,6 @@ import ringTheBellReducer from './ringTheBell/ringTheBellSlice';
 
 export let rootReducer = combineReducers({
   auth: authReducer,
-  // user: userReducer,
   users: usersReducer,
   tethers: tethersReducer,
   oneUser: oneUserReducer,
@@ -28,7 +26,6 @@ export let rootReducer = combineReducers({
 export default function createReducer(injectedReducers = {}) {
   rootReducer = combineReducers({
     auth: authReducer,
-    // user: userReducer,
     users: usersReducer,
     tethers: tethersReducer,
     oneUser: oneUserReducer,

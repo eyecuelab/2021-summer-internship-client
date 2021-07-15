@@ -1,7 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { makeRequest } from "../../utils/makeRequest";
-import { getOneUsersTethers } from "../myTethers/myTethersSlice";
 import { createIncrementId, setIncrementId } from "./incrementIdSlice";
 
 function* createNewIncrement(action: PayloadAction<{ id: string }>) {

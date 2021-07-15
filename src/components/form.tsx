@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
 import { createParticipantLink } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
-import { getOneUsersTethers } from '../store/slices/myTethers/myTethersSlice';
 
 interface TetherFormData {
   tether_activity: string;
@@ -79,7 +78,7 @@ const Form: FC<FormProps> = (props) => {
   // Look into this!!
   const handleCreateParticipantLink = (data: ParticipantFormData) => {
     dispatch(createParticipantLink(data));
-    // dispatch(getOneUsersTethers(loggedInUser.id))
+    // dispatch(getMyTethers(loggedInUser.id))
   }
 
   // const handleSelectUsername = (user_id: string) => {

@@ -5,7 +5,7 @@ import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
 import { getTethers, setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import { getOneUser, setOneUser } from '../../store/slices/oneUser/oneUserSlice';
-import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { setUser } from '../../store/slices/user/userSlice';
 import { setMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 import { setallParticipantLinks } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
@@ -23,7 +23,7 @@ const Users: FC = () => {
     return () => {
       dispatch(setUsers([]));
       dispatch(setTethers([]));
-      dispatch(setOneUsersTethers([]));
+      dispatch(setMyTethers([]));
     }
   }, [dispatch])
 
@@ -33,7 +33,7 @@ const Users: FC = () => {
     dispatch(setUsers([]));
     dispatch(setTethers([]));
     dispatch(setOneUser([]));
-    dispatch(setOneUsersTethers([]));
+    dispatch(setMyTethers([]));
     dispatch(setMyCompleteTethers([]));
     dispatch(setallParticipantLinks([]));
     dispatch(setImpendingParticipantLink([]));
@@ -55,7 +55,7 @@ const Users: FC = () => {
   }
 
   function handleGetMyTethers() {
-    dispatch(getOneUsersTethers(user.id));
+    dispatch(getMyTethers(user.id));
     setShow('myTethers');
   }
   

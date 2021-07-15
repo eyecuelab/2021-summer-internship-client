@@ -10,7 +10,6 @@ import AvatarCircle from '../../components/AvatarCircle';
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
-  const all = useAppSelector((state) => state.allParticipantLinks);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');

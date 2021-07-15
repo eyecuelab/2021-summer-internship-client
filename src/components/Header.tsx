@@ -7,7 +7,7 @@ import { setToken } from '../store/slices/auth/authSlice';
 import { setUsers } from '../store/slices/users/usersSlice';
 import { setTethers } from '../store/slices/tethers/tethersSlice';
 import { setOneUser } from '../store/slices/oneUser/oneUserSlice';
-import { setOneUsersTethers } from '../store/slices/myTethers/myTethersSlice';
+import { setMyTethers } from '../store/slices/myTethers/myTethersSlice';
 import { setMyCompleteTethers } from '../store/slices/myCompleteTethers/myCompleteTethersSlice';
 import { setUser } from '../store/slices/user/userSlice';
 import { setallParticipantLinks } from '../store/slices/allParticipantLinks/allParticipantLinksSlice';
@@ -24,7 +24,7 @@ function Header() {
     dispatch(setUsers([]));
     dispatch(setTethers([]));
     dispatch(setOneUser([]));
-    dispatch(setOneUsersTethers([]));
+    dispatch(setMyTethers([]));
     dispatch(setMyCompleteTethers([]));
     dispatch(setallParticipantLinks([]));
     dispatch(setImpendingParticipantLink([]));

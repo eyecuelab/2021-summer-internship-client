@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import './index.css';
 import Form from '../../components/form';
-import { getOneUsersTethers, setOneUsersTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import Chevron from '../../components/chevron';
 import BellCircle from '../../components/BellCircle';
 import BlankBar from '../../components/BlankBar';
@@ -13,11 +13,10 @@ import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
 import PlusCircle from '../../components/PlusCircle';
 import { getMyCompleteTethers, setMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId, getIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
-import { createRingTheBell, getRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
 import Confetti from 'react-confetti';
-import ProgressAvatar from '../../components/ProgressAvatar';
 
 Modal.setAppElement('#root');
 
@@ -25,7 +24,6 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
-  const incrementId = useAppSelector((state) => state.incrementId);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -41,11 +39,14 @@ const Tethers: FC = () => {
   const handleMouseOut = () => {
     setIsHovering(false);
   };
-
-  useEffect(() => {
+  
+  useEffect(() => 
+  {
     dispatch(getMyCompleteTethers(user.id));
-    dispatch(getOneUsersTethers(user.id));
-  }, [user]);
+    dispatch(getMyTethers(user.id));
+  },
+  [user]
+  );
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
@@ -60,7 +61,7 @@ const Tethers: FC = () => {
   const handleIncrement = (id: string) => {
     dispatch(createIncrementId({id}));
     // dispatch(setIncrementId(incrementId));
-    // dispatch(getOneUsersTethers(user.id));
+    // dispatch(getMyTethers(user.id));
   }
 
   const handleRingTheBell = (tether_id: string) => {
@@ -79,14 +80,14 @@ const Tethers: FC = () => {
           gravity={0.1}
           colors={['#f44336']}
         />
-        {/* {dispatch(getOneUsersTethers(user.id))} */}
+        {/* {dispatch(getMyTethers(user.id))} */}
       </>
     )
   }
 
   function handleGetTethers() {
-    // dispatch(getOneUsersTethers(user.id));
-    dispatch(setOneUsersTethers(myTethers));
+    // dispatch(getMyTethers(user.id));
+    dispatch(setMyTethers(myTethers));
     setShow('tethers');
   }
 
@@ -98,17 +99,17 @@ const Tethers: FC = () => {
 
   function openModal() {
     setModalIsOpen(true);
-    dispatch(setOneUsersTethers(myTethers));
+    dispatch(setMyTethers(myTethers));
   }
 
   function closeModal() {
     setModalIsOpen(false);
-    dispatch(setOneUsersTethers(myTethers));
+    dispatch(setMyTethers(myTethers));
   }
 
   function handleShowCreateTetherPage() {
     openModal();
-    dispatch(setOneUsersTethers(myTethers));
+    dispatch(setMyTethers(myTethers));
   }
 
   return (
@@ -189,8 +190,7 @@ const Tethers: FC = () => {
                     <TetherContainer>
                       <ProgressAndBell>
                         {(completeLinksRendered > 0) &&
-                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)
-                        }
+                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
                         [...Array(currentPluses)].map(() =>
                             <ProgressButton
