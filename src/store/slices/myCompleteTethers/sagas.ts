@@ -17,5 +17,5 @@ function* fetchMyCompleteTethers(action: PayloadAction<{ id: string }>) {
 
 // eslint-disable-next-line import/prefer-default-export
 export function* watchMyCompleteTethers() {
-  yield takeEvery(getMyCompleteTethers({ id: '', }).type, fetchMyCompleteTethers);
+  yield takeEvery(getMyCompleteTethers, fetchMyCompleteTethers);
 }

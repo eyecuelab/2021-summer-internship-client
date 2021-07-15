@@ -17,5 +17,5 @@ function* fetchMyTethers(action: PayloadAction<{ id: string }>) {
 
 // eslint-disable-next-line import/prefer-default-export
 export function* watchMyTethers() {
-  yield takeEvery(getMyTethers({ id: '', }).type, fetchMyTethers);
+  yield takeEvery(getMyTethers, fetchMyTethers);
 }

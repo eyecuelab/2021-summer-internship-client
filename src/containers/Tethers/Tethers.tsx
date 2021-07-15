@@ -61,7 +61,7 @@ const Tethers: FC = () => {
 
   const handleRingTheBell = (data:{tether_id: string}) => {
     dispatch(createRingTheBell({data, onSuccess}));
-    setConfettiVisible(true)
+    setConfettiVisible(true);
   }
 
   function handleGetTethers() {

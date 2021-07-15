@@ -14,5 +14,5 @@ function* fetchOneUser() {
 
 // eslint-disable-next-line import/prefer-default-export
 export function* watchOneUser() {
-  yield takeEvery(getOneUser().type, fetchOneUser);
+  yield takeEvery(getOneUser, fetchOneUser);
 }

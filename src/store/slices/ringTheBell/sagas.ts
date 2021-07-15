@@ -11,7 +11,6 @@ export interface RingTheBellPayload {
 }
 
 function* ringTheBell(action: PayloadAction<RingTheBellPayload>) {
-  console.log(action.payload.data)
   const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/complete/${action.payload.data}`, 'PATCH', action.payload);
   if (success) {
     yield put(setRingTheBell(data));
@@ -26,9 +25,7 @@ function* ringTheBell(action: PayloadAction<RingTheBellPayload>) {
   }
 }
 
-const ringTheBellInitialData = { data: { tether_id: '' }, onSuccess: () => {} }
-
 // eslint-disable-next-line import/prefer-default-export
 export function* watchRingTheBell() {
-  yield takeEvery(createRingTheBell(ringTheBellInitialData).type, ringTheBell);
+  yield takeEvery(createRingTheBell, ringTheBell);
 }

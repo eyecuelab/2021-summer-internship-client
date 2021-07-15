@@ -41,10 +41,8 @@ function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
   }
 }
 
-const createTetherCallInitialData = { data: { tether_activity: '', tether_duration: 0, tether_duration_noun: '', tether_frequency: '', tether_timespan: 0 }, onSuccess: () => {} }
-
 // eslint-disable-next-line import/prefer-default-export
 export function* watchAllTethers() {
-  yield takeEvery(getTethers().type, fetchAllTethers);
-  yield takeEvery(createTether(createTetherCallInitialData).type, createNewTether);
+  yield takeEvery(getTethers, fetchAllTethers);
+  yield takeEvery(createTether, createNewTether);
 }

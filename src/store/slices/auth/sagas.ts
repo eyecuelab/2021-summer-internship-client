@@ -38,6 +38,6 @@ function* loginUser(action: PayloadAction<{ username: string; password: string }
 
 // eslint-disable-next-line import/prefer-default-export
 export function* watchAllAuth() {
-  yield takeEvery(register({ username: '', email: '', password: '' }).type, registerUser);
-  yield takeEvery(login({ username: '', password: '' }).type, loginUser);
+  yield takeEvery(register, registerUser);
+  yield takeEvery(login, loginUser);
 }

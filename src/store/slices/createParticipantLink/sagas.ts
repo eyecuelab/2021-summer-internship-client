@@ -16,6 +16,5 @@ function* createParticipant(action: PayloadAction<{ tether_id: string; user_id: 
 }
 
 export function* watchCreateParticipantLink() {
-  yield takeEvery(createParticipantLink({ tether_id: '', user_id: '', links_total: 0 }).type, createParticipant
-  );
+  yield takeEvery(createParticipantLink, createParticipant);
 }

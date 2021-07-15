@@ -25,8 +25,7 @@ function* createNewIncrement(action: PayloadAction<IncrementOneTetherPayload>) {
   }
 }
 
-const createIncrementIdInitialData = { data: { id: '' }, onSuccess: () => {} }
 // eslint-disable-next-line import/prefer-default-export
 export function* watchIncrementId() {
-  yield takeEvery(createIncrementId(createIncrementIdInitialData).type, createNewIncrement);
+  yield takeEvery(createIncrementId, createNewIncrement);
 }
