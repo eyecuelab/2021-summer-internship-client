@@ -56,11 +56,11 @@ const Tethers: FC = () => {
   }
 
   const handleIncrement = (data:{id: string}) => {
-    dispatch(createIncrementId({data, onSuccess }));
+    dispatch(createIncrementId({ data, onSuccess }));
   }
 
   const handleRingTheBell = (data:{tether_id: string}) => {
-    dispatch(createRingTheBell({data, onSuccess}));
+    dispatch(createRingTheBell({ data, onSuccess }));
     setConfettiVisible(true);
   }
 
@@ -166,6 +166,8 @@ const Tethers: FC = () => {
                     </NameAndPercent>
                     <TetherContainer>
                       <ProgressAndBell>
+                        {/* Coming up with showing all users' progress here: */}
+                        {console.warn(myTether)}
                         {(completeLinksRendered > 0) &&
                         [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
