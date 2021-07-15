@@ -12,8 +12,8 @@ import BlankBar from '../../components/BlankBar';
 import DarkBar from '../../components/DarkBar';
 import PlusSign from '../../components/PlusSign';
 import PlusCircle from '../../components/PlusCircle';
-import { getMyCompleteTethers, setMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { createIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
 import Confetti from 'react-confetti';
@@ -24,6 +24,7 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
+  const [magicVariable, setMagicVariable] = useState('');
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,39 +35,41 @@ const Tethers: FC = () => {
 
   const handleMouseOver = () => {
     setIsHovering(true);
+    // setMagicVariable('handleMouseOver');
   };
 
   const handleMouseOut = () => {
     setIsHovering(false);
+    // setMagicVariable('handleMouseOut');
   };
   
-  useEffect(() => 
-  {
+  useEffect(() => {
     dispatch(getMyCompleteTethers(user.id));
     dispatch(getMyTethers(user.id));
-  },
-  [user]
-  );
+  }, [magicVariable]);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
       setExpandedTether('');
       setRotateChevron('');
+      setMagicVariable('expandedTetherNone');
     } else {
       setExpandedTether(tether_id);
       setRotateChevron(tether_id);
+      setMagicVariable('expandedTetherSome');
     }
   };
 
   const handleIncrement = (id: string) => {
+    dispatch(setIncrementId({}));
     dispatch(createIncrementId({id}));
-    // dispatch(setIncrementId(incrementId));
-    // dispatch(getMyTethers(user.id));
+    setMagicVariable('handleIncrement');
   }
 
   const handleRingTheBell = (tether_id: string) => {
     alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
     dispatch(createRingTheBell({tether_id}));
+    setMagicVariable('handleRingTheBell');
     // confetti not working
     return (
       <>
@@ -86,30 +89,33 @@ const Tethers: FC = () => {
   }
 
   function handleGetTethers() {
-    // dispatch(getMyTethers(user.id));
-    dispatch(setMyTethers(myTethers));
+    dispatch(getMyTethers(user.id));
     setShow('tethers');
+    setMagicVariable('handleGetTethers');
   }
 
   function handleGetCompletedTethers() {
-    // dispatch(getMyCompleteTethers(user.id));
-    dispatch(setMyCompleteTethers(myCompleteTethers));
+    dispatch(getMyCompleteTethers(user.id));
     setShow('completed');
+    setMagicVariable('handleGetCompletedTethers');
   }
 
   function openModal() {
     setModalIsOpen(true);
     dispatch(setMyTethers(myTethers));
+    setMagicVariable('openModal');
   }
 
   function closeModal() {
     setModalIsOpen(false);
     dispatch(setMyTethers(myTethers));
+    setMagicVariable('closeModal');
   }
 
   function handleShowCreateTetherPage() {
     openModal();
     dispatch(setMyTethers(myTethers));
+    setMagicVariable('handleShowCreateTetherPage');
   }
 
   return (
