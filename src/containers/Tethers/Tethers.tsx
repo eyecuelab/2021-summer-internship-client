@@ -16,7 +16,8 @@ import { getMyCompleteTethers, setMyCompleteTethers } from '../../store/slices/m
 import { createIncrementId, getIncrementId, setIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell, getRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import BellCircleDark from '../../components/BellCircleDark';
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
+import ProgressAvatar from '../../components/ProgressAvatar';
 
 Modal.setAppElement('#root');
 
@@ -41,7 +42,10 @@ const Tethers: FC = () => {
     setIsHovering(false);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getMyCompleteTethers(user.id));
+    dispatch(getOneUsersTethers(user.id));
+  }, [user]);
 
   const handleExpandTether = (tether_id: string) => {
     if (expandedTether === tether_id) {
@@ -55,24 +59,28 @@ const Tethers: FC = () => {
 
   const handleIncrement = (id: string) => {
     dispatch(createIncrementId({id}));
-    dispatch(setIncrementId(incrementId));
+    // dispatch(setIncrementId(incrementId));
+    // dispatch(getOneUsersTethers(user.id));
   }
 
   const handleRingTheBell = (tether_id: string) => {
     alert(`CONGRATULATIONS YOU RANG ${tether_id}`);
     dispatch(createRingTheBell({tether_id}));
-    dispatch(setOneUsersTethers(myTethers));
+    // confetti not working
     return (
-      <Confetti
-        width={1000}
-        height={1000}
-        numberOfPieces={200}
-        confettiSource={{x: 0, y: 0, w: 1000, h: 1000}}
-        friction={0.99}
-        wind={0}
-        gravity={0.1}
-        colors={['#f44336']}
-      />
+      <>
+        <Confetti
+          width={1000}
+          height={1000}
+          numberOfPieces={200}
+          confettiSource={{x: 0, y: 0, w: 1000, h: 1000}}
+          friction={0.99}
+          wind={0}
+          gravity={0.1}
+          colors={['#f44336']}
+        />
+        {/* {dispatch(getOneUsersTethers(user.id))} */}
+      </>
     )
   }
 
@@ -81,13 +89,13 @@ const Tethers: FC = () => {
     dispatch(setOneUsersTethers(myTethers));
     setShow('tethers');
   }
-  
+
   function handleGetCompletedTethers() {
     // dispatch(getMyCompleteTethers(user.id));
     dispatch(setMyCompleteTethers(myCompleteTethers));
     setShow('completed');
   }
-  
+
   function openModal() {
     setModalIsOpen(true);
     dispatch(setOneUsersTethers(myTethers));
@@ -97,7 +105,7 @@ const Tethers: FC = () => {
     setModalIsOpen(false);
     dispatch(setOneUsersTethers(myTethers));
   }
-  
+
   function handleShowCreateTetherPage() {
     openModal();
     dispatch(setOneUsersTethers(myTethers));
@@ -181,7 +189,8 @@ const Tethers: FC = () => {
                     <TetherContainer>
                       <ProgressAndBell>
                         {(completeLinksRendered > 0) &&
-                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
+                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)
+                        }
                         {(currentPluses > 0) &&
                         [...Array(currentPluses)].map(() =>
                             <ProgressButton

@@ -1,11 +1,33 @@
 import React from 'react';
+import styled from 'styled-components';
+import UserIcon from './UserIcon';
 
 const AvatarCircle = () => {
   return (
-    <svg width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="66" cy="66" r="66" fill="white"/>
-    </svg>
+    <Circle>
+      <Icon>
+        <UserIcon />
+      </Icon>
+    </Circle>
   );
 };
 
 export default AvatarCircle;
+
+const Circle = styled.div`
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+const Icon = styled.div`
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  overflow: hidden;
+  text-align: center;
+  padding-top: 3px;
+  opacity: .5;
+`;

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useAppSelector } from '../../hooks';
 import './index.css';
 import styled from 'styled-components';
-import AvatarCircle from '../../components/AvatarCircle';
+import ProfileAvatar from '../../components/ProfileAvatar';
 import BellOval from '../../components/BellOval';
 
 const Activity: FC = () => {
@@ -11,8 +11,8 @@ const Activity: FC = () => {
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
 
   return (
-    <ActivityContainer className="Activity">
-        <AvatarCircle />
+    <ActivityContainer>
+      <ProfileAvatar />
       <Profile>
         <Name>{user?.username}</Name>
         <DataTable>
@@ -61,13 +61,14 @@ export default Activity;
 const ActivityContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
+
 const Profile =styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
   margin-left: 0px;
-`
+`;
 
 const Name = styled.div`
   margin-left: 40px;
@@ -83,13 +84,13 @@ const DataTable = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-`
+`;
 
 const Cell = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-`
+`;
 
 const RowHeader = styled.div`
   display: flex;
@@ -103,7 +104,7 @@ const RowHeader = styled.div`
     line-height: 21px;
     text-transform: uppercase;
   }
-`
+`;
 
 const RowData = styled.div`
   display: flex;
@@ -120,7 +121,7 @@ const RowData = styled.div`
       margin: 0px;
     }
   }
-`
+`;
 
 const FriendActivity = styled.div`
   margin-left: 2vw;
@@ -144,7 +145,8 @@ const ActivityCard = styled.div`
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(25px);
   border-radius: 12px;
-`
+`;
+
 const ActivityHeader = styled.div`
   display: flex;
   flex-direction: row;

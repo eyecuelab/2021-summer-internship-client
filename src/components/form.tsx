@@ -8,7 +8,8 @@ import { getUsers } from '../store/slices/users/usersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import SearchIcon from '../components/SearchIcon';
 import ProposeTether from '../components/ProposeTether';
-import { createParticipant } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
+import { createParticipantLink } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
+import { getOneUsersTethers } from '../store/slices/myTethers/myTethersSlice';
 
 interface TetherFormData {
   tether_activity: string;
@@ -77,7 +78,8 @@ const Form: FC<FormProps> = (props) => {
   // Debugger flagged this as happening on every event relating to the form
   // Look into this!!
   const handleCreateParticipantLink = (data: ParticipantFormData) => {
-    dispatch(createParticipant(data));
+    dispatch(createParticipantLink(data));
+    // dispatch(getOneUsersTethers(loggedInUser.id))
   }
 
   // const handleSelectUsername = (user_id: string) => {

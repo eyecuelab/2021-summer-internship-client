@@ -6,7 +6,7 @@ import { setTethers } from '../../store/slices/tethers/tethersSlice';
 import './index.css';
 import SearchIcon from '../../components/SearchIcon';
 import 'simplebar/dist/simplebar.min.css';
-import UserIcon from '../../components/UserIcon';
+import AvatarCircle from '../../components/AvatarCircle';
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
@@ -78,7 +78,7 @@ const Friends: FC = () => {
               <YourFriendsList>
                 <FullRowContainer>
                   <RowUsername>
-                    <UserIcon />
+                    <AvatarCircle />
                     <p key={user.id}>{user.username}</p>
                   </RowUsername>
                   <RowDataContainer>
@@ -376,14 +376,14 @@ const FullRowContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
 `
 
 const RowUsername = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: left;
+  /* justify-content: left; */
+  white-space: nowrap;
   align-items: center;
 `
 const RowDataContainer = styled.div`
