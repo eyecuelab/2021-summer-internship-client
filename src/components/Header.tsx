@@ -10,7 +10,7 @@ import { setOneUser } from '../store/slices/oneUser/oneUserSlice';
 import { setMyTethers } from '../store/slices/myTethers/myTethersSlice';
 import { setMyCompleteTethers } from '../store/slices/myCompleteTethers/myCompleteTethersSlice';
 import { setUser } from '../store/slices/user/userSlice';
-import { setallParticipantLinks } from '../store/slices/allParticipantLinks/allParticipantLinksSlice';
+import { setAllParticipantLinks } from '../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import { setImpendingParticipantLink } from '../store/slices/impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 function Header() {
@@ -26,7 +26,7 @@ function Header() {
     dispatch(setOneUser([]));
     dispatch(setMyTethers([]));
     dispatch(setMyCompleteTethers([]));
-    dispatch(setallParticipantLinks([]));
+    dispatch(setAllParticipantLinks([]));
     dispatch(setImpendingParticipantLink([]));
     setActiveLink('');
   }

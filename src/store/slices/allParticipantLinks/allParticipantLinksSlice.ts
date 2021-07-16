@@ -6,14 +6,14 @@ const allParticipantLinksSlice = createSlice({
   name: 'allParticipantLinks',
   initialState,
   reducers: {
-    getallParticipantLinks() {},
-    setallParticipantLinks(state, action) {
+    getAllParticipantLinks() {},
+    setAllParticipantLinks(state, action) {
       const tethers = action.payload;
       return tethers;
     }
   },
 });
 
-export const { getallParticipantLinks, setallParticipantLinks } = allParticipantLinksSlice.actions;
+export const { getAllParticipantLinks, setAllParticipantLinks } = allParticipantLinksSlice.actions;
 
 export default allParticipantLinksSlice.reducer;
