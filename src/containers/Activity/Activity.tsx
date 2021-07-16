@@ -4,11 +4,13 @@ import './index.css';
 import styled from 'styled-components';
 import ProfileAvatar from '../../components/ProfileAvatar';
 import BellOval from '../../components/BellOval';
+import dayjs from 'dayjs';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myParticipatingTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
+  const recentTethers = useAppSelector((state) => state.recentTethers);
 
   return (
     <ActivityContainer>
@@ -50,6 +52,16 @@ const Activity: FC = () => {
                 <BellOval />
               </Rings>
             </ActivityHeader>
+            {recentTethers?.map((recentTether) => {
+              const formattedDate = dayjs(recentTether.tether_completed_on).format('MM/DD/YYYY');
+              return(
+                <>
+                  <p>{formattedDate}</p>
+                  <p>{recentTether.tether_name}</p>
+                  <p>-{recentTether.tether_created_by_plain}</p>
+                </>
+              )
+            })}
           </ActivityCard>
         </FriendActivity>
     </ActivityContainer>
