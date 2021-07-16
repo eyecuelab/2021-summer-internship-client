@@ -24,7 +24,7 @@ const Login: FC = () => {
         <InputContainer>
           <label htmlFor="username">
             Username{' '}
-            <input value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
+            <input spellCheck='false' value={username} onChange={(event) => setUsername(event.target.value)} name="username" />
           </label>
           <label htmlFor="password">
             Password{' '}
