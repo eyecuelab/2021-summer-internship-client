@@ -120,7 +120,7 @@ const Form: FC<FormProps> = (props) => {
       </FormHeader>
       <FormTitle>
         <p>
-        {`${tetherActivity} ${tetherDuration} ${tetherDurationNoun} a ${tetherFrequency} ${tetherTimespan} - times`}
+        {`${tetherActivity} - ${tetherDuration} ${tetherDurationNoun} a ${tetherFrequency}, ${tetherTimespan} times`}
         </p>
       </FormTitle>
 
@@ -358,6 +358,7 @@ const FormTitle = styled.div`
   line-height: 32px;
   background: linear-gradient(116.35deg, #006DBB 0%, #00B2FF 65.94%);
   color: #FFFFFF;
+  padding: 0px 50px;
 `;
 
 const FormInnerContent = styled.div`
