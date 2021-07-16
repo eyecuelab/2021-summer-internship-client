@@ -44,24 +44,13 @@ interface FormProps {
 };
 
 const Form: FC<FormProps> = (props) => {
-  const { closeModal } = props;
   const dispatch = useAppDispatch();
-  const [formStep, setFormStep] = useState('one');
-  // const [formSubmitted, setFormSubmitted] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const { closeModal } = props;
   const users = useAppSelector((state) => state.users);
   const loggedInUser = useAppSelector((state) => state.oneUser);
   const participantId = useAppSelector((state) => state.impendingParticipantLink);
-
-  // useEffect(() => {
-  //   if (formSubmitted) {
-  //     dispatch(getMyTethers(loggedInUser.id));
-  //   }
-  //   return () => {
-  //     setFormSubmitted(false);
-  //   }
-  // }, [dispatch, formSubmitted, loggedInUser.id])
-
+  const [formStep, setFormStep] = useState('one');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const {
     register,
@@ -75,8 +64,6 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
-  // const [friendSelected, setFriendSelected] = useState('unselected');
-  // const [selectedUsername, setSelectedUsername] = useState('');
 
   const onSuccess = () => {
     dispatch(getMyTethers(loggedInUser.id));
@@ -87,20 +74,9 @@ const Form: FC<FormProps> = (props) => {
     setFormStep('two');
   };
 
-  // Debugger flagged this as happening on every event relating to the form
-  // Look into this!!
   const handleCreateParticipantLink = (data: ParticipantFormData) => {
-    dispatch(createParticipantLink(data));
-    // dispatch(getMyTethers(loggedInUser.id))
+    dispatch(createParticipantLink({data, onSuccess}));
   }
-
-  // const handleSelectUsername = (user_id: string) => {
-  //   if (selectedUsername === user_id) {
-  //     setSelectedUsername('');
-  //   } else {
-  //     setSelectedUsername(user_id);
-  //   }
-  // };
 
   return (
     <TetherForm
@@ -109,6 +85,7 @@ const Form: FC<FormProps> = (props) => {
     >
       <FormHeader>
         <p>Create Tether</p>
+        {/* Remove inline styling */}
         {
           formStep === 'one' &&
           <p>Step 1/<span style={{ fontSize: '24px' }}>2</span></p>
@@ -191,7 +168,6 @@ const Form: FC<FormProps> = (props) => {
                 <SearchIcon />
                 <SearchInput type='text' placeholder='Find Friend' onChange={event => {setSearchTerm(event.target.value)}}/>
               </Search>
-              {/* <FindFriendSearch onChange={event => {setSearchTerm(event.target.value)}}/> */}
             </FriendAttributes>
             <hr />
           </FriendAttributesHeader>

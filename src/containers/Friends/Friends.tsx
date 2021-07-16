@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getUsers, setUsers } from '../../store/slices/users/usersSlice';
-import { setTethers } from '../../store/slices/tethers/tethersSlice';
+import { getUsers } from '../../store/slices/users/usersSlice';
 import './index.css';
 import SearchIcon from '../../components/SearchIcon';
 import 'simplebar/dist/simplebar.min.css';
@@ -15,13 +14,6 @@ const Friends: FC = () => {
   const [activeStatus, setActiveStatus] = useState('your');
   const loggedInUser = useAppSelector((state) => state.oneUser);
   const [searchTerm, setSearchTerm] = useState('');
-
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(setUsers([]));
-  //     dispatch(setTethers([]));
-  //   }
-  // }, [dispatch])
 
   function handleGetUsers() {
     dispatch(getUsers());
