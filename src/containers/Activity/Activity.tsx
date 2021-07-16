@@ -52,7 +52,7 @@ const Activity: FC = () => {
                 <BellOval />
               </Rings>
             </ActivityHeader>
-            {recentTethers?.map((recentTether) => {
+            {recentTethers?.filter(recentTether => recentTether.tether_created_by_plain !== user.username).map((recentTether) => {
               const formattedDate = dayjs(recentTether.tether_completed_on).format('MM/DD/YYYY');
               return(
                 <>
