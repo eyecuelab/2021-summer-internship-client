@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CreateParticipantPayload } from "./sagas";
 
 const initialState: any[] = [];
 
@@ -11,7 +12,7 @@ const createParticipantLinkSlice = createSlice({
       const participantLink = action.payload;
       return participantLink;
     },
-    createParticipantLink(state, action: PayloadAction<{ tether_id: string, user_id: string, links_total: number }>) {},
+    createParticipantLink(state, action: PayloadAction<CreateParticipantPayload>) {},
   },
 });
 

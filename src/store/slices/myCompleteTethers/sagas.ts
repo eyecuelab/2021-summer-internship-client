@@ -3,7 +3,14 @@ import { makeRequest } from '../../utils/makeRequest';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getMyCompleteTethers, setMyCompleteTethers } from './myCompleteTethersSlice';
 
-function* fetchMyCompleteTethers(action: PayloadAction<{ id: string }>) {
+export interface fetchMyCompleteTethersPayload {
+  data: {
+    id: string;
+  }
+  onSuccess: () => void
+}
+
+function* fetchMyCompleteTethers(action: PayloadAction<fetchMyCompleteTethersPayload>) {
   const id = action.payload;
   const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/complete/${id}`, 'GET');
   if (success) {
