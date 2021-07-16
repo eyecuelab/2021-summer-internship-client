@@ -1,13 +1,14 @@
-import { put, takeEvery, call } from 'redux-saga/effects';
-import { register, login, setToken } from './authSlice';
 import { setUser } from '../user/userSlice';
-import { makeRequest } from '../../utils/makeRequest';
+import { getUsers } from '../users/usersSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getOneUser } from '../oneUser/oneUserSlice';
+import { makeRequest } from '../../utils/makeRequest';
+import { register, login, setToken } from './authSlice';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import { getMyTethers } from '../myTethers/myTethersSlice';
-import { getallParticipantLinks } from '../allParticipantLinks/allParticipantLinksSlice';
-import { getUsers } from '../users/usersSlice';
+import { getRecentTethers } from '../recentTethers/recentTethersSlice';
 import { getMyCompleteTethers } from '../myCompleteTethers/myCompleteTethersSlice';
+import { getAllParticipantLinks } from '../allParticipantLinks/allParticipantLinksSlice';
 
 function* registerUser(action: PayloadAction<{ username: string; password: string; email: string }>) {
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/register', 'POST', action.payload);
@@ -28,7 +29,8 @@ function* loginUser(action: PayloadAction<{ username: string; password: string }
     yield put(getMyTethers(data.sessionUser.user.id));
     yield put(getMyCompleteTethers(data.sessionUser.user.id));
     yield put(getUsers());
-    yield put(getallParticipantLinks());
+    yield put(getAllParticipantLinks());
+    yield put(getRecentTethers());
   }
   if (error) {
     // handle api error

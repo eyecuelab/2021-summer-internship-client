@@ -1,7 +1,7 @@
-import { FC, useState, useEffect } from 'react';
 import './index.css';
 import dayjs from 'dayjs';
 import Modal from 'react-modal';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import Form from '../../components/form';
 import Chevron from '../../components/chevron';
@@ -14,26 +14,26 @@ import CongratsModal from '../../components/CongratsModal';
 import ConfettiEffect from '../../components/ConfettiEffect';
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 
 Modal.setAppElement('#root');
 
 const Tethers: FC = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
-  const dispatch = useAppDispatch();
   const [show, setShow] = useState('tethers');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [activeStatus, setActiveStatus] = useState('current');
   const [isHovering, setIsHovering] = useState(false);
-  const [expandedTether, setExpandedTether] = useState('');
-  const [rotateChevron, setRotateChevron] = useState('');
-  const [confettiVisible, setConfettiVisible] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [tetherTitle, setTetherTitle] = useState('');
+  const [activeStatus, setActiveStatus] = useState('current');
+  const [rotateChevron, setRotateChevron] = useState('');
+  const [expandedTether, setExpandedTether] = useState('');
+  const [confettiVisible, setConfettiVisible] = useState(false);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -57,22 +57,11 @@ const Tethers: FC = () => {
   const onSuccess = () => {
     dispatch(getMyTethers(user.id));
     setExpandedTether(expandedTether);
-    console.warn(expandedTether);
   }
 
   const handleIncrement = (data:{id: string}) => {
     dispatch(createIncrementId({ data, onSuccess }));
   }
-
-  // useEffect(() => {
-  //   if (confettiVisible) {
-  //     setConfettiVisible(false);
-  //     console.log(confettiVisible)
-  //   }
-  //   // return () => {
-  //   //   cleanup
-  //   // }
-  // }, [confettiVisible])
 
   const handleRingTheBell = (data:{tether_id: string}) => {
     dispatch(createRingTheBell({ data, onSuccess }));
