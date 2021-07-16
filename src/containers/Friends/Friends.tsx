@@ -229,7 +229,7 @@ const SearchInput = styled.input`
       color: #003E6A;
     }
   }
-`
+`;
 
 const StatusText = styled.p<{ inactive: Boolean }>`
   ${(props) => props.inactive && 'opacity: 0.5;'}
