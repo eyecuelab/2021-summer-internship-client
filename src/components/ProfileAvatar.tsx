@@ -4,9 +4,7 @@ import styled from 'styled-components';
 const ProfileAvatar = () => {
   return (
     <Circle>
-      <Icon>
-
-      </Icon>
+      <img src="http://placekitten.com/200/300" alt="kitten" />
     </Circle>
   );
 };
@@ -22,8 +20,9 @@ const Circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Icon = styled.div`
-
+  img {
+    width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  }
 `;

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ProfileAvatar from '../../components/ProfileAvatar';
 import BellOval from '../../components/BellOval';
 import dayjs from 'dayjs';
+import BadgeMap from '../../components/BadgeMap';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
@@ -41,34 +42,55 @@ const Activity: FC = () => {
             </Cell>
           </RowData>
         </DataTable>
+        <Badges>
+          <h1>{`Badges (14)`}</h1>
+          <BadgeMap />
+        </Badges>
       </Profile>
       <FriendActivity>
           <h1>Friend Activity</h1>
-          <ActivityCard>
-            <ActivityHeader>
-              <p>Date</p>
-              <Rings>
-                <p>Rings</p>
-                <BellOval />
-              </Rings>
-            </ActivityHeader>
+          <CardContainer>
             {recentTethers?.filter(recentTether => recentTether.tether_created_by_plain !== user.username).map((recentTether) => {
               const formattedDate = dayjs(recentTether.tether_completed_on).format('MM/DD/YYYY');
               return(
-                <>
+                <FriendActivityCard>
+                  <FriendActivityHeader>
                   <p>{formattedDate}</p>
-                  <p>{recentTether.tether_name}</p>
-                  <p>-{recentTether.tether_created_by_plain}</p>
-                </>
+                    <Rings>
+                      <p>Rings</p>
+                      <BellOval />
+                    </Rings>
+                  </FriendActivityHeader>
+                      <FriendActivityBody>
+                        <h2>{recentTether.tether_name}</h2>
+                        <p>{recentTether.tether_created_by_plain}</p>
+                      </FriendActivityBody>
+                </FriendActivityCard>
               )
             })}
-          </ActivityCard>
+          </CardContainer>
         </FriendActivity>
     </ActivityContainer>
   );
 };
 
 export default Activity;
+
+const Badges = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 40vh;
+  margin: 50px 40px;
+  h1 {
+    font-family: Gotham-Black;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: uppercase;
+  }
+`;
 
 const ActivityContainer = styled.div`
   display: flex;
@@ -137,6 +159,7 @@ const RowData = styled.div`
 
 const FriendActivity = styled.div`
   margin-left: 2vw;
+  cursor: default;
   h1 {
     font-family: Work Sans;
     font-style: normal;
@@ -148,18 +171,28 @@ const FriendActivity = styled.div`
   }
 `;
 
-const ActivityCard = styled.div`
+const CardContainer = styled.div`
+  height: 64vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const FriendActivityCard = styled.div`
   display: flex;
   flex-direction: column;
   width: 374px;
   height: 102px;
-  margin-top: 10px;
+  margin-top: 17px;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(25px);
   border-radius: 12px;
 `;
 
-const ActivityHeader = styled.div`
+const FriendActivityHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -180,5 +213,33 @@ const Rings = styled.div`
   align-items: center;
   p {
     margin: 0px 9px;
+  }
+`;
+
+const FriendActivityBody = styled.div`
+  margin: 0px 15px;
+  font-family: Work Sans;
+  overflow: hidden;
+  position: relative;
+  h2 {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 23px;
+    margin: auto 0;
+    position: absolute;
+    white-space: nowrap;
+    transform: translateX(0);
+    transition: 3.3s;
+    &:hover {
+      transform: translateX(calc(200px - 100%));
+    }
+  }
+  p {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    padding-top: 15px;
   }
 `;
