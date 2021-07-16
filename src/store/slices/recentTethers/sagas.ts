@@ -3,9 +3,8 @@ import { makeRequest } from '../../utils/makeRequest';
 import { setRecentTethers, getRecentTethers } from './recentTethersSlice';
 
 function* fetchRecentTethers() {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers/recent/recent/recent/recent', 'GET');
+  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers/recent', 'GET');
   if (success) {
-    console.log(data);
     yield put(setRecentTethers(data));
   }
   if (error) {
