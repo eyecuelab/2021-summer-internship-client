@@ -19,13 +19,13 @@ const Users: FC = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('');
 
-  useEffect(() => {
-    return () => {
-      dispatch(setUsers([]));
-      dispatch(setTethers([]));
-      dispatch(setMyTethers([]));
-    }
-  }, [dispatch])
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(setUsers([]));
+  //     dispatch(setTethers([]));
+  //     dispatch(setMyTethers([]));
+  //   }
+  // }, [dispatch])
 
   function handleLogout() {
     dispatch(setToken({ token: '' }));
