@@ -18,6 +18,7 @@ import { createIncrementId } from '../../store/slices/incrementId/incrementIdSli
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
+import { getAllParticipantLinks } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 
 Modal.setAppElement('#root');
 
@@ -26,6 +27,7 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
+  const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const [show, setShow] = useState('tethers');
   const [isHovering, setIsHovering] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -51,6 +53,7 @@ const Tethers: FC = () => {
       setExpandedTether(tether_id);
       setRotateChevron(tether_id);
       setTetherTitle(tether_id?.tether_name);
+      dispatch(getAllParticipantLinks(tether_id?.tether_id));
     }
   };
 
@@ -59,6 +62,7 @@ const Tethers: FC = () => {
   }
 
   const onIncrementSuccess = () => {
+    dispatch(getMyTethers(user.id));
     setExpandedTether(expandedTether);
   }
 
@@ -166,6 +170,12 @@ const Tethers: FC = () => {
             const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
             const currentPluses = (totalLinksRendered - completeLinksRendered) ? 1 : 0; // Don't render plus link if it's done
             const bell = (currentPluses) ? <BellCircle /> : <BellCircleDark handleClick={() => {handleRingTheBell(myTether.tether_id.tether_id)}}/>
+
+            // CSS rendering constants
+            const showBorder = false; // Changing to true will show a bunch of CSS borders for components
+            const dotsAreHidden = true; // change to True to hide the dots that shouldn't be seen, False for CSS debugging purposes
+            // ---------------------
+
             return (
               <CurrentTethersList>
                 <Map key={myTether.tether_id}>
@@ -189,28 +199,88 @@ const Tethers: FC = () => {
                       <p>{myTether.tether_id.tether_name}</p>
                       <p>{Math.round(parseInt(myTether.links_completed) / parseInt(myTether.links_total) * 100)}% Complete</p>
                     </NameAndPercent>
-                    <TetherContainer>
-                      <ProgressAndBell>
-                        {/* Coming up with showing all users' progress here: */}
-                        {/* Pagination or infinite scroll with click on users with > 10 Tethers */}
-                        {(completeLinksRendered > 0) &&
-                        [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
-                        {(currentPluses > 0) &&
-                        [...Array(currentPluses)].map(() =>
-                            <ProgressButton
-                              onMouseOver={handleMouseOver}
-                              onMouseOut={handleMouseOut}
-                              onClick={() => handleIncrement(myTether.id)}
-                              key={myTether.id}
-                            >
-                            {isHovering && <PlusCircle />}
-                            </ProgressButton>
-                          )
-                        }
-                        {(linksRemainingUntilComplete >= 1) &&
-                        [...Array(linksRemainingUntilComplete)].map((e, i) => <BlankBar key={i}/>)}
-                      </ProgressAndBell>
-                      {bell}
+                    <TetherContainer showBorder={showBorder}>
+                      <ProgressBarAndBellContainer showBorder={showBorder}>
+                        <ProgressBar>
+                          {/* Coming up with showing all users' progress here: */}
+                          {/* Pagination or infinite scroll with click on users with > 10 Tethers */}
+                          {(completeLinksRendered > 0) &&
+                          [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
+                          {(currentPluses > 0) &&
+                          [...Array(currentPluses)].map(() =>
+                              <ProgressButton
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}
+                                onClick={() => handleIncrement(myTether.id)}
+                                key={myTether.id}
+                              >
+                              {isHovering && <PlusCircle />}
+                              </ProgressButton>
+                            )
+                          }
+                          {(linksRemainingUntilComplete >= 1) &&
+                          [...Array(linksRemainingUntilComplete)].map((e, i) => <BlankBar key={i}/>)}
+                        </ProgressBar>
+                        {bell}
+                      </ProgressBarAndBellContainer>
+                      <ProgressDotContainer showBorder={showBorder}>
+                      {tetherParticipants?.filter(participant => participant.user_id.username !== user.username).map((participant) => {
+                        const completeLinks = (participant.links_completed);
+                        const incompleteLinks = (participant.links_total - participant.links_completed);
+                        const noLinks = (participant.links_completed === 0);
+                        const allLinks = (participant.links_completed === participant.links_total);
+                        return (
+                          <OnePersonDotContainer showBorder={showBorder}>
+                            {/* This one should only render if a user has made 0 progress */}
+                            <ZeroDotContainer showBorder={showBorder}>
+                              {(noLinks) &&
+                              [...Array(1)].map((e, i) =>
+                                <ZeroDot
+                                key={i}>
+                                    <p>{participant.user_id.username}</p>
+                                </ZeroDot>
+                              )}
+                            </ZeroDotContainer>
+                            {/* Keeps track of other users' progression by dynamically rendering */}
+                            {/* Dots for incomplete links */}
+                            {/* Dot for current position */}
+                            {/* Dots for completed links */}
+                            {/* So, any track will have guaranteed 2 positions filled, one for 0 and one for the end */}
+                            {/* It will then fill in an invisible amount of dots for the user's increments */}
+                            {/* The user's position will then influence how many dots are rendered on the previous and next tracks */}
+                            <MainUserDotContainer showBorder={showBorder}>
+                              {(completeLinks >= 1) &&
+                              [...Array(completeLinks-1)].map((e, i) =>
+                                <CenteringProgressDotContainer showBorder={showBorder}>
+                                  <ProgressDot imgOpacity={dotsAreHidden} key={i}/>
+                                </CenteringProgressDotContainer>
+                              )}
+                              {(!noLinks) && (!allLinks) &&
+                              [...Array(1)].map((e, i) =>
+                                <>
+                                  <CenteringProgressDotContainer showBorder={showBorder}>
+                                    <CurrentDot key={i}><p>{participant.user_id.username}</p></CurrentDot>
+                                  </CenteringProgressDotContainer>
+                                </>
+                              )}
+                              {(incompleteLinks >= 1) &&
+                              [...Array(incompleteLinks)].map((e, i) =>
+                                <CenteringProgressDotContainer showBorder={showBorder}>
+                                  <IncompleteDot imgOpacity={dotsAreHidden} key={i}/>
+                                </CenteringProgressDotContainer>
+                              )}
+                            </MainUserDotContainer>
+                            {/* This one should only render at 100% completion */}
+                            <AllDotContainer showBorder={showBorder}>
+                              {(allLinks) &&
+                              [...Array(1)].map((e, i) =>
+                                <AllDot key={i}><p>{participant.user_id.username}</p></AllDot>
+                              )}
+                            </AllDotContainer>
+                          </OnePersonDotContainer>
+                        )
+                      })}
+                    </ProgressDotContainer>
                     </TetherContainer>
                   </Expanded>
                 }
@@ -244,22 +314,6 @@ const Tethers: FC = () => {
 
 export default Tethers;
 
-const ProgressButton = styled.button`
-  border: none;
-  background: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 95%;
-  height: 12px;
-  margin-left: 4px;
-  margin-right: 4px;
-  padding: 5px;
-  background: #C1ECFF;
-  border-radius: 60px;
-  cursor: pointer;
-`
-
 const CurrentCompleted = styled.div`
   display: flex;
   font-family: Work Sans;
@@ -273,6 +327,10 @@ const CurrentCompleted = styled.div`
     margin-block-start: 0;
     margin-block-end: 0;
   }
+`;
+
+const StatusText = styled.p<{ inactive: Boolean }>`
+  ${(props) => props.inactive && 'opacity: 0.5;'}
 `;
 
 const MainHeader = styled.div`
@@ -312,27 +370,6 @@ const AddNewTether = styled.button`
   color: #FFFFFF;
 `;
 
-const modalStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    inset: '50% auto auto 50%',
-    border: 'none',
-    overflow: 'auto',
-    borderRadius: '12px',
-    outline: 'none',
-    padding: '0px',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  }
-};
-
-const StatusText = styled.p<{ inactive: Boolean }>`
-  ${(props) => props.inactive && 'opacity: 0.5;'}
-`;
-
 const TethersListContainer = styled.div`
 `
 
@@ -356,18 +393,18 @@ const CurrentTethersList = styled.div`
   }
 `;
 
-const TitleAndEdit = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-`;
-
 const Map = styled.map`
   cursor: default;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
+`;
+
+const TitleAndEdit = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: baseline;
 `;
 
@@ -409,7 +446,28 @@ const NameAndPercent = styled.div`
   width: 100%;
 `;
 
-const ProgressAndBell = styled.div`
+const TetherContainer = styled.div<{ showBorder: Boolean }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  width: 100%;
+  ${(props) => props.showBorder && 'border: 5px solid red;'}
+`;
+
+const ProgressBarAndBellContainer = styled.div<{ showBorder: Boolean }>`
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  // Margin on top/bottom is what is shifting the dots and bar up right now!!
+  margin: -40px 0px;
+  ${(props) => props.showBorder && 'border: 2px solid black;'}
+`
+
+const ProgressBar = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -421,10 +479,144 @@ const ProgressAndBell = styled.div`
   margin: 50px 0px;
 `;
 
-const TetherContainer = styled.div`
+const ProgressButton = styled.button`
+  border: none;
+  background: none;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 12px;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding: 5px;
+  background: #C1ECFF;
+  border-radius: 60px;
+  cursor: pointer;
+`
+
+const ProgressDotContainer = styled.div<{ showBorder: Boolean }>`
+  background: none;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  width: 95%;
+  ${(props) => props.showBorder && 'border: 2px solid white;'}
+  p {
+    cursor: pointer;
+    margin-right:20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    transform: translate(0px, 40px);
+    font-size: 16px;
+    text-shadow: 1px 1px black, 1px -1px black, -1px 1px black, -1px -1px black;
+  }
+  position: relative;
+`
+
+const OnePersonDotContainer = styled.div<{ showBorder: Boolean }>`
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
   flex-direction: row;
+  width: 100%;
+  ${(props) => props.showBorder && 'border: 2px solid gray;'}
+  position: absolute;
+`
+
+const ZeroDotContainer = styled.div<{ showBorder: Boolean }>`
+  width: 50px;
+  max-height: 30px;
+  ${(props) => props.showBorder && 'border: 2px solid gold;'}
+  margin-left: -50px;
+`
+
+const ZeroDot = styled.div`
+  width: 10px;
+  height: 30px;
+  border-radius: 60px;
+  background: black;
+  transform: translate(0px, -35px);
+`
+
+const AllDotContainer = styled.div<{ showBorder: Boolean }>`
+  width: 50px;
+  max-height: 30px;
+  background: none;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  ${(props) => props.showBorder && 'border: 2px solid gold;'}
+  margin-right: -50px;
+`
+
+const AllDot = styled.div`
+  width: 10px;
+  height: 30px;
+  border-radius: 60px;
+  background: gold;
+`
+
+const MainUserDotContainer = styled.div<{ showBorder: Boolean }>`
+  ${(props) => props.showBorder && 'border: 2px solid orange;'}
+  background: none;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
+  max-height: 30px;
+`
+
+const CurrentDot = styled.div`
+  width: 10px;
+  height: 30px;
+  border-radius: 60px;
+  background: maroon;
+  font-size: 20px;
+  margin-top: -80px;
+  transform: translate(0px, 15px);
+`
+
+const CenteringProgressDotContainer = styled.div<{ showBorder: Boolean }>`
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  ${(props) => props.showBorder && 'border: 2px dashed black;'}
+`
+
+const ProgressDot = styled.div<{ imgOpacity: Boolean }>`
+  width: 5px;
+  height: 12px;
+  border-radius: 60px;
+  background: #c1ecff;
+  ${(props) => props.imgOpacity && 'opacity: 0.0;'}
+`
+
+const IncompleteDot = styled.div<{ imgOpacity: Boolean }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 60px;
+  background: #003E6A;
+  ${(props) => props.imgOpacity && 'opacity: 0.0;'}
+`
+
+const modalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    inset: '50% auto auto 50%',
+    border: 'none',
+    overflow: 'auto',
+    borderRadius: '12px',
+    outline: 'none',
+    padding: '0px',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  }
+};

@@ -6,7 +6,7 @@ const allParticipantLinksSlice = createSlice({
   name: 'allParticipantLinks',
   initialState,
   reducers: {
-    getAllParticipantLinks() {},
+    getAllParticipantLinks(state, action) {},
     setAllParticipantLinks(state, action) {
       const tethers = action.payload;
       return tethers;
