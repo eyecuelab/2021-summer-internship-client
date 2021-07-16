@@ -23,7 +23,7 @@ export interface CreateTetherPayload {
     tether_frequency: string;
     tether_timespan: number
     },
-    onSuccess: () => void 
+    onSuccess: () => void
   }
 
 function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
