@@ -16,12 +16,12 @@ const Friends: FC = () => {
   const loggedInUser = useAppSelector((state) => state.oneUser);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    return () => {
-      dispatch(setUsers([]));
-      dispatch(setTethers([]));
-    }
-  }, [dispatch])
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(setUsers([]));
+  //     dispatch(setTethers([]));
+  //   }
+  // }, [dispatch])
 
   function handleGetUsers() {
     dispatch(getUsers());
@@ -78,7 +78,7 @@ const Friends: FC = () => {
                 <FullRowContainer>
                   <RowUsername>
                     <AvatarCircle />
-                    <p key={user.id}>{user.username}</p>
+                    <h1 key={user.id}>{user.username}</h1>
                   </RowUsername>
                   <RowDataContainer>
                     <DataTethers>
@@ -172,6 +172,7 @@ const YourFind = styled.div`
 const MainHeader = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 40px;
   h1 {
     font-family: Gotham-Black;
     font-style: normal;
@@ -376,6 +377,13 @@ const FullRowContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  h1 {
+    font-size: 22px;
+    margin-left: 10px;
+  }
+  p {
+    font-size: 15px;
+  }
 `
 
 const RowUsername = styled.div`
