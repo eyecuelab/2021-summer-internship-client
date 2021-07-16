@@ -56,11 +56,14 @@ const Tethers: FC = () => {
 
   const onSuccess = () => {
     dispatch(getMyTethers(user.id));
+  }
+
+  const onIncrementSuccess = () => {
     setExpandedTether(expandedTether);
   }
 
   const handleIncrement = (data:{id: string}) => {
-    dispatch(createIncrementId({ data, onSuccess }));
+    dispatch(createIncrementId({ data, onIncrementSuccess }));
   }
 
   const handleRingTheBell = (data:{tether_id: string}) => {
