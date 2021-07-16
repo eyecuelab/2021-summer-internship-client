@@ -27,7 +27,7 @@ function Header() {
     dispatch(setMyTethers([]));
     dispatch(setMyCompleteTethers([]));
     dispatch(setAllParticipantLinks([]));
-    dispatch(setImpendingParticipantLink([]));
+    dispatch(setImpendingParticipantLink(''));
     setActiveLink('');
   }
 
