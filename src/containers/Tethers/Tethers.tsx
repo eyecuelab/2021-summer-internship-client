@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import './index.css';
 import dayjs from 'dayjs';
 import Modal from 'react-modal';
@@ -10,6 +10,7 @@ import BlankBar from '../../components/BlankBar';
 import PlusSign from '../../components/PlusSign';
 import BellCircle from '../../components/BellCircle';
 import PlusCircle from '../../components/PlusCircle';
+import CongratsModal from '../../components/CongratsModal';
 import ConfettiEffect from '../../components/ConfettiEffect';
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -32,6 +33,7 @@ const Tethers: FC = () => {
   const [expandedTether, setExpandedTether] = useState('');
   const [rotateChevron, setRotateChevron] = useState('');
   const [confettiVisible, setConfettiVisible] = useState(false);
+  const [tetherTitle, setTetherTitle] = useState('');
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -41,27 +43,41 @@ const Tethers: FC = () => {
     setIsHovering(false);
   };
 
-  const handleExpandTether = (tether_id: string) => {
+  const handleExpandTether = (tether_id: any) => {
     if (expandedTether === tether_id) {
       setExpandedTether('');
       setRotateChevron('');
     } else {
       setExpandedTether(tether_id);
       setRotateChevron(tether_id);
+      setTetherTitle(tether_id?.tether_name);
     }
   };
 
   const onSuccess = () => {
     dispatch(getMyTethers(user.id));
+    setExpandedTether(expandedTether);
+    console.warn(expandedTether);
   }
 
   const handleIncrement = (data:{id: string}) => {
     dispatch(createIncrementId({ data, onSuccess }));
   }
 
+  // useEffect(() => {
+  //   if (confettiVisible) {
+  //     setConfettiVisible(false);
+  //     console.log(confettiVisible)
+  //   }
+  //   // return () => {
+  //   //   cleanup
+  //   // }
+  // }, [confettiVisible])
+
   const handleRingTheBell = (data:{tether_id: string}) => {
     dispatch(createRingTheBell({ data, onSuccess }));
     setConfettiVisible(true);
+    setModalIsOpen(true);
   }
 
   function handleGetTethers() {
@@ -81,6 +97,7 @@ const Tethers: FC = () => {
 
   function closeModal() {
     setModalIsOpen(false);
+    setConfettiVisible(false);
     dispatch(setMyTethers(myTethers));
   }
 
@@ -93,7 +110,21 @@ const Tethers: FC = () => {
     <div>
       <CurrentCompleted>
         {confettiVisible &&
+        <>
           <ConfettiEffect />
+          <Modal
+            isOpen={modalIsOpen}
+            shouldCloseOnOverlayClick={false}
+            style={modalStyles}
+            className="CongratsModal"
+            overlayClassName="Overlay"
+          >
+            <CongratsModal
+            closeModal={closeModal}
+            tetherTitle={tetherTitle}
+          />
+          </Modal>
+        </>
         }
         <StatusText
           inactive={activeStatus === 'completed'}
@@ -121,6 +152,7 @@ const Tethers: FC = () => {
           <PlusSign />
           Add New
         </AddNewTether>
+        {!confettiVisible &&
         <Modal
           isOpen={modalIsOpen}
           shouldCloseOnOverlayClick={false}
@@ -130,6 +162,7 @@ const Tethers: FC = () => {
         >
           <Form closeModal={closeModal} />
         </Modal>
+        }
       </MainHeader>
       <TethersListContainer>
         {
@@ -167,7 +200,7 @@ const Tethers: FC = () => {
                     <TetherContainer>
                       <ProgressAndBell>
                         {/* Coming up with showing all users' progress here: */}
-                        {console.warn(myTether)}
+                        {/* Pagination or infinite scroll with click on users with > 10 Tethers */}
                         {(completeLinksRendered > 0) &&
                         [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i}/>)}
                         {(currentPluses > 0) &&
@@ -202,6 +235,8 @@ const Tethers: FC = () => {
               <CurrentTethersList>
                 <Map key={myCompleteTether.tether_id}>
                   <TitleAndEdit>
+                    {/* Right-align the date for readability */}
+                    {/* Show the usernames of people who participated */}
                     <p>{myCompleteTether.tether_name} Completed on {formattedDate}</p>
                   </TitleAndEdit>
                 </Map>
