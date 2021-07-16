@@ -5,7 +5,6 @@ import { Routes } from './constants/routes';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import Register from './containers/Register';
-import Users from './containers/Users';
 import Tethers from './containers/Tethers';
 import Activity from './containers/Activity';
 import Friends from './containers/Friends';
@@ -25,7 +24,6 @@ const App: FC = () => {
       );
     } if (token) {
       jsx.push(
-        <Route path={Routes.Users} exact component={Users} />,
         <Route path={Routes.Tethers} exact component={Tethers} />,
         <Route path={Routes.Activity} exact component={Activity} />,
         <Route path={Routes.Friends} exact component={Friends} />,
