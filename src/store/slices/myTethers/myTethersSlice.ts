@@ -10,7 +10,7 @@ const myTethersSlice = createSlice({
     setMyTethers(state, action) {
       const tethers = action.payload;
       return tethers;
-    }
+    },
   },
 });
 
