@@ -77,14 +77,6 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     dispatch(createIncrementId({ data, onIncrementSuccess }));
   };
 
-  const handleMouseOver = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseOut = () => {
-    setIsHovering(false);
-  };
-
   const bell = canRingTheBell ? (
     <BellCircleDark
       handleClick={() => {
@@ -134,13 +126,8 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                 {completeLinksRendered > 0 && [...Array(completeLinksRendered)]?.map((e, i) => <DarkBar key={i} />)}
                 {currentPluses > 0 &&
                   [...Array(currentPluses)].map(() => (
-                    <ProgressButton
-                      onMouseOver={handleMouseOver}
-                      onMouseOut={handleMouseOut}
-                      onClick={() => handleIncrement(myParticipant.id)}
-                      key={myParticipant.id}
-                    >
-                      {isHovering && <PlusCircle />}
+                    <ProgressButton onClick={() => handleIncrement(myParticipant.id)} key={myParticipant.id}>
+                      <PlusCircle />
                     </ProgressButton>
                   ))}
                 {linksRemainingUntilComplete >= 1 &&

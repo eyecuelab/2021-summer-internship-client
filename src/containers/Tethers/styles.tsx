@@ -1,5 +1,6 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { Add } from '../../components/PlusCircle';
 
 export const CurrentCompleted = styled.div`
   display: flex;
@@ -179,6 +180,11 @@ export const ProgressButton = styled.button`
   background: #c1ecff;
   border-radius: 60px;
   cursor: pointer;
+  :hover {
+    ${Add} {
+      opacity: 1;
+    }
+  }
 `;
 
 export const ProgressDotContainer = styled.div<{ showBorder: Boolean }>`
