@@ -2,9 +2,10 @@ import React from 'react';
 import Chevron from '../../components/chevron';
 import DarkBar from '../../components/DarkBar';
 import BlankBar from '../../components/BlankBar';
+import AvatarPin from '../../components/AvatarPin';
+import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircle from '../../components/BellCircle';
 import PlusCircle from '../../components/PlusCircle';
-
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
@@ -138,9 +139,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
               {bell}
             </ProgressBarAndBellContainer>
             <ProgressDotContainer showBorder={showBorder}>
-              {tetherParticipants
-                ?.filter((participant) => participant.user_id.username !== user.username)
-                .map((participant) => {
+              {tetherParticipants?.map((participant) => {
                   const completeLinks = participant.links_completed;
                   const incompleteLinks = participant.links_total - participant.links_completed;
                   const noLinks = participant.links_completed === 0;
@@ -175,7 +174,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                           [...Array(1)].map((e, i) => (
                             <>
                               <CenteringProgressDotContainer showBorder={showBorder}>
-                                <CurrentDot key={i}>
+                                <CurrentDot key={i} currentUser={participant.user_id.username === user.username}>
+                                  {
+                                    participant.user_id.username === user.username &&
+                                    <MyAvatarPin />
+                                  }
+                                  {
+                                    participant.user_id.username !== user.username &&
+                                    <AvatarPin />
+                                  }
                                   <p>{participant.user_id.username}</p>
                                 </CurrentDot>
                               </CenteringProgressDotContainer>
