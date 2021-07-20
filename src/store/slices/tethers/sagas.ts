@@ -28,7 +28,6 @@ export interface CreateTetherPayload {
   }
 
 function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
-  console.warn(action.payload);
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload.data);
   if (success) {
     yield put(setImpendingParticipantLink(data.tether_id));
