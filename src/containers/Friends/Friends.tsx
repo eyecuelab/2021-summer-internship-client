@@ -141,12 +141,12 @@ const RightSide = styled.div`
 
 const YourFind = styled.div`
   display: flex;
-  cursor: pointer;
   font-style: normal;
   font-weight: 800;
   font-size: 24px;
   line-height: 28px;
   p {
+    cursor: pointer;
     padding-right:20px;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -158,6 +158,7 @@ const MainHeader = styled.div`
   align-items: center;
   margin-bottom: 40px;
   h1 {
+    cursor: default;
     font-family: Gotham-Black;
     font-style: normal;
     font-weight: 800;
