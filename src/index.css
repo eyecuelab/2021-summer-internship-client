@@ -49,3 +49,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Styles for fade transitions between route changes */
+.tethers-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.tethers-enter.tethers-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.tethers-exit {
+  opacity: 1;
+}
+
+.tethers-exit-active {
+  opacity: 0;
+  transition: opacity 250ms ease-in;
+}

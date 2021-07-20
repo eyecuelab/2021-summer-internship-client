@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { Routes } from './constants/routes';
 import Home from './containers/Home';
 import Login from './containers/Login';
@@ -10,9 +10,14 @@ import Activity from './containers/Activity';
 import Friends from './containers/Friends';
 import { useAppSelector } from './hooks';
 import Header from './components/Header'
+import {
+  TransitionGroup,
+  CSSTransition
+} from "react-transition-group";
 
 const App: FC = () => {
   const token = useAppSelector(({ auth }) => auth.token);
+  const location = useLocation();
 
   const routes = useMemo(() => {
     const jsx = [<Route path={Routes.Home} exact component={Home} />];
@@ -34,14 +39,22 @@ const App: FC = () => {
   }, [token]);
 
   return (
-    <AppContainer>
-      <HeaderContainer>
-        <Header />
-      </HeaderContainer>
-      <ContentContainer>
-        <Switch>{routes}</Switch>
-      </ContentContainer>
-    </AppContainer>
+    <TransitionGroup>
+      <CSSTransition
+        key={location.key}
+        classNames="tethers"
+        timeout={300}
+      >
+        <AppContainer>
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
+            <Switch location={location}>{routes}</Switch>
+          </ContentContainer>
+        </AppContainer>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 
