@@ -31,7 +31,7 @@ const schema = yup.object().shape({
   tether_duration_noun: yup.string().required(),
   tether_frequency: yup.string().oneOf(['Day', 'Week', 'Month']).required(),
   tether_timespan: yup.number().positive().integer().required(),
-  tether_category: yup.string().oneOf(['Art', 'Communication', 'Exercise', 'Music', 'Nature', 'Wellness']).required(),
+  tether_category: yup.string().oneOf(['Art', 'Social', 'Exercise', 'Music', 'Nature', 'Wellness']).required(),
 });
 
 const defaultValues = {
