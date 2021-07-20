@@ -231,6 +231,16 @@ export const ZeroDot = styled.div`
   border-radius: 60px;
   background: black;
   transform: translate(0px, -35px);
+  p {
+    opacity: 0;
+    cursor: default;
+    transition: .1s;
+  }
+  &:hover {
+    p {
+      opacity: 1;
+    }
+  }
 `;
 
 export const AllDotContainer = styled.div<{ showBorder: Boolean }>`
@@ -249,6 +259,16 @@ export const AllDot = styled.div`
   height: 30px;
   border-radius: 60px;
   background: gold;
+  p {
+    opacity: 0;
+    cursor: default;
+    transition: .1s;
+  }
+  &:hover {
+    p {
+      opacity: 1;
+    }
+  }
 `;
 
 export const MainUserDotContainer = styled.div<{ showBorder: Boolean }>`
@@ -269,6 +289,16 @@ export const CurrentDot = styled.div`
   font-size: 20px;
   margin-top: -80px;
   transform: translate(0px, 15px);
+  p {
+    opacity: 0;
+    cursor: default;
+    transition: .1s;
+  }
+  &:hover {
+    p {
+      opacity: 1;
+    }
+  }
 `;
 
 export const CenteringProgressDotContainer = styled.div<{ showBorder: Boolean }>`

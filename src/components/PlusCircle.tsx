@@ -25,7 +25,7 @@ export const Add = styled.div`
   opacity: 0;
   padding: 0;
   pointer-events: none;
-  transition: all 0.5s;
+  transition: all 0.15s;
 `;
 
 export default PlusCircle;
