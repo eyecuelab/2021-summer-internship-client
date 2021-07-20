@@ -182,6 +182,7 @@ export const ProgressButton = styled.button`
   :hover {
     ${Add} {
       opacity: 1;
+      z-index: 1;
     }
   }
 `;
