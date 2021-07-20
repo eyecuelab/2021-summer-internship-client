@@ -7,6 +7,7 @@ import myTethersReducer from './myTethers/myTethersSlice';
 import incrementIdReducer from './incrementId/incrementIdSlice';
 import ringTheBellReducer from './ringTheBell/ringTheBellSlice';
 import recentTethersReducer from './recentTethers/recentTethersSlice';
+import setTetherTitleReducer from './setTetherTitle/setTetherTitleSlice';
 import myCompleteTethersReducer from './myCompleteTethers/myCompleteTethersSlice';
 import allParticipantLinksReducer from './allParticipantLinks/allParticipantLinksSlice';
 import fetchImpendingParticipantLinkReducer from './impendingParticipantLink/fetchImpendingParticipantLinkSlice';
@@ -19,6 +20,7 @@ export let rootReducer = combineReducers({
   myTethers: myTethersReducer,
   incrementId: incrementIdReducer,
   ringTheBell: ringTheBellReducer,
+  tetherTitle: setTetherTitleReducer,
   recentTethers: recentTethersReducer,
   myCompleteTethers: myCompleteTethersReducer,
   allParticipantLinks: allParticipantLinksReducer,
@@ -34,6 +36,7 @@ export default function createReducer(injectedReducers = {}) {
     myTethers: myTethersReducer,
     incrementId: incrementIdReducer,
     ringTheBell: ringTheBellReducer,
+    tetherTitle: setTetherTitleReducer,
     recentTethers: recentTethersReducer,
     myCompleteTethers: myCompleteTethersReducer,
     allParticipantLinks: allParticipantLinksReducer,

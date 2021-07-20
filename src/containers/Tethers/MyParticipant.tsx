@@ -9,7 +9,7 @@ import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import { getMyTethers } from '../../store/slices/myTethers/myTethersSlice';
-import { selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
+import { getAllParticipantLinks, selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import {
   CurrentTethersList,
   Map,
@@ -35,6 +35,7 @@ import {
   ZeroDot,
 } from './styles';
 import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
+import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
 
 interface MyParticipantProps {
   myParticipant: any;
@@ -52,7 +53,6 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
-  const [isHovering, setIsHovering] = React.useState(false);
   const user = useAppSelector((state) => state.oneUser);
   const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const totalLinksRendered = parseInt(myParticipant.links_total);
@@ -80,6 +80,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const bell = canRingTheBell ? (
     <BellCircleDark
       handleClick={() => {
+        dispatch(setTetherTitle(myParticipant.tether_id.tether_name));
         handleRingTheBell(myParticipant.tether_id.tether_id);
       }}
     />
@@ -104,6 +105,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
           expanded={expanded}
           onClick={() => {
             handleExpandTether(myParticipant.id);
+            dispatch(getAllParticipantLinks(myParticipant.tether_id.tether_id));
           }}
         >
           <Chevron />

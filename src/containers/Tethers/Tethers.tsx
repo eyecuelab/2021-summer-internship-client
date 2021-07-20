@@ -10,8 +10,6 @@ import ConfettiEffect from '../../components/ConfettiEffect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
-import { getAllParticipantLinks } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
-
 import {
   CurrentCompleted,
   StatusText,
@@ -32,9 +30,9 @@ const Tethers: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myParticipants = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
+  const tetherTitle = useAppSelector((state) => state.tetherTitle);
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [tetherTitle, setTetherTitle] = useState('');
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
   const [confettiVisible, setConfettiVisible] = useState(false);
@@ -45,11 +43,9 @@ const Tethers: FC = () => {
         setExpandedTether('');
       } else {
         setExpandedTether(my_participant_id);
-        setTetherTitle(my_participant_id?.tether_name);
-        dispatch(getAllParticipantLinks(my_participant_id?.tether_id));
       }
     },
-    [dispatch, expandedTether]
+    [expandedTether]
   );
 
   function handleGetTethers() {
@@ -77,8 +73,6 @@ const Tethers: FC = () => {
     openModal();
     dispatch(setMyTethers(myParticipants));
   }
-
-  console.log({ expandedTether });
 
   return (
     <div>
