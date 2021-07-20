@@ -16,6 +16,7 @@ interface TetherFormData {
   tether_duration_noun: string;
   tether_frequency: string;
   tether_timespan: number;
+  tether_category: string;
 };
 
 interface ParticipantFormData {
@@ -30,6 +31,7 @@ const schema = yup.object().shape({
   tether_duration_noun: yup.string().required(),
   tether_frequency: yup.string().oneOf(['Day', 'Week', 'Month']).required(),
   tether_timespan: yup.number().positive().integer().required(),
+  tether_category: yup.string().oneOf(['Art', 'Communication', 'Exercise', 'Music', 'Nature', 'Wellness']).required(),
 });
 
 const defaultValues = {
@@ -38,6 +40,7 @@ const defaultValues = {
   tether_duration_noun: '',
   tether_frequency: 'Day',
   tether_timespan: 10,
+  tether_category: 'Art',
 };
 interface FormProps {
   closeModal: () => void
@@ -64,6 +67,7 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
+  const tetherCategory = watch('tether_category');
 
   const onSuccess = () => {
     dispatch(getMyTethers(loggedInUser.id));
@@ -105,14 +109,34 @@ const Form: FC<FormProps> = (props) => {
         {
           formStep === 'one' &&
           <FormInputs>
-            <FormInputRow>
-              <label htmlFor="activity">ACTIVITY</label>
-              <TetherActivity
-                type="text" onFocus={(e) => e.target.placeholder = ''}
-                placeholder="Read, Exercise, etc..."
-                {...register('tether_activity')}
-              />
-            </FormInputRow>
+            <ActivityAndCategory>
+              <FormInputRow>
+                <label htmlFor="activity">ACTIVITY</label>
+                <TetherActivity
+                  type="text" onFocus={(e) => e.target.placeholder = ''}
+                  placeholder="Read, Exercise, etc..."
+                  {...register('tether_activity')}
+                />
+              </FormInputRow>
+              <FormInputRow>
+                <TetherCategory
+                  id="category"
+                  {...register('tether_category')}
+                  >
+                  <option disabled value="DEFAULT">
+                    {' '}
+                    -- Category --
+                  </option>
+                  <option value="Art">Art</option>
+                  <option value="Social">Social</option>
+                  <option value="Exercise">Exercise</option>
+                  <option value="Music">Music</option>
+                  <option value="Nature">Nature</option>
+                  <option value="Wellness">Wellness</option>
+                </TetherCategory>
+              </FormInputRow>
+              <ErrorMessage>{errors.tether_category?.message}</ErrorMessage>
+            </ActivityAndCategory>
             <ErrorMessage>{errors.tether_activity?.message}</ErrorMessage>
             <FormInputRow>
               <label htmlFor="duration">DURATION</label>
@@ -286,7 +310,7 @@ const TetherForm = styled.form`
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   width: 710px;
-  height: 550px;
+  height: 590px;
   border-radius: 12px;
   grid-template-areas:
   'header',
@@ -502,13 +526,13 @@ const FormInputRow = styled.div`
 `;
 
 const TetherActivity = styled.input`
-  width: 360px;
-`;
+  width: 200px;
+  `;
 
 const TetherDuration = styled.input`
   width: 95px;
   text-align: center;
-`;
+  `;
 
 const TetherDurationNoun = styled.input`
   width: 200px;
@@ -516,12 +540,27 @@ const TetherDurationNoun = styled.input`
 
 const TetherFrequency = styled.select`
   width: 360px;
-`;
+  `;
+
+const TetherCategory = styled.select`
+  width: 130px;
+  `;
 
 const TetherTimespan = styled.input`
   width: 95px;
   text-align: center;
-`;
+  `;
+
+  const ActivityAndCategory = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 508px;
+    ${TetherActivity} {
+      margin-left: 73px;
+      margin-right: 28px;
+    }
+  `;
 
 const FormButtons = styled.div`
   grid-area: 'buttons';
