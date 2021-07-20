@@ -67,7 +67,6 @@ const Form: FC<FormProps> = (props) => {
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
-  const tetherCategory = watch('tether_category');
 
   const onSuccess = () => {
     dispatch(getMyTethers(loggedInUser.id));
