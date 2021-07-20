@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Navbar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../hooks';
@@ -15,8 +14,8 @@ import { setImpendingParticipantLink } from '../store/slices/impendingParticipan
 
 function Header() {
   const token = useAppSelector(({ auth }) => auth.token);
+  const location = useLocation();
   const dispatch = useAppDispatch();
-  const [activeLink, setActiveLink] = useState('');
 
   function handleLogout() {
     dispatch(setToken({ token: '' }));
@@ -28,7 +27,6 @@ function Header() {
     dispatch(setMyCompleteTethers([]));
     dispatch(setAllParticipantLinks([]));
     dispatch(setImpendingParticipantLink(''));
-    setActiveLink('');
   }
 
   return (
@@ -39,21 +37,18 @@ function Header() {
           token &&
           <LinksContainer>
             <HeaderLink to='/tethers'
-              active={activeLink === 'tethers'}
-              onClick={() => setActiveLink('tethers')}
+              active={location.pathname.includes('tethers')}
             >
               Tethers
             </HeaderLink>
             <HeaderLink to='/activity'
-              active={activeLink === 'activity'}
-              onClick={() => setActiveLink('activity')}
-            >
+              active={location.pathname.includes('activity')}
+              >
               Activity
             </HeaderLink>
             <HeaderLink to='/friends'
-              active={activeLink === 'friends'}
-              onClick={() => setActiveLink('friends')}
-            >
+              active={location.pathname.includes('friends')}
+              >
               Friends
             </HeaderLink>
             {token &&
