@@ -33,7 +33,7 @@ function Header() {
   return (
     <Navbar sticky='top'>
       <Nav>
-        <Title>Tether</Title>
+        <Title>Shmethers</Title>
         {
           token &&
           <LinksContainer>
