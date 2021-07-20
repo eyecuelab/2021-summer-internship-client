@@ -74,28 +74,20 @@ const Friends: FC = () => {
                   </RowUsername>
                   <RowDataContainer>
                     <DataTethers>
-                      <FriendAttributes>
                         {/* Tethers Completed */}
                         <p>{user.tethers_completed}</p>
-                      </FriendAttributes>
                     </DataTethers>
                     <DataShared>
-                      <FriendAttributes>
                         {/* Shared... use Tethers Ongoing? */}
                         <p>{user.tethers_completed}</p>
-                      </FriendAttributes>
                     </DataShared>
                     <DataXp>
-                      <FriendAttributes>
                         {/* XP */}
                         <p>{user.xp}</p>
-                      </FriendAttributes>
                     </DataXp>
                     <DataBadges>
-                      <FriendAttributes>
                         {/* Badges (IN PROGRESS) */}
                         <p>{(user.xp) * 5}</p>
-                      </FriendAttributes>
                     </DataBadges>
                   </RowDataContainer>
                 </FullRowContainer>
@@ -376,37 +368,34 @@ const FullRowContainer = styled.div`
   p {
     font-size: 15px;
   }
-`
+`;
 
 const RowUsername = styled.div`
   display: flex;
   flex-direction: row;
-  /* justify-content: left; */
   white-space: nowrap;
   align-items: center;
-`
+`;
+
 const RowDataContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   align-items: center;
   margin-left: auto;
-  width: 95%;
-  justify-content: flex-end;
-  margin-right: 5%;
-`
+  width: 55.5%;
+  margin-right: .3%;
+`;
 
 const DataTethers = styled.div`
-  margin-right: 6vw;
-`
+  margin-right: 3%;
+`;
 
 const DataShared = styled.div`
-  margin-right: 4.5vw;
-`
+`;
 
 const DataXp = styled.div`
-  margin-right: 4.2vw;
-`
+`;
 
 const DataBadges = styled.div`
-  /* margin-right: -10px; */
-`
+`;
