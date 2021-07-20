@@ -21,12 +21,14 @@ export interface CreateTetherPayload {
     tether_duration: number;
     tether_duration_noun: string;
     tether_frequency: string;
-    tether_timespan: number
+    tether_timespan: number;
+    tether_category: string;
     },
     onSuccess: () => void
   }
 
 function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
+  console.warn(action.payload);
   const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload.data);
   if (success) {
     yield put(setImpendingParticipantLink(data.tether_id));
