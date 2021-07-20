@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Add } from '../../components/PlusCircle';
 
@@ -342,3 +341,32 @@ export const modalStyles = {
     transform: 'translate(-50%, -50%)',
   },
 };
+
+export const RightAlign = styled.div`
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  color: #71a8d0;
+  padding-left: 20px;
+  p {
+    cursor: pointer;
+  }
+  `
+
+export const CompleteTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`
+
+export const CompleteContainer = styled.div`
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  flex-direction: row;
+  align-items: baseline;
+  margin-left: auto;
+  width: 100%;
+`

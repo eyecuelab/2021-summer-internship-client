@@ -18,8 +18,10 @@ import {
   TethersListContainer,
   CurrentTethersList,
   Map,
-  TitleAndEdit,
   modalStyles,
+  RightAlign,
+  CompleteContainer,
+  CompleteTitle,
 } from './styles';
 import MyParticipant from './MyParticipant';
 
@@ -147,13 +149,11 @@ const Tethers: FC = () => {
             return (
               <CurrentTethersList>
                 <Map key={myCompleteTether.tether_id}>
-                  <TitleAndEdit>
-                    {/* Right-align the date for readability */}
-                    {/* Show the usernames of people who participated */}
-                    <p>
-                      {myCompleteTether.tether_name} Completed on {formattedDate}
-                    </p>
-                  </TitleAndEdit>
+                  {/* Show the usernames of people who participated */}
+                  <CompleteContainer>
+                    <CompleteTitle>{myCompleteTether.tether_name}</CompleteTitle>
+                    <RightAlign>Completed on {formattedDate}</RightAlign>
+                  </CompleteContainer>
                 </Map>
                 <hr />
               </CurrentTethersList>
