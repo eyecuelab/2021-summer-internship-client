@@ -5,13 +5,29 @@ import styled from 'styled-components';
 import ProfileAvatar from '../../components/ProfileAvatar';
 import BellOval from '../../components/BellOval';
 import dayjs from 'dayjs';
-import BadgeMap from '../../components/BadgeMap';
+import Badge01 from '../../components/Badges/Badge01';
+import Badge02 from '../../components/Badges/Badge02';
+import Badge12 from '../../components/Badges/Badge12';
+import Badge11 from '../../components/Badges/Badge11';
+import Badge03 from '../../components/Badges/Badge03';
+import Badge04 from '../../components/Badges/Badge04';
+import Badge14 from '../../components/Badges/Badge14';
+import Badge09 from '../../components/Badges/Badge09';
 
 const Activity: FC = () => {
   const user = useAppSelector((state) => state.oneUser);
   const myParticipatingTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
   const recentTethers = useAppSelector((state) => state.recentTethers);
+  const countArt = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Art').length;
+  const countExercise = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Exercise').length;
+  const countMusic = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Music').length;
+  const countNature = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Nature').length;
+  const countSocial = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Social').length;
+  const countWellness = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Wellness').length;
+  const countTotal = countArt + countExercise + countMusic + countNature + countSocial + countWellness;
+  const showFive = (countTotal >= 5) ? true : false;
+  const showTwentyFive = (countTotal >= 25) ? true : false;
 
   return (
     <ActivityContainer>
@@ -43,33 +59,106 @@ const Activity: FC = () => {
           </RowData>
         </DataTable>
         <Badges>
-          <h1>{`Badges (14)`}</h1>
-          <BadgeMap />
+          <h1>{`Badges (${countTotal})`}</h1>
+          <BadgeGrid>
+            {countArt > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge12 />
+                  </BadgeIcon>
+                } <p>x{countArt}</p>
+              </BadgeCard>
+            }
+            {countExercise > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge11 />
+                  </BadgeIcon>
+                } <p>x{countExercise}</p>
+              </BadgeCard>
+            }
+            {countMusic > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge04 />
+                  </BadgeIcon>
+                } <p>x{countMusic}</p>
+              </BadgeCard>
+            }
+            {countNature > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge14 />
+                  </BadgeIcon>
+                } <p>x{countNature}</p>
+              </BadgeCard>
+            }
+            {countSocial > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge09 />
+                  </BadgeIcon>
+                } <p>x{countSocial}</p>
+              </BadgeCard>
+            }
+            {countWellness > 0 &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge03 />
+                  </BadgeIcon>
+                } <p>x{countWellness}</p>
+              </BadgeCard>
+            }
+            {showFive &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge02 />
+                  </BadgeIcon>
+                } x5 Tethers <p>{showFive}</p>
+              </BadgeCard>
+            }
+            {showTwentyFive &&
+              <BadgeCard>
+                {
+                  <BadgeIcon>
+                    <Badge01 />
+                  </BadgeIcon>
+                } x25 Tethers
+              </BadgeCard>
+            }
+          </BadgeGrid>
         </Badges>
       </Profile>
       <FriendActivity>
-          <h1>Friend Activity</h1>
-          <CardContainer>
-            {recentTethers?.filter(recentTether => recentTether.tether_created_by_plain !== user.username).map((recentTether) => {
-              const formattedDate = dayjs(recentTether.tether_completed_on).format('MM/DD/YYYY');
-              return(
-                <FriendActivityCard>
-                  <FriendActivityHeader>
-                  <p>{formattedDate}</p>
-                    <Rings>
-                      <p>Rings</p>
-                      <BellOval />
-                    </Rings>
-                  </FriendActivityHeader>
-                      <FriendActivityBody>
-                        <h2>{recentTether.tether_name}</h2>
-                        <p>{recentTether.tether_created_by_plain}</p>
-                      </FriendActivityBody>
-                </FriendActivityCard>
-              )
-            })}
-          </CardContainer>
-        </FriendActivity>
+        <h1>Friend Activity</h1>
+        <CardContainer>
+          {recentTethers?.filter(recentTether => recentTether.tether_created_by_plain !== user.username).map((recentTether) => {
+            const formattedDate = dayjs(recentTether.tether_completed_on).format('MM/DD/YYYY');
+            return(
+              <FriendActivityCard>
+                <FriendActivityHeader>
+                <p>{formattedDate}</p>
+                  <Rings>
+                    <p>Rings</p>
+                    <BellOval />
+                  </Rings>
+                </FriendActivityHeader>
+                  <FriendActivityBody>
+                    <h2>{recentTether.tether_name} - {recentTether.tether_category}</h2>
+                    <p>{recentTether.tether_created_by_plain}</p>
+                  </FriendActivityBody>
+              </FriendActivityCard>
+            )
+          })}
+        </CardContainer>
+      </FriendActivity>
     </ActivityContainer>
   );
 };
@@ -79,9 +168,14 @@ export default Activity;
 const Badges = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 90%;
   height: 40vh;
-  margin: 50px 40px;
+  margin: 0px 40px;
+  font-family: Gotham-Black;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
   h1 {
     font-family: Gotham-Black;
     font-style: normal;
@@ -91,6 +185,33 @@ const Badges = styled.div`
     text-transform: uppercase;
   }
 `;
+
+const BadgeCard = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 50%;
+  flex-direction: row;
+  p {
+    margin: 25px 0px 0px -22px;
+  }
+  margin-top: 17px;
+`
+
+const BadgeIcon = styled.div`
+  padding-right: 20px;
+`
+
+const BadgeGrid = styled.div`
+  display: grid;
+  grid-template-columns: 33% auto 33%;
+  p {
+    font-family: Gotham-Black;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+  }
+`
 
 const ActivityContainer = styled.div`
   display: flex;

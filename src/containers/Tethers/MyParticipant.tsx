@@ -1,7 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
+import Modal from 'react-modal';
 import Chevron from '../../components/chevron';
 import DarkBar from '../../components/DarkBar';
 import BlankBar from '../../components/BlankBar';
+import EditForm from '../../components/EditTetherForm';
 import AvatarPin from '../../components/AvatarPin';
 import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircle from '../../components/BellCircle';
@@ -9,7 +11,7 @@ import PlusCircle from '../../components/PlusCircle';
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
-import { getMyTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getAllParticipantLinks, selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import {
   CurrentTethersList,
@@ -28,6 +30,7 @@ import {
   OnePersonDotContainer,
   CenteringProgressDotContainer,
   MainUserDotContainer,
+  modalStyles,
   ZeroDotContainer,
   CurrentDot,
   IncompleteDot,
@@ -49,15 +52,16 @@ interface MyParticipantProps {
 const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
-  setModalIsOpen,
   setConfettiVisible,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.oneUser);
+  const myParticipants = useAppSelector((state) => state.myTethers);
   const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
   const currentPluses = totalLinksRendered - completeLinksRendered ? 1 : 0; // Don't render plus link if it's done
@@ -77,6 +81,22 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     };
     dispatch(createIncrementId({ data, onIncrementSuccess }));
   };
+
+  function openModal() {
+    setModalIsOpen(true);
+    dispatch(setMyTethers(myParticipants));
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+    setConfettiVisible(false);
+    dispatch(setMyTethers(myParticipants));
+  }
+
+  function handleShowEditTetherPage() {
+    openModal();
+    dispatch(setMyTethers(myParticipants));
+  }
 
   const bell = canRingTheBell ? (
     <BellCircleDark
@@ -98,9 +118,18 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       <Map key={myParticipant.id}>
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
-          <Edit>
+          <Edit onClick={handleShowEditTetherPage}>
             <p>Edit</p>
           </Edit>
+          <Modal
+            isOpen={modalIsOpen}
+            shouldCloseOnOverlayClick={false}
+            style={modalStyles}
+            className="Modal"
+            overlayClassName="Overlay"
+          >
+            <EditForm closeModal={closeModal} />
+          </Modal>
         </TitleAndEdit>
         <Chev
           expanded={expanded}
