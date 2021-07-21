@@ -229,17 +229,34 @@ export const ZeroDotContainer = styled.div<{ showBorder: Boolean }>`
   margin-left: -50px;
 `;
 
-export const ZeroDot = styled.div`
-  width: 10px;
-  height: 30px;
+export const ZeroDot = styled.div<{ currentUser: {}, key: Number }>`
+  width: 40px;
+  height: 47px;
   border-radius: 60px;
-  background: black;
-  transform: translate(0px, -35px);
+  font-size: 20px;
+  margin-top: -60px;
+  transform: translate(0px, 15px);
   p {
+    white-space: nowrap;
+    margin-top: -45px;
     opacity: 0;
     cursor: default;
     transition: .1s;
+    ${(props) => {
+      if (props.currentUser) {
+        return `
+          margin-top: -110px;
+        `
+      }
+    }}
   }
+  ${(props) => {
+    if (props.currentUser) {
+      return `
+      margin-top: -130px;
+      `
+    }
+  }}
   &:hover {
     p {
       opacity: 1;
@@ -258,16 +275,34 @@ export const AllDotContainer = styled.div<{ showBorder: Boolean }>`
   margin-right: -50px;
 `;
 
-export const AllDot = styled.div`
-  width: 10px;
-  height: 30px;
+export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
+  width: 40px;
+  height: 47px;
   border-radius: 60px;
-  background: gold;
+  font-size: 20px;
+  margin-top: -49px;
+  transform: translate(0px, 15px);
   p {
+    white-space: nowrap;
+    margin-top: -45px;
     opacity: 0;
     cursor: default;
     transition: .1s;
+    ${(props) => {
+      if (props.currentUser) {
+        return `
+          margin-top: -110px;
+        `
+      }
+    }}
   }
+  ${(props) => {
+    if (props.currentUser) {
+      return `
+      margin-top: -140px;
+      `
+    }
+  }}
   &:hover {
     p {
       opacity: 1;
