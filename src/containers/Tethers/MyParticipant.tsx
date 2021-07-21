@@ -1,16 +1,18 @@
-import { useState } from 'react';
 import Modal from 'react-modal';
+import { useState } from 'react';
 import Chevron from '../../components/chevron';
 import DarkBar from '../../components/DarkBar';
 import BlankBar from '../../components/BlankBar';
-import EditForm from '../../components/EditTetherForm';
 import AvatarPin from '../../components/AvatarPin';
-import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircle from '../../components/BellCircle';
 import PlusCircle from '../../components/PlusCircle';
+import EditForm from '../../components/EditTetherForm';
+import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
 import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getAllParticipantLinks, selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import {
@@ -38,8 +40,10 @@ import {
   AllDotContainer,
   ZeroDot,
 } from './styles';
-import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
-import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
+import {
+  TransitionGroup,
+  CSSTransition
+} from "react-transition-group";
 
 interface MyParticipantProps {
   myParticipant: any;
@@ -78,6 +82,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const handleIncrement = (data: { id: string }) => {
     const onIncrementSuccess = () => {
       dispatch(getMyTethers(user.id));
+      dispatch(getAllParticipantLinks(myParticipant.tether_id.tether_id));
     };
     dispatch(createIncrementId({ data, onIncrementSuccess }));
   };
@@ -118,9 +123,12 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       <Map key={myParticipant.id}>
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
-          <Edit onClick={handleShowEditTetherPage}>
-            <p>Edit</p>
-          </Edit>
+          {
+            expanded &&
+            <Edit onClick={handleShowEditTetherPage}>
+              <p>Edit</p>
+            </Edit>
+          }
           <Modal
             isOpen={modalIsOpen}
             shouldCloseOnOverlayClick={false}
@@ -128,7 +136,16 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
             className="Modal"
             overlayClassName="Overlay"
           >
-            <EditForm closeModal={closeModal} id={myParticipant.tether_id.tether_id}/>
+            <EditForm
+              closeModal={closeModal}
+              id={myParticipant.tether_id.tether_id}
+              oldTetherActivity={myParticipant.tether_id.tether_activity}
+              oldTetherDuration={myParticipant.tether_id.tether_duration}
+              oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
+              oldTetherFrequency={myParticipant.tether_id.tether_frequency}
+              oldTetherTimespan={myParticipant.tether_id.tether_timespan}
+              oldTetherCategory={myParticipant.tether_id.tether_category}
+            />
           </Modal>
         </TitleAndEdit>
         <Chev
@@ -144,7 +161,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       {expanded && (
         <Expanded>
           <NameAndPercent>
-            <p>{myParticipant.tether_id.tether_name}</p>
+            <p>{myParticipant.tether_id.tether_activity} - {myParticipant.tether_id.tether_duration} {myParticipant.tether_id.tether_duration_noun} a {myParticipant.tether_id.tether_frequency}, {myParticipant.tether_id.tether_timespan} times</p>
             <p>
               {Math.round((parseInt(myParticipant.links_completed) / parseInt(myParticipant.links_total)) * 100)}%
               Complete
@@ -179,7 +196,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                       <ZeroDotContainer showBorder={showBorder}>
                         {noLinks &&
                           [...Array(1)].map((e, i) => (
-                            <ZeroDot key={i}>
+                            <ZeroDot key={i} currentUser={participant.user_id.username === user.username}>
+                              {
+                                participant.user_id.username === user.username &&
+                                <MyAvatarPin />
+                              }
+                              {
+                                participant.user_id.username !== user.username &&
+                                <AvatarPin />
+                              }
                               <p>{participant.user_id.username}</p>
                             </ZeroDot>
                           ))}
@@ -228,7 +253,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                       <AllDotContainer showBorder={showBorder}>
                         {allLinks &&
                           [...Array(1)].map((e, i) => (
-                            <AllDot key={i}>
+                            <AllDot key={i} currentUser={participant.user_id.username === user.username}>
+                              {
+                                participant.user_id.username === user.username &&
+                                <MyAvatarPin />
+                              }
+                              {
+                                participant.user_id.username !== user.username &&
+                                <AvatarPin />
+                              }
                               <p>{participant.user_id.username}</p>
                             </AllDot>
                           ))}
