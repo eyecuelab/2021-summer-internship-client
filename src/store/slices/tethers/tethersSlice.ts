@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CreateTetherPayload } from './sagas';
+import { CreateTetherPayload, UpdateTetherPayload } from './sagas';
 
 const initialState: any[] = [];
 
@@ -15,9 +15,12 @@ const tethersSlice = createSlice({
     createTether(state, action: PayloadAction<CreateTetherPayload>) {
       return state;
     },
+    updateTether(state, action: PayloadAction<UpdateTetherPayload>) {
+      return state;
+    },
   },
 });
 
-export const { setTethers, getTethers, createTether } = tethersSlice.actions;
+export const { setTethers, getTethers, createTether, updateTether } = tethersSlice.actions;
 
 export default tethersSlice.reducer;
