@@ -6,9 +6,11 @@ import './index.css';
 import SearchIcon from '../../components/SearchIcon';
 import 'simplebar/dist/simplebar.min.css';
 import AvatarCircle from '../../components/AvatarCircle';
+import FriendRequestsList from '../../components/FriendRequestsList'
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
+  const allTethersTotal = useAppSelector((state) => state.allUsersTetherCounts);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');
@@ -65,6 +67,8 @@ const Friends: FC = () => {
         {
           show === 'users' &&
           users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
+            const countInProgress = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
+            const countComplete = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
             return (
               <YourFriendsList>
                 <FullRowContainer>
@@ -75,7 +79,7 @@ const Friends: FC = () => {
                   <RowDataContainer>
                     <DataTethers>
                         {/* Tethers Completed */}
-                        <p>{user.tethers_completed}</p>
+                        <p>{countInProgress}</p>
                     </DataTethers>
                     <DataShared>
                         {/* Shared... use Tethers Ongoing? */}
@@ -83,11 +87,10 @@ const Friends: FC = () => {
                     </DataShared>
                     <DataXp>
                         {/* XP */}
-                        <p>{user.xp}</p>
+                        <p>{(countInProgress * 10) + (countComplete * 50)}</p>
                     </DataXp>
                     <DataBadges>
-                        {/* Badges (IN PROGRESS) */}
-                        <p>{(user.xp) * 5}</p>
+                        <p>{countComplete}</p>
                     </DataBadges>
                   </RowDataContainer>
                 </FullRowContainer>
@@ -101,7 +104,8 @@ const Friends: FC = () => {
       <RightSide>
         <FriendRequests>
           <h1>Friend Requests</h1>
-          <Request>
+          <FriendRequestsList />
+          {/* <Request>
             <RequestHeader>
               <p>Date</p>
               <RequestXpAndBadges>
@@ -109,7 +113,7 @@ const Friends: FC = () => {
                 <p>Badges</p>
               </RequestXpAndBadges>
             </RequestHeader>
-          </Request>
+          </Request> */}
         </FriendRequests>
       </RightSide>
     </FriendsContainer>
@@ -137,6 +141,7 @@ const RightSide = styled.div`
   grid-area: right;
   grid-row-start: 1;
   grid-column-start: 2;
+  margin-left: 8%;
 `;
 
 const YourFind = styled.div`

@@ -9,6 +9,7 @@ import { watchRingTheBell } from './ringTheBell/sagas';
 import { watchRecentTethers } from './recentTethers/sagas';
 import { watchMyCompleteTethers } from './myCompleteTethers/sagas';
 import { watchallParticipantLinks } from './allParticipantLinks/sagas';
+import { watchAllUsersTetherCounts } from './allUsersTetherCounts/sagas';
 import { watchCreateParticipantLink } from './createParticipantLink/sagas';
 
 export default function* rootSaga() {
@@ -24,6 +25,7 @@ export default function* rootSaga() {
       watchRecentTethers(),
       watchMyCompleteTethers(),
       watchallParticipantLinks(),
+      watchAllUsersTetherCounts(),
       watchCreateParticipantLink(),
     ]
   );
