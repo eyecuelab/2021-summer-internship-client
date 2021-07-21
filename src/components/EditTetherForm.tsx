@@ -9,6 +9,7 @@ import SearchIcon from '../components/SearchIcon';
 import { getMyTethers } from '../store/slices/myTethers/myTethersSlice';
 
 interface EditTetherFormData {
+  tether_name: string;
   tether_activity: string;
   tether_duration: number;
   tether_duration_noun: string;
@@ -25,19 +26,25 @@ const schema = yup.object().shape({
   tether_timespan: yup.number().positive().integer().required(),
   tether_category: yup.string().oneOf(['Art', 'Social', 'Exercise', 'Music', 'Nature', 'Wellness']).required(),
 });
-
-const defaultValues = {
-  tether_activity: '',
-  tether_duration: 1,
-  tether_duration_noun: '',
-  tether_frequency: 'Day',
-  tether_timespan: 10,
-  tether_category: 'Art',
-};
 interface FormProps {
   closeModal: () => void,
-  id: string
+  id: string,
+  oldTetherActivity: string,
+  oldTetherDuration: number,
+  oldTetherDurationNoun: string,
+  oldTetherFrequency: string,
+  oldTetherTimespan: number,
+  oldTetherCategory: string,
 };
+
+// const defaultValues = {
+//   tether_activity: '',
+//   tether_duration: 1,
+//   tether_duration_noun: '',
+//   tether_frequency: 'Day',
+//   tether_timespan: 10,
+//   tether_category: 'Art',
+// };
 
 const EditForm: FC<FormProps> = (props) => {
   const dispatch = useAppDispatch();
@@ -47,6 +54,15 @@ const EditForm: FC<FormProps> = (props) => {
   const [formStep, setFormStep] = useState('one');
   const [searchTerm, setSearchTerm] = useState('');
 
+  const defaultValues = {
+    tether_activity: props.oldTetherActivity,
+    tether_duration: props.oldTetherDuration,
+    tether_duration_noun: props.oldTetherDurationNoun,
+    tether_frequency: props.oldTetherFrequency,
+    tether_timespan: props.oldTetherTimespan,
+    tether_category: props.oldTetherCategory,
+  };
+
   const {
     register,
     formState: { errors },
@@ -54,17 +70,23 @@ const EditForm: FC<FormProps> = (props) => {
     watch
   } = useForm<EditTetherFormData>({ defaultValues, resolver: yupResolver(schema) });
 
+  // For auto-generated titles
   const tetherActivity = watch('tether_activity');
   const tetherDuration = watch('tether_duration');
   const tetherDurationNoun = watch('tether_duration_noun');
   const tetherFrequency = watch('tether_frequency');
   const tetherTimespan = watch('tether_timespan');
+  const tetherCategory = watch('tether_category');
+  const tetherName = watch('tether_name');
 
   const onSuccess = () => {
     dispatch(getMyTethers(loggedInUser.id));
   }
 
   const onSubmit = (data: EditTetherFormData) => {
+    // Need to pass in the actual title's value here at the latest
+    // Ideally it's sent in from the form
+    data.tether_name = tetherName;
     dispatch(updateTether({ data, id, onSuccess }));
     closeModal();
   };
@@ -76,18 +98,25 @@ const EditForm: FC<FormProps> = (props) => {
     >
       <FormHeader>
         <p>Edit Tether</p>
-        {
+        {/* {
           formStep === 'one' &&
           <p>Step 1/<span style={{ fontSize: '24px' }}>2</span></p>
-        }
-        {
-          formStep === 'two' &&
-          <p>Step 2/<span style={{ fontSize: '24px' }}>2</span></p>
-        }
+        } */}
       </FormHeader>
       <FormTitle>
+        {/* Here is where we'll want an editable textbox to change the name
+        Might want to make this toggle-able if the user wants to retain
+        the auto-generated name */}
+        {/* Additionally, can we get it to load the tether's data? */}
         <p>
-        {`${tetherActivity} - ${tetherDuration} ${tetherDurationNoun} a ${tetherFrequency}, ${tetherTimespan} times`}
+          <label htmlFor="name">Customize Title</label>
+          <FormInputRow>
+            <TetherName
+              type="text" onFocus={(e) => e.target.placeholder = ''}
+              placeholder="Chillaxin', Book Club Bosses, etc."
+              {...register('tether_name')}
+            />
+          </FormInputRow>
         </p>
       </FormTitle>
 
@@ -442,6 +471,10 @@ const FormInputRow = styled.div`
     padding-right: 148px;
   }
 `;
+
+const TetherName = styled.input`
+  width: 200px;
+  `;
 
 const TetherActivity = styled.input`
   width: 200px;
