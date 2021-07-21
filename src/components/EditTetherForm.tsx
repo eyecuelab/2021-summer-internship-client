@@ -6,23 +6,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { updateTether } from '../store/slices/tethers/tethersSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import SearchIcon from '../components/SearchIcon';
-import ProposeTether from '../components/ProposeTether';
-import { createParticipantLink } from '../store/slices/createParticipantLink/createParticipantLinkSlice';
 import { getMyTethers } from '../store/slices/myTethers/myTethersSlice';
 
-interface TetherFormData {
+interface EditTetherFormData {
   tether_activity: string;
   tether_duration: number;
   tether_duration_noun: string;
   tether_frequency: string;
   tether_timespan: number;
   tether_category: string;
-};
-
-interface ParticipantFormData {
-  tether_id: string;
-  user_id: string;
-  links_total: number;
 };
 
 const schema = yup.object().shape({
@@ -43,15 +35,15 @@ const defaultValues = {
   tether_category: 'Art',
 };
 interface FormProps {
-  closeModal: () => void
+  closeModal: () => void,
+  id: string
 };
 
 const EditForm: FC<FormProps> = (props) => {
   const dispatch = useAppDispatch();
   const { closeModal } = props;
-  const users = useAppSelector((state) => state.users);
+  const { id } = props;
   const loggedInUser = useAppSelector((state) => state.oneUser);
-  const participantId = useAppSelector((state) => state.impendingParticipantLink);
   const [formStep, setFormStep] = useState('one');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -60,7 +52,7 @@ const EditForm: FC<FormProps> = (props) => {
     formState: { errors },
     handleSubmit,
     watch
-  } = useForm<TetherFormData>({ defaultValues, resolver: yupResolver(schema) });
+  } = useForm<EditTetherFormData>({ defaultValues, resolver: yupResolver(schema) });
 
   const tetherActivity = watch('tether_activity');
   const tetherDuration = watch('tether_duration');
@@ -72,14 +64,10 @@ const EditForm: FC<FormProps> = (props) => {
     dispatch(getMyTethers(loggedInUser.id));
   }
 
-  const onSubmit = (data: TetherFormData) => {
-    dispatch(updateTether({ data, onSuccess }));
-    setFormStep('two');
+  const onSubmit = (data: EditTetherFormData) => {
+    dispatch(updateTether({ data, id, onSuccess }));
+    closeModal();
   };
-
-  const handleCreateParticipantLink = (data: ParticipantFormData) => {
-    dispatch(createParticipantLink({data, onSuccess}));
-  }
 
   return (
     <TetherForm
@@ -87,8 +75,7 @@ const EditForm: FC<FormProps> = (props) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <FormHeader>
-        <p>Create Tether</p>
-        {/* Remove inline styling */}
+        <p>Edit Tether</p>
         {
           formStep === 'one' &&
           <p>Step 1/<span style={{ fontSize: '24px' }}>2</span></p>
@@ -195,40 +182,13 @@ const EditForm: FC<FormProps> = (props) => {
             <hr />
           </FriendAttributesHeader>
         }
-        {
-          formStep === 'two' &&
-          <FriendsList>
-          {
-            users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
-              return (
-                <>
-                  <Map key={user.id}>
-                    <p>{user.username}</p>
-                    <ProposeButton
-                      type="button"
-                      onClick={
-                        () => {
-                          handleCreateParticipantLink(
-                          {tether_id: participantId.toString(), user_id: user.id, links_total: Number(tetherTimespan)});
-                        }
-                      }>
-                      <ProposeTether />
-                    </ProposeButton>
-                  </Map>
-                  <hr />
-                </>
-              );
-            })
-          }
-          </FriendsList>
-        }
       </FormInnerContent>
       <FormButtons>
         <button onClick={closeModal}>Cancel</button>
         {
           formStep === 'one' &&
           <button type="submit" value="Submit">
-            Next Step
+            Update Tether
           </button>
         }
         {
@@ -292,11 +252,6 @@ const SearchInput = styled.input`
       color: #003E6A;
     }
   }
-`
-
-const ProposeButton = styled.button`
-  border: none;
-  background: none;
 `
 
 const TetherForm = styled.form`
@@ -421,31 +376,6 @@ const FormInputs = styled.div`
   }
 `;
 
-const FriendsList = styled.div`
-  width: 640px;
-  height: 190px;
-  margin-left: 32px;
-  font-family: Work Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 22px;
-  line-height: 26px;
-  color: #003E6A;
-  padding-top: 10px;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 21px;
-  color: #003E6A;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  hr {
-    opacity: .25;
-    border-radius: 80px;
-  }
-`;
-
 const FriendAttributesHeader = styled.div`
   margin-left: 32px;
   display: flex;
@@ -493,17 +423,6 @@ const FriendAttributes = styled.div`
     font-size: 12px;
     line-height: 14px;
     margin: 0px 20px 0px;
-  }
-`;
-
-const Map = styled.map`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  p {
-    cursor: default;
-    margin: 0;
   }
 `;
 

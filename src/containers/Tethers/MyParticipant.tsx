@@ -128,7 +128,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
             className="Modal"
             overlayClassName="Overlay"
           >
-            <EditForm closeModal={closeModal} />
+            <EditForm closeModal={closeModal} id={myParticipant.tether_id.tether_id}/>
           </Modal>
         </TitleAndEdit>
         <Chev

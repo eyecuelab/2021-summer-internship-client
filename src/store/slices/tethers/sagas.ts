@@ -56,9 +56,9 @@ function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
 }
 
 function* updateExistingTether(action: PayloadAction<UpdateTetherPayload>) {
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/${action.payload.id}`, 'PATCH', action.payload.data);
+  const { id } = action.payload;
+  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/${id}`, 'PATCH', action.payload.data);
   if (success) {
-    yield put(setImpendingParticipantLink(data.tether_id));
     if (action.payload.onSuccess) {
       action.payload.onSuccess();
     }
