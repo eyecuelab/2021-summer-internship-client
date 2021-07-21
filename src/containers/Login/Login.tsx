@@ -56,13 +56,10 @@ const InputContainer = styled.div`
   margin-bottom: 3rem;
   input {
     height: 20px;
-    width: 160px;
+    width: 120px;
     padding-left: 10px;
     border-radius: 4px;
     border: none;
-    font-family: Work Sans;
-    font-style: normal;
-    font-size: 16px;
     color: #003E6A;
   }
 `;
@@ -91,7 +88,7 @@ const LoginButton = styled.button`
   font-size: 18px;
   line-height: 21px;
   color: #FFFFFF;
-  transition: .2s;
+  transition: .1s;
   &:hover {
     background: #FFFFFF;
     color: #003E6A;

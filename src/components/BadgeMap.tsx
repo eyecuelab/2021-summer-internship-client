@@ -48,4 +48,4 @@ const Map = styled.div`
   svg {
     padding: 5px 6px 4px 0px;
   }
-`
+`;
