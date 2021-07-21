@@ -29,6 +29,7 @@ export interface CreateTetherPayload {
 
 export interface UpdateTetherPayload {
   data: {
+    tether_name: string;
     tether_activity: string;
     tether_duration: number;
     tether_duration_noun: string;
