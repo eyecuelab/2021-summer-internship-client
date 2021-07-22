@@ -280,7 +280,7 @@ export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
   height: 47px;
   border-radius: 60px;
   font-size: 20px;
-  margin-top: -49px;
+  margin-top: -55px;
   transform: translate(0px, 15px);
   p {
     white-space: nowrap;
