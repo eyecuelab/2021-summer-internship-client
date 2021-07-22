@@ -28,10 +28,6 @@ export const BadgeCard = styled.div`
   width: 50%;
   flex-direction: row;
   margin-top: 17px;
-  /* padding: 15px 0px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(25px);
-  border-radius: 12px; */
 `
 
 export const BadgeIcon = styled.div`
@@ -199,4 +195,19 @@ export const FriendActivityBody = styled.div`
     line-height: 16px;
     padding-top: 15px;
   }
+`;
+
+export const TitleAndUsername = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 0px 5px;
+`;
+
+export const BadgeBackground = styled.div`
+  background: rgb(80, 152, 201);
+  width: fit-content;
+  height: fit-content;
+  z-index: 2;
+  border-top-right-radius: 50%;
 `;
