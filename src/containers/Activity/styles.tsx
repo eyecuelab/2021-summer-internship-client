@@ -171,6 +171,9 @@ export const Rings = styled.div`
 
 export const FriendActivityBody = styled.div`
   margin: 0px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
   font-family: Work Sans;
   overflow: hidden;
   position: relative;
@@ -206,8 +209,9 @@ export const TitleAndUsername = styled.div`
 
 export const BadgeBackground = styled.div`
   background: rgb(80, 152, 201);
-  width: fit-content;
-  height: fit-content;
+  backdrop-filter: blur(25px);
+  width: 49px;
+  height: 49px;
   z-index: 2;
-  border-top-right-radius: 50%;
+  border-radius: 50%;
 `;

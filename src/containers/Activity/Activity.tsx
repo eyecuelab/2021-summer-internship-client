@@ -13,7 +13,7 @@ import Badge04 from '../../components/Badges/Badge04';
 import Badge14 from '../../components/Badges/Badge14';
 import Badge09 from '../../components/Badges/Badge09';
 
-import 
+import
   { ActivityContainer,
     Profile,
     Name,
@@ -171,38 +171,38 @@ const Activity: FC = () => {
                     <BellOval />
                   </Rings>
                 </FriendActivityHeader>
-                  <FriendActivityBody>
-                    <BadgeBackground>
-                      {
-                        recentTether.tether_category === 'Art' &&
-                        <Badge12 />
-                      }
-                      {
-                        recentTether.tether_category === 'Exercise' &&
-                        <Badge11 />
-                      }
-                      {
-                        recentTether.tether_category === 'Music' &&
-                        <Badge04 />
-                      }
-                      {
-                        recentTether.tether_category === 'Nature' &&
-                        <Badge14 />
-                      }
-                      {
-                        recentTether.tether_category === 'Social' &&
-                        <Badge09 />
-                      }
-                      {
-                        recentTether.tether_category === 'Wellness' &&
-                        <Badge03 />
-                      }
-                    </BadgeBackground>
-                    <TitleAndUsername>
-                      <h2>{recentTether.tether_name}</h2>
-                      <p>{recentTether.tether_created_by_plain}</p>
-                    </TitleAndUsername>
-                  </FriendActivityBody>
+                <FriendActivityBody>
+                  <BadgeBackground>
+                    {
+                      recentTether.tether_category === 'Art' &&
+                      <Badge12 />
+                    }
+                    {
+                      recentTether.tether_category === 'Exercise' &&
+                      <Badge11 />
+                    }
+                    {
+                      recentTether.tether_category === 'Music' &&
+                      <Badge04 />
+                    }
+                    {
+                      recentTether.tether_category === 'Nature' &&
+                      <Badge14 />
+                    }
+                    {
+                      recentTether.tether_category === 'Social' &&
+                      <Badge09 />
+                    }
+                    {
+                      recentTether.tether_category === 'Wellness' &&
+                      <Badge03 />
+                    }
+                  </BadgeBackground>
+                  <TitleAndUsername>
+                    <h2>{recentTether.tether_name}</h2>
+                    <p>{recentTether.tether_created_by_plain}</p>
+                  </TitleAndUsername>
+                </FriendActivityBody>
               </FriendActivityCard>
             )
           })}

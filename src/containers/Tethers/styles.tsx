@@ -226,7 +226,7 @@ export const ZeroDotContainer = styled.div<{ showBorder: Boolean }>`
   width: 50px;
   max-height: 30px;
   ${(props) => props.showBorder && 'border: 2px solid gold;'}
-  margin-left: -20px;
+  margin-left: -50px;
 `;
 
 export const ZeroDot = styled.div<{ currentUser: {}, key: Number }>`
@@ -235,7 +235,7 @@ export const ZeroDot = styled.div<{ currentUser: {}, key: Number }>`
   border-radius: 60px;
   font-size: 20px;
   margin-top: -60px;
-  transform: translate(0px, 15px);
+  transform: translate(30px, 15px);
   p {
     white-space: nowrap;
     margin-top: -45px;
@@ -272,7 +272,7 @@ export const AllDotContainer = styled.div<{ showBorder: Boolean }>`
   justify-content: right;
   align-items: right;
   ${(props) => props.showBorder && 'border: 2px solid gold;'}
-  margin-right: -20px;
+  margin-right: -50px;
 `;
 
 export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
@@ -281,7 +281,7 @@ export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
   border-radius: 60px;
   font-size: 20px;
   margin-top: -55px;
-  transform: translate(0px, 15px);
+  transform: translate(-30px, 15px);
   p {
     white-space: nowrap;
     margin-top: -45px;

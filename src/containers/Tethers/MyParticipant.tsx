@@ -9,6 +9,8 @@ import PlusCircle from '../../components/PlusCircle';
 import EditForm from '../../components/EditTetherForm';
 import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircleDark from '../../components/BellCircleDark';
+import CongratsModal from '../../components/CongratsModal';
+import ConfettiEffect from '../../components/ConfettiEffect';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
@@ -54,7 +56,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
   setConfettiVisible,
-  setActiveModal,
+  // setActiveModal,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
@@ -64,6 +66,8 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
+  const tetherTitle = useAppSelector((state) => state.tetherTitle);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
   const currentPluses = totalLinksRendered - completeLinksRendered ? 1 : 0; // Don't render plus link if it's done
@@ -74,7 +78,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     };
     dispatch(createRingTheBell({ data, onSuccess }));
     setConfettiVisible(true);
-    setActiveModal('Confetti')
+    setActiveModal('Confetti');
     setModalIsOpen(true);
   };
 
@@ -124,6 +128,20 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       <Map key={myParticipant.id}>
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
+          {activeModal === 'Confetti' &&
+          <>
+            <ConfettiEffect />
+            <Modal
+              isOpen={modalIsOpen}
+              shouldCloseOnOverlayClick={false}
+              style={modalStyles}
+              className="CongratsModal"
+              overlayClassName="Overlay"
+            >
+              <CongratsModal closeModal={closeModal} tetherTitle={tetherTitle} />
+            </Modal>
+          </>
+        }
           {
             expanded &&
             <>

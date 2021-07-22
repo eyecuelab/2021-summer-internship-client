@@ -7,7 +7,7 @@ import 'simplebar/dist/simplebar.min.css';
 import AvatarCircle from '../../components/AvatarCircle';
 import FriendRequestsList from '../../components/FriendRequestsList'
 
-import { 
+import {
     FriendsContainer,
     LeftSide,
     YourFind,
@@ -91,7 +91,8 @@ const Friends: FC = () => {
           show === 'users' &&
           users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
             const countInProgress = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
-            const countComplete = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
+            const countComplete = allTethersTotal.filter(participant => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_completed_on)).length;
+            const countShared = 5;
             return (
               <YourFriendsList>
                 <FullRowContainer>
@@ -104,7 +105,7 @@ const Friends: FC = () => {
                         <p>{countInProgress}</p>
                     </DataTethers>
                     <DataShared>
-                        <p>{user.tethers_completed}</p>
+                        <p>{countShared}</p>
                     </DataShared>
                     <DataXp>
                         <p>{(countInProgress * 10) + (countComplete * 50)}</p>

@@ -33,6 +33,7 @@ const Tethers: FC = () => {
   const myParticipants = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
   const tetherTitle = useAppSelector((state) => state.tetherTitle);
+  const allTethersTotal = useAppSelector((state) => state.allUsersTetherCounts);
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
@@ -81,7 +82,7 @@ const Tethers: FC = () => {
   return (
     <div>
       <CurrentCompleted>
-        {confettiVisible &&
+        {activeModal === 'Confetti' &&
           <>
             <ConfettiEffect />
             <Modal
@@ -148,7 +149,8 @@ const Tethers: FC = () => {
           ))}
         {show === 'completed' &&
           myCompleteTethers?.map((myCompleteTether) => {
-            const formattedDate = dayjs(myCompleteTether.tether_completed_on).format('MM/DD/YYYY');
+          // allTethersTotal?.filter((participant) => participant?.user_id?.username === user.username).map((participant) => {
+            const formattedDate = dayjs(myCompleteTether?.tether_completed_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
                 <Map key={myCompleteTether.tether_id}>
