@@ -54,10 +54,18 @@ export default Register;
 
 const InputContainer = styled.div`
   display: flex;
-  width: 80%;
+  width: 60%;
   justify-content: space-evenly;
   align-items: baseline;
   margin-bottom: 3rem;
+  input {
+    height: 20px;
+    width: 120px;
+    padding-left: 10px;
+    border-radius: 4px;
+    border: none;
+    color: #003E6A;
+  }
 `;
 
 const Title = styled.div`
