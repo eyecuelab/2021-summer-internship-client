@@ -39,6 +39,7 @@ const Bell = styled.button`
   border: none;
   padding: 0;
   opacity: 1;
+  margin-bottom: 40px;
 `
 
 export default BellCircleDark;
