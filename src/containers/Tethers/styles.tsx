@@ -226,7 +226,7 @@ export const ZeroDotContainer = styled.div<{ showBorder: Boolean }>`
   width: 50px;
   max-height: 30px;
   ${(props) => props.showBorder && 'border: 2px solid gold;'}
-  margin-left: -50px;
+  margin-left: -20px;
 `;
 
 export const ZeroDot = styled.div<{ currentUser: {}, key: Number }>`
@@ -272,7 +272,7 @@ export const AllDotContainer = styled.div<{ showBorder: Boolean }>`
   justify-content: right;
   align-items: right;
   ${(props) => props.showBorder && 'border: 2px solid gold;'}
-  margin-right: -50px;
+  margin-right: -20px;
 `;
 
 export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
