@@ -7,6 +7,15 @@
   border-radius: 12px;
 }
 
+.EditModal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  border-radius: 12px;
+}
+
 .CongratsModal {
   position: absolute;
   top: 40px;
