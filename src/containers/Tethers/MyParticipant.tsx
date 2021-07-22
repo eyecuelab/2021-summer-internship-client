@@ -44,6 +44,9 @@ import {
 interface MyParticipantProps {
   myParticipant: any;
   expanded: boolean;
+  activeModal: string;
+  openModal: () => void;
+  closeModal: () => void;
   // setConfettiVisible: (bool: boolean) => void;
   setActiveModal: (string: string) => void;
   setModalIsOpen: (bool: boolean) => void;
@@ -54,6 +57,9 @@ interface MyParticipantProps {
 const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
+  activeModal,
+  openModal,
+  closeModal,
   // setConfettiVisible,
   setActiveModal,
   handleExpandTether,
@@ -65,7 +71,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [editClickable, setEditClickable] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
   const currentPluses = totalLinksRendered - completeLinksRendered ? 1 : 0; // Don't render plus link if it's done
@@ -73,13 +79,11 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const handleRingTheBell = (data: { tether_id: string }) => {
     const onSuccess = () => {
       dispatch(getMyTethers(user.id));
+      setActiveModal('Confetti');
     };
     dispatch(createRingTheBell({ data, onSuccess }));
     // setConfettiVisible(true);
-    setActiveModal('Confetti');
     setModalIsOpen(true);
-    console.warn(`handleRingTheBell in MyParticipant form`);
-    console.warn(setActiveModal);
   };
 
   const handleIncrement = (data: { id: string }) => {
@@ -90,27 +94,8 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     dispatch(createIncrementId({ data, onIncrementSuccess }));
   };
 
-  function openModal() {
-    setModalIsOpen(true);
-    dispatch(setMyTethers(myParticipants));
-  }
-
-  // function openEditModal() {
-  //   setEditModalIsOpen(true);
-  //   console.warn(`openEditModal`);
-  //   // dispatch(setMyTethers(myParticipants));
-  // }
-
-  function closeModal() {
-    setModalIsOpen(false);
-    // setConfettiVisible(false);
-    setActiveModal('');
-    dispatch(setMyTethers(myParticipants));
-  }
-
   function handleShowEditTetherPage() {
-    console.warn(`handleShowEditTetherPage`);
-    openModal();
+    setModalIsOpen(true);
     // dispatch(setMyTethers(myParticipants));
     setActiveModal('EditTether');
   }
@@ -136,30 +121,31 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
           {
-            expanded &&
-            <>
-              <Edit onClick={handleShowEditTetherPage}>
-                <p>Edit</p>
-              </Edit>
-              <Modal
-                isOpen={modalIsOpen}
-                shouldCloseOnOverlayClick={false}
-                style={modalStyles}
-                className="EditModal"
-                overlayClassName="Overlay"
-              >
-                <EditForm
-                  closeModal={closeModal}
-                  id={myParticipant.tether_id.tether_id}
-                  oldTetherActivity={myParticipant.tether_id.tether_activity}
-                  oldTetherDuration={myParticipant.tether_id.tether_duration}
-                  oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
-                  oldTetherFrequency={myParticipant.tether_id.tether_frequency}
-                  oldTetherTimespan={myParticipant.tether_id.tether_timespan}
-                  oldTetherCategory={myParticipant.tether_id.tether_category}
-                />
-              </Modal>
-            </>
+            editClickable &&
+            <Edit onClick={handleShowEditTetherPage}>
+              <p>Edit</p>
+            </Edit>
+          }
+          {
+            activeModal === 'EditTether' &&
+            <Modal
+              isOpen={modalIsOpen}
+              shouldCloseOnOverlayClick={false}
+              style={modalStyles}
+              className="EditModal"
+              overlayClassName="Overlay"
+            >
+              <EditForm
+                closeModal={closeModal}
+                id={myParticipant.tether_id.tether_id}
+                oldTetherActivity={myParticipant.tether_id.tether_activity}
+                oldTetherDuration={myParticipant.tether_id.tether_duration}
+                oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
+                oldTetherFrequency={myParticipant.tether_id.tether_frequency}
+                oldTetherTimespan={myParticipant.tether_id.tether_timespan}
+                oldTetherCategory={myParticipant.tether_id.tether_category}
+              />
+            </Modal>
           }
         </TitleAndEdit>
         <Chev
@@ -167,6 +153,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
           onClick={() => {
             handleExpandTether(myParticipant.id);
             dispatch(getAllParticipantLinks(myParticipant.tether_id.tether_id));
+            setEditClickable(!editClickable);
           }}
         >
           <Chevron />

@@ -37,15 +37,6 @@ interface FormProps {
   oldTetherCategory: string,
 };
 
-// const defaultValues = {
-//   tether_activity: '',
-//   tether_duration: 1,
-//   tether_duration_noun: '',
-//   tether_frequency: 'Day',
-//   tether_timespan: 10,
-//   tether_category: 'Art',
-// };
-
 const EditForm: FC<FormProps> = (props) => {
   const dispatch = useAppDispatch();
   const { closeModal } = props;
@@ -84,8 +75,6 @@ const EditForm: FC<FormProps> = (props) => {
   }
 
   const onSubmit = (data: EditTetherFormData) => {
-    // Need to pass in the actual title's value here at the latest
-    // Ideally it's sent in from the form
     data.tether_name = tetherName;
     dispatch(updateTether({ data, id, onSuccess }));
     closeModal();
@@ -98,28 +87,19 @@ const EditForm: FC<FormProps> = (props) => {
     >
       <FormHeader>
         <p>Edit Tether</p>
-        {/* {
-          formStep === 'one' &&
-          <p>Step 1/<span style={{ fontSize: '24px' }}>2</span></p>
-        } */}
       </FormHeader>
       <FormTitle>
-        {/* Here is where we'll want an editable textbox to change the name
-        Might want to make this toggle-able if the user wants to retain
-        the auto-generated name */}
-        {/* Additionally, can we get it to load the tether's data? */}
         <p>
           <label htmlFor="name">Customize Title</label>
           <FormInputRow>
             <TetherName
               type="text" onFocus={(e) => e.target.placeholder = ''}
-              placeholder="Chillaxin', Book Club Bosses, etc."
+              placeholder={tetherActivity + " " + tetherDuration + " " + tetherDurationNoun + " a " + tetherFrequency + " " + tetherTimespan + " times"}
               {...register('tether_name')}
             />
           </FormInputRow>
         </p>
       </FormTitle>
-
       <FormInnerContent>
         {
           formStep === 'one' &&
@@ -196,21 +176,6 @@ const EditForm: FC<FormProps> = (props) => {
             <ErrorMessage>{errors.tether_timespan?.message}</ErrorMessage>
           </FormInputs>
         }
-        {
-          formStep === 'two' &&
-          <FriendAttributesHeader>
-            <FriendAttributes>
-              <h1>FRIENDS</h1>
-              <p>TETHERS</p>
-              <p>SHARED</p>
-              <Search>
-                <SearchIcon />
-                <SearchInput type='text' placeholder='Find Friend' onChange={event => {setSearchTerm(event.target.value)}}/>
-              </Search>
-            </FriendAttributes>
-            <hr />
-          </FriendAttributesHeader>
-        }
       </FormInnerContent>
       <FormButtons>
         <button onClick={closeModal}>Cancel</button>
@@ -218,12 +183,6 @@ const EditForm: FC<FormProps> = (props) => {
           formStep === 'one' &&
           <button type="submit" value="Submit">
             Update Tether
-          </button>
-        }
-        {
-          formStep === 'two' &&
-          <button onClick={closeModal}>
-            Request Tether
           </button>
         }
       </FormButtons>

@@ -71,7 +71,6 @@ const Tethers: FC = () => {
   function closeModal() {
     setModalIsOpen(false);
     setActiveModal('None');
-    console.warn(`modal closed`);
     // setConfettiVisible(false);
     dispatch(setMyTethers(myParticipants));
   }
@@ -149,6 +148,9 @@ const Tethers: FC = () => {
               setModalIsOpen={setModalIsOpen}
               setEditModalIsOpen={setEditModalIsOpen}
               handleExpandTether={handleExpandTether}
+              openModal={openModal}
+              closeModal={closeModal}
+              activeModal={activeModal}
             />
           ))}
         {show === 'completed' &&
