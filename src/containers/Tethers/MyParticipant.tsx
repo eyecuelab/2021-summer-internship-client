@@ -45,6 +45,7 @@ interface MyParticipantProps {
   myParticipant: any;
   expanded: boolean;
   activeModal: string;
+  modalIsOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
   // setConfettiVisible: (bool: boolean) => void;
@@ -58,10 +59,12 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
   activeModal,
+  modalIsOpen,
   openModal,
   closeModal,
   // setConfettiVisible,
   setActiveModal,
+  setModalIsOpen,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
@@ -70,7 +73,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editClickable, setEditClickable] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
@@ -96,7 +99,6 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
 
   function handleShowEditTetherPage() {
     setModalIsOpen(true);
-    // dispatch(setMyTethers(myParticipants));
     setActiveModal('EditTether');
   }
 

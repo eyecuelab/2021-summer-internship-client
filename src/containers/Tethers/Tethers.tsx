@@ -70,9 +70,10 @@ const Tethers: FC = () => {
 
   function closeModal() {
     setModalIsOpen(false);
-    setActiveModal('None');
+    setActiveModal('none');
     // setConfettiVisible(false);
     dispatch(setMyTethers(myParticipants));
+    console.log(activeModal);
   }
 
   function handleShowCreateTetherPage() {
@@ -87,6 +88,7 @@ const Tethers: FC = () => {
         {activeModal === 'Confetti' &&
           <>
             <ConfettiEffect />
+            {console.log(activeModal)}
             <Modal
               isOpen={modalIsOpen}
               shouldCloseOnOverlayClick={false}
@@ -151,6 +153,7 @@ const Tethers: FC = () => {
               openModal={openModal}
               closeModal={closeModal}
               activeModal={activeModal}
+              modalIsOpen={modalIsOpen}
             />
           ))}
         {show === 'completed' &&
