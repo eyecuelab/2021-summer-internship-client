@@ -51,7 +51,7 @@ const Activity: FC = () => {
               <p>{myParticipatingTethers.length}</p>
             </Cell>
             <Cell>
-              <p>{myCompleteTethers.length}</p>
+              <p>{countTotal}</p>
             </Cell>
             <Cell>
               <p>{((myParticipatingTethers.length) * 10) + ((myCompleteTethers.length) * 50)}</p>
@@ -146,13 +146,41 @@ const Activity: FC = () => {
                 <FriendActivityHeader>
                 <p>{formattedDate}</p>
                   <Rings>
-                    <p>Rings</p>
+                    <p>Say Congrats!</p>
                     <BellOval />
                   </Rings>
                 </FriendActivityHeader>
                   <FriendActivityBody>
-                    <h2>{recentTether.tether_name} - {recentTether.tether_category}</h2>
-                    <p>{recentTether.tether_created_by_plain}</p>
+                    <BadgeBackground>
+                      {
+                        recentTether.tether_category === 'Art' &&
+                        <Badge12 />
+                      }
+                      {
+                        recentTether.tether_category === 'Exercise' &&
+                        <Badge11 />
+                      }
+                      {
+                        recentTether.tether_category === 'Music' &&
+                        <Badge04 />
+                      }
+                      {
+                        recentTether.tether_category === 'Nature' &&
+                        <Badge14 />
+                      }
+                      {
+                        recentTether.tether_category === 'Social' &&
+                        <Badge09 />
+                      }
+                      {
+                        recentTether.tether_category === 'Wellness' &&
+                        <Badge03 />
+                      }
+                    </BadgeBackground>
+                    <TitleAndUsername>
+                      <h2>{recentTether.tether_name}</h2>
+                      <p>{recentTether.tether_created_by_plain}</p>
+                    </TitleAndUsername>
                   </FriendActivityBody>
               </FriendActivityCard>
             )
@@ -318,7 +346,8 @@ const FriendActivityHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
-  margin: 0px 15px;
+  margin: 0px 15px 0px 15px;
+  height: 40px;
   font-family: Work Sans;
   font-style: normal;
   font-weight: 600;
@@ -342,6 +371,10 @@ const FriendActivityBody = styled.div`
   font-family: Work Sans;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: 345px;
   h2 {
     font-style: normal;
     font-weight: 800;
@@ -363,4 +396,19 @@ const FriendActivityBody = styled.div`
     line-height: 16px;
     padding-top: 15px;
   }
+`;
+
+const TitleAndUsername = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 0px 5px;
+`;
+
+const BadgeBackground = styled.div`
+  background: rgb(80, 152, 201);
+  width: fit-content;
+  height: fit-content;
+  z-index: 2;
+  border-top-right-radius: 50%;
 `;
