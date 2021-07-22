@@ -17,11 +17,6 @@ const Home: FC = () => {
     <div className="App">
       <header className="App-header">
       <Title className="App-logo">Tether</Title>
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/containers/Home.tsx</code> and save to reload.
-        </p> */}
         <div className="links">
           <Link to={Routes.Login} style={{color: '#FFFFFF', textDecoration: 'none'}}>Log In</Link>
           <Link to={Routes.Register} style={{color: '#FFFFFF', textDecoration: 'none'}}>Register</Link>
