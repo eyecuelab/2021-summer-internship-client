@@ -40,15 +40,12 @@ import {
   AllDotContainer,
   ZeroDot,
 } from './styles';
-import {
-  TransitionGroup,
-  CSSTransition
-} from "react-transition-group";
 
 interface MyParticipantProps {
   myParticipant: any;
   expanded: boolean;
   setConfettiVisible: (bool: boolean) => void;
+  setActiveModal: (string: string) => void;
   setModalIsOpen: (bool: boolean) => void;
   handleExpandTether: (id: string) => void;
 }
@@ -57,6 +54,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
   setConfettiVisible,
+  setActiveModal,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
@@ -76,6 +74,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     };
     dispatch(createRingTheBell({ data, onSuccess }));
     setConfettiVisible(true);
+    setActiveModal('Confetti')
     setModalIsOpen(true);
   };
 
@@ -95,12 +94,14 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   function closeModal() {
     setModalIsOpen(false);
     setConfettiVisible(false);
+    setActiveModal('');
     dispatch(setMyTethers(myParticipants));
   }
 
   function handleShowEditTetherPage() {
     openModal();
     dispatch(setMyTethers(myParticipants));
+    setActiveModal('EditTether');
   }
 
   const bell = canRingTheBell ? (
@@ -125,28 +126,30 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
           {myParticipant.tether_id.tether_name}
           {
             expanded &&
-            <Edit onClick={handleShowEditTetherPage}>
-              <p>Edit</p>
-            </Edit>
+            <>
+              <Edit onClick={handleShowEditTetherPage}>
+                <p>Edit</p>
+              </Edit>
+              <Modal
+                isOpen={modalIsOpen}
+                shouldCloseOnOverlayClick={false}
+                style={modalStyles}
+                className="EditModal"
+                overlayClassName="Overlay"
+              >
+                <EditForm
+                  closeModal={closeModal}
+                  id={myParticipant.tether_id.tether_id}
+                  oldTetherActivity={myParticipant.tether_id.tether_activity}
+                  oldTetherDuration={myParticipant.tether_id.tether_duration}
+                  oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
+                  oldTetherFrequency={myParticipant.tether_id.tether_frequency}
+                  oldTetherTimespan={myParticipant.tether_id.tether_timespan}
+                  oldTetherCategory={myParticipant.tether_id.tether_category}
+                />
+              </Modal>
+            </>
           }
-          <Modal
-            isOpen={modalIsOpen}
-            shouldCloseOnOverlayClick={false}
-            style={modalStyles}
-            className="Modal"
-            overlayClassName="Overlay"
-          >
-            <EditForm
-              closeModal={closeModal}
-              id={myParticipant.tether_id.tether_id}
-              oldTetherActivity={myParticipant.tether_id.tether_activity}
-              oldTetherDuration={myParticipant.tether_id.tether_duration}
-              oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
-              oldTetherFrequency={myParticipant.tether_id.tether_frequency}
-              oldTetherTimespan={myParticipant.tether_id.tether_timespan}
-              oldTetherCategory={myParticipant.tether_id.tether_category}
-            />
-          </Modal>
         </TitleAndEdit>
         <Chev
           expanded={expanded}
