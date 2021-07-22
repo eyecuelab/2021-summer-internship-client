@@ -24,8 +24,9 @@ export const Badges = styled.div`
 export const BadgeCard = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50%;
+  justify-content: left;
+  width: 95%;
+  height: 60px;
   flex-direction: row;
   margin-top: 17px;
 `
