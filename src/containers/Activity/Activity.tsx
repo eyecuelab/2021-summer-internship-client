@@ -142,7 +142,7 @@ const Activity: FC = () => {
                   <BadgeIcon>
                     <Badge02 />
                   </BadgeIcon>
-                } x5 Tethers <p>{showFive}</p>
+                } x5 Tethers
               </BadgeCard>
             }
             {showTwentyFive &&

@@ -17,18 +17,16 @@ import {
     SearchInput,
     FriendAttributesHeader,
     FriendAttributesContainer,
-    FriendAttributes,
+    // FriendAttributes,
     FriendsListContainer,
     YourFriendsList,
     FullRowContainer,
     RowUsername,
     RowDataContainer,
-    DataTethers,
-    DataShared,
-    DataXp,
-    DataBadges,
+    DataContainer,
     RightSide,
     FriendRequests,
+    TextContainer,
   } from './styles';
 
 const Friends: FC = () => {
@@ -76,14 +74,22 @@ const Friends: FC = () => {
           show === 'users' &&
           <FriendAttributesHeader>
             <FriendAttributesContainer>
-              <FriendAttributes>
-                <p>TETHERS</p>
-                <p>SHARED</p>
-                <p>XP</p>
-                <p>BADGES</p>
-              </FriendAttributes>
+              {/* <FriendAttributes> */}
+                <TextContainer>
+                  <p>TETHERS</p>
+                </TextContainer>
+                <TextContainer>
+                  <p>SHARED</p>
+                </TextContainer>
+                <TextContainer>
+                  <p>XP</p>
+                </TextContainer>
+                <TextContainer>
+                  <p>BADGES</p>
+                </TextContainer>
+              {/* </FriendAttributes> */}
             </FriendAttributesContainer>
-            <hr />
+            {/* <hr /> */}
           </FriendAttributesHeader>
         }
         <FriendsListContainer>
@@ -101,18 +107,18 @@ const Friends: FC = () => {
                     <h1 key={user.id}>{user.username}</h1>
                   </RowUsername>
                   <RowDataContainer>
-                    <DataTethers>
+                    <DataContainer>
                         <p>{countInProgress}</p>
-                    </DataTethers>
-                    <DataShared>
+                    </DataContainer>
+                    <DataContainer>
                         <p>{countShared}</p>
-                    </DataShared>
-                    <DataXp>
+                    </DataContainer>
+                    <DataContainer>
                         <p>{(countInProgress * 10) + (countComplete * 50)}</p>
-                    </DataXp>
-                    <DataBadges>
+                    </DataContainer>
+                    <DataContainer>
                         <p>{countComplete}</p>
-                    </DataBadges>
+                    </DataContainer>
                   </RowDataContainer>
                 </FullRowContainer>
                 <hr />

@@ -113,8 +113,9 @@ export const StatusText = styled.p<{ inactive: Boolean }>`
 
 export const FriendAttributesHeader = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: baseline;
+  flex-direction: row-reverse;
+  justify-content: right;
+  align-items: right;
   font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
@@ -123,20 +124,22 @@ export const FriendAttributesHeader = styled.div`
   text-transform: uppercase;
   color: #FFFFFF;
   p {
-    margin: 0;
+    margin-bottom: 5px;
   }
-  hr {
+  /* border: 1px solid white; */
+  border-bottom: 1px solid #aaaaaa3f;
+  /* hr {
     opacity: .25;
     border-radius: 80px;
     width: 100%;
-  }
+  } */
 `;
 
 export const FriendAttributesContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  align-items: baseline;
+  justify-content: right;
+  align-items: right;
   font-family: Work Sans;
   font-style: normal;
   font-weight: 800;
@@ -144,26 +147,27 @@ export const FriendAttributesContainer = styled.div`
   line-height: 14px;
   text-transform: uppercase;
   color: #FFFFFF;
-  width: 95%;
+  width: 55%;
 `;
 
-export const FriendAttributes = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: baseline;
-  font-family: Work Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 12px;
-  line-height: 14px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  width: 59%;
-  p {
-    margin-left: auto;
-  }
-`;
+// export const FriendAttributes = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+//   align-items: baseline;
+//   font-family: Work Sans;
+//   font-style: normal;
+//   font-weight: 800;
+//   font-size: 12px;
+//   line-height: 14px;
+//   text-transform: uppercase;
+//   color: #FFFFFF;
+//   width: 55.5%;
+//   p {
+//     /* margin-left: auto; */
+//   }
+//   border: 2px dashed black;
+// `;
 
 export const FriendsListContainer = styled.div`
   height: 52vh;
@@ -264,22 +268,25 @@ export const RowUsername = styled.div`
 export const RowDataContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   margin-left: auto;
   width: 55.5%;
   margin-right: .3%;
 `;
 
-export const DataTethers = styled.div`
-  margin-right: 3%;
+export const DataContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
 `;
 
-export const DataShared = styled.div`
-`;
-
-export const DataXp = styled.div`
-`;
-
-export const DataBadges = styled.div`
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
 `;

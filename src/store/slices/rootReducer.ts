@@ -4,6 +4,7 @@ import usersReducer from './users/usersSlice';
 import oneUserReducer from './oneUser/oneUserSlice';
 import tethersReducer from './tethers/tethersSlice';
 import myTethersReducer from './myTethers/myTethersSlice';
+import activeModalReducer from './activeModal/activeModalSlice';
 import incrementIdReducer from './incrementId/incrementIdSlice';
 import ringTheBellReducer from './ringTheBell/ringTheBellSlice';
 import recentTethersReducer from './recentTethers/recentTethersSlice';
@@ -19,6 +20,7 @@ export let rootReducer = combineReducers({
   oneUser: oneUserReducer,
   tethers: tethersReducer,
   myTethers: myTethersReducer,
+  activeModal: activeModalReducer,
   incrementId: incrementIdReducer,
   ringTheBell: ringTheBellReducer,
   tetherTitle: setTetherTitleReducer,
@@ -36,6 +38,7 @@ export default function createReducer(injectedReducers = {}) {
     oneUser: oneUserReducer,
     tethers: tethersReducer,
     myTethers: myTethersReducer,
+    activeModal: activeModalReducer,
     incrementId: incrementIdReducer,
     ringTheBell: ringTheBellReducer,
     tetherTitle: setTetherTitleReducer,

@@ -36,9 +36,10 @@ const Tethers: FC = () => {
   const allTethersTotal = useAppSelector((state) => state.allUsersTetherCounts);
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
-  const [confettiVisible, setConfettiVisible] = useState(false);
+  // const [confettiVisible, setConfettiVisible] = useState(false);
   const [activeModal, setActiveModal] = useState('');
 
   const handleExpandTether = React.useCallback(
@@ -69,7 +70,9 @@ const Tethers: FC = () => {
 
   function closeModal() {
     setModalIsOpen(false);
-    setConfettiVisible(false);
+    setActiveModal('None');
+    console.warn(`modal closed`);
+    // setConfettiVisible(false);
     dispatch(setMyTethers(myParticipants));
   }
 
@@ -141,15 +144,15 @@ const Tethers: FC = () => {
               key={myParticipant.id}
               myParticipant={myParticipant}
               expanded={expandedTether === myParticipant.id}
-              setConfettiVisible={setConfettiVisible}
+              // setConfettiVisible={setConfettiVisible}
               setActiveModal={setActiveModal}
               setModalIsOpen={setModalIsOpen}
+              setEditModalIsOpen={setEditModalIsOpen}
               handleExpandTether={handleExpandTether}
             />
           ))}
         {show === 'completed' &&
           myCompleteTethers?.map((myCompleteTether) => {
-          // allTethersTotal?.filter((participant) => participant?.user_id?.username === user.username).map((participant) => {
             const formattedDate = dayjs(myCompleteTether?.tether_completed_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
