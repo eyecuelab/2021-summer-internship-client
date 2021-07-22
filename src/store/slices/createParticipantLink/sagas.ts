@@ -13,7 +13,7 @@ export interface CreateParticipantPayload {
 }
 
 function* createParticipant(action: PayloadAction<CreateParticipantPayload>) {
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants`, 'POST', action.payload.data);
+  const { success, data, error } = yield call(makeRequest, `participants`, 'POST', action.payload.data);
   if (success) {
     yield put(setParticipantLink(data));
     return data;

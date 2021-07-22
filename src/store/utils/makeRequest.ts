@@ -11,7 +11,7 @@ export function* makeRequest(url: string, method: string, data?: unknown): any {
     ...(data ? { body: JSON.stringify(data) } : {}),
   };
   try {
-    const response = yield fetch(url, init);
+    const response = yield fetch(`${process.env.REACT_APP_API_URL}${url}`, init);
     if (!response.ok) {
       // an error
       console.error(response);

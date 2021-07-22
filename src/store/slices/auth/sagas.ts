@@ -10,7 +10,7 @@ import { getRecentTethers } from '../recentTethers/recentTethersSlice';
 import { getMyCompleteTethers } from '../myCompleteTethers/myCompleteTethersSlice';
 
 function* registerUser(action: PayloadAction<{ username: string; password: string; email: string }>) {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/register', 'POST', action.payload);
+  const { success, data, error } = yield call(makeRequest, 'register', 'POST', action.payload);
   if (success) {
     yield put(setUser(data));
   }
@@ -21,7 +21,7 @@ function* registerUser(action: PayloadAction<{ username: string; password: strin
 }
 
 function* loginUser(action: PayloadAction<{ username: string; password: string }>) {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/login', 'POST', action.payload);
+  const { success, data, error } = yield call(makeRequest, 'login', 'POST', action.payload);
   if (success) {
     yield put(setToken({ token: data.access_token }));
     yield put(getOneUser());

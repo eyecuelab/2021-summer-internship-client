@@ -5,7 +5,7 @@ import { getAllParticipantLinks, setAllParticipantLinks } from './allParticipant
 
 function* fetchAllParticipantLinks(action: PayloadAction<{ id: string }>) {
   const id = action.payload;
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/tether/${id}`, 'GET');
+  const { success, data, error } = yield call(makeRequest, `participants/tether/${id}`, 'GET');
   if (success) {
     yield put(setAllParticipantLinks(data));
   }
