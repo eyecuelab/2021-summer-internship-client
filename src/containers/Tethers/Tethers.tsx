@@ -38,6 +38,7 @@ const Tethers: FC = () => {
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
   const [confettiVisible, setConfettiVisible] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
 
   const handleExpandTether = React.useCallback(
     (my_participant_id: any) => {
@@ -74,12 +75,13 @@ const Tethers: FC = () => {
   function handleShowCreateTetherPage() {
     openModal();
     dispatch(setMyTethers(myParticipants));
+    setActiveModal('AddNew')
   }
 
   return (
     <div>
       <CurrentCompleted>
-        {confettiVisible && (
+        {confettiVisible &&
           <>
             <ConfettiEffect />
             <Modal
@@ -92,7 +94,7 @@ const Tethers: FC = () => {
               <CongratsModal closeModal={closeModal} tetherTitle={tetherTitle} />
             </Modal>
           </>
-        )}
+        }
         <StatusText
           inactive={activeStatus === 'completed'}
           onClick={() => {
@@ -119,7 +121,7 @@ const Tethers: FC = () => {
           <PlusSign />
           Add New
         </AddNewTether>
-        {!confettiVisible && (
+        {activeModal === 'AddNew' && (
           <Modal
             isOpen={modalIsOpen}
             shouldCloseOnOverlayClick={false}
@@ -139,6 +141,7 @@ const Tethers: FC = () => {
               myParticipant={myParticipant}
               expanded={expandedTether === myParticipant.id}
               setConfettiVisible={setConfettiVisible}
+              setActiveModal={setActiveModal}
               setModalIsOpen={setModalIsOpen}
               handleExpandTether={handleExpandTether}
             />
