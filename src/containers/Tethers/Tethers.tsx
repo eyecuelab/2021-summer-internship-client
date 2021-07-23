@@ -150,13 +150,13 @@ const Tethers: FC = () => {
           ))}
         {show === 'completed' &&
           myCompleteTethers?.map((myCompleteTether) => {
-            const formattedDate = dayjs(myCompleteTether?.tether_completed_on).format('MM/DD/YYYY');
+            const formattedDate = dayjs(myCompleteTether?.tether_id.tether_completed_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
-                <Map key={myCompleteTether.tether_id}>
+                <Map key={myCompleteTether.tether_id.tether_id}>
                   {/* Show the usernames of people who participated */}
                   <CompleteContainer>
-                    <CompleteTitle>{myCompleteTether.tether_name}</CompleteTitle>
+                    <CompleteTitle>{myCompleteTether.tether_id.tether_name}</CompleteTitle>
                     <RightAlign>Completed on {formattedDate}</RightAlign>
                   </CompleteContainer>
                 </Map>
