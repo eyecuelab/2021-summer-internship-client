@@ -5,8 +5,9 @@ export const Badges = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 90%;
-  height: 40vh;
+  height: 20vh;
   margin: 0px 0px 0px 40px;
+  padding-top: 40px;
   font-family: Gotham-Black;
   font-style: normal;
   font-weight: normal;
@@ -19,6 +20,8 @@ export const Badges = styled.div`
     line-height: 21px;
     text-transform: uppercase;
   }
+  /* border: 2px solid red; */
+  transform: translateY(20px);
 `;
 
 export const BadgeCard = styled.div`
@@ -29,6 +32,7 @@ export const BadgeCard = styled.div`
   height: 60px;
   flex-direction: row;
   margin-top: 17px;
+  /* border: 2px solid orange; */
 `
 
 export const BadgeIcon = styled.div`
