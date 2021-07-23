@@ -1,5 +1,5 @@
 import React from 'react';
-import Person4 from '../../assets/Person4.png'
+import Person5 from '../../assets/Person5.png'
 import {
 Request,
 RequestHeader,
@@ -9,7 +9,7 @@ NameAndButtons,
 Buttons
 } from './styles';
 
-const Request04 = () => {
+const Request05 = () => {
   return (
     <Request>
       <RequestHeader>
@@ -20,9 +20,9 @@ const Request04 = () => {
         </RequestXpAndBadges>
       </RequestHeader>
       <AvatarAndInfo>
-        <img src={Person4} alt='avatar' />
+        <img src={Person5} alt='avatar' />
         <NameAndButtons>
-          <p>Spraynard Kruger</p>
+          <p>Targus Targus</p>
           <Buttons>
             <svg width="84" height="18" viewBox="0 0 84 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="84" height="18" rx="9" fill="#003E6A"/>
@@ -39,4 +39,4 @@ const Request04 = () => {
   )
 }
 
-export default Request04;
+export default Request05;
