@@ -1,13 +1,18 @@
-import React from 'react';
+import Modal from 'react-modal';
+import { useState } from 'react';
 import Chevron from '../../components/chevron';
 import DarkBar from '../../components/DarkBar';
 import BlankBar from '../../components/BlankBar';
+import AvatarPin from '../../components/AvatarPin';
 import BellCircle from '../../components/BellCircle';
 import PlusCircle from '../../components/PlusCircle';
-
+import EditForm from '../../components/EditTetherForm';
+import MyAvatarPin from '../../components/MyAvatarPin';
 import BellCircleDark from '../../components/BellCircleDark';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
+import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
 import { getMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getAllParticipantLinks, selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import {
@@ -27,6 +32,7 @@ import {
   OnePersonDotContainer,
   CenteringProgressDotContainer,
   MainUserDotContainer,
+  modalStyles,
   ZeroDotContainer,
   CurrentDot,
   IncompleteDot,
@@ -34,13 +40,16 @@ import {
   AllDotContainer,
   ZeroDot,
 } from './styles';
-import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
-import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
+import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 
 interface MyParticipantProps {
   myParticipant: any;
   expanded: boolean;
-  setConfettiVisible: (bool: boolean) => void;
+  activeModal: string;
+  modalIsOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+  setActiveModal: (string: string) => void;
   setModalIsOpen: (bool: boolean) => void;
   handleExpandTether: (id: string) => void;
 }
@@ -48,8 +57,12 @@ interface MyParticipantProps {
 const MyParticipant: React.FC<MyParticipantProps> = ({
   myParticipant,
   expanded,
+  activeModal,
+  modalIsOpen,
+  openModal,
+  closeModal,
+  setActiveModal,
   setModalIsOpen,
-  setConfettiVisible,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
@@ -57,6 +70,8 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
+  const [editClickable, setEditClickable] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
   const currentPluses = totalLinksRendered - completeLinksRendered ? 1 : 0; // Don't render plus link if it's done
@@ -64,18 +79,26 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const handleRingTheBell = (data: { tether_id: string }) => {
     const onSuccess = () => {
       dispatch(getMyTethers(user.id));
+      dispatch(getMyCompleteTethers(user.id));
+      setActiveModal('Confetti');
     };
     dispatch(createRingTheBell({ data, onSuccess }));
-    setConfettiVisible(true);
     setModalIsOpen(true);
+    setIsEditing(false);
   };
 
   const handleIncrement = (data: { id: string }) => {
     const onIncrementSuccess = () => {
       dispatch(getMyTethers(user.id));
+      dispatch(getAllParticipantLinks(myParticipant.tether_id.tether_id));
     };
     dispatch(createIncrementId({ data, onIncrementSuccess }));
   };
+
+  function handleShowEditTetherPage() {
+    setModalIsOpen(true);
+    setIsEditing(true);
+  }
 
   const bell = canRingTheBell ? (
     <BellCircleDark
@@ -97,15 +120,40 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       <Map key={myParticipant.id}>
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
-          <Edit>
-            <p>Edit</p>
-          </Edit>
+          {
+            expanded &&
+            <Edit onClick={handleShowEditTetherPage}>
+              <p>Edit</p>
+            </Edit>
+          }
+          {
+            isEditing &&
+            <Modal
+              isOpen={modalIsOpen}
+              shouldCloseOnOverlayClick={false}
+              style={modalStyles}
+              className="EditModal"
+              overlayClassName="Overlay"
+            >
+              <EditForm
+                closeModal={closeModal}
+                id={myParticipant.tether_id.tether_id}
+                oldTetherActivity={myParticipant.tether_id.tether_activity}
+                oldTetherDuration={myParticipant.tether_id.tether_duration}
+                oldTetherDurationNoun={myParticipant.tether_id.tether_duration_noun}
+                oldTetherFrequency={myParticipant.tether_id.tether_frequency}
+                oldTetherTimespan={myParticipant.tether_id.tether_timespan}
+                oldTetherCategory={myParticipant.tether_id.tether_category}
+              />
+            </Modal>
+          }
         </TitleAndEdit>
         <Chev
           expanded={expanded}
           onClick={() => {
             handleExpandTether(myParticipant.id);
             dispatch(getAllParticipantLinks(myParticipant.tether_id.tether_id));
+            setEditClickable(!editClickable);
           }}
         >
           <Chevron />
@@ -114,7 +162,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       {expanded && (
         <Expanded>
           <NameAndPercent>
-            <p>{myParticipant.tether_id.tether_name}</p>
+            <p>{myParticipant.tether_id.tether_activity} - {myParticipant.tether_id.tether_duration} {myParticipant.tether_id.tether_duration_noun} a {myParticipant.tether_id.tether_frequency}, {myParticipant.tether_id.tether_timespan} times</p>
             <p>
               {Math.round((parseInt(myParticipant.links_completed) / parseInt(myParticipant.links_total)) * 100)}%
               Complete
@@ -138,9 +186,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
               {bell}
             </ProgressBarAndBellContainer>
             <ProgressDotContainer showBorder={showBorder}>
-              {tetherParticipants
-                ?.filter((participant) => participant.user_id.username !== user.username)
-                .map((participant) => {
+              {tetherParticipants?.map((participant) => {
                   const completeLinks = participant.links_completed;
                   const incompleteLinks = participant.links_total - participant.links_completed;
                   const noLinks = participant.links_completed === 0;
@@ -151,7 +197,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                       <ZeroDotContainer showBorder={showBorder}>
                         {noLinks &&
                           [...Array(1)].map((e, i) => (
-                            <ZeroDot key={i}>
+                            <ZeroDot key={i} currentUser={participant.user_id.username === user.username}>
+                              {
+                                participant.user_id.username === user.username &&
+                                <MyAvatarPin />
+                              }
+                              {
+                                participant.user_id.username !== user.username &&
+                                <AvatarPin />
+                              }
                               <p>{participant.user_id.username}</p>
                             </ZeroDot>
                           ))}
@@ -175,7 +229,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                           [...Array(1)].map((e, i) => (
                             <>
                               <CenteringProgressDotContainer showBorder={showBorder}>
-                                <CurrentDot key={i}>
+                                <CurrentDot key={i} currentUser={participant.user_id.username === user.username}>
+                                  {
+                                    participant.user_id.username === user.username &&
+                                    <MyAvatarPin />
+                                  }
+                                  {
+                                    participant.user_id.username !== user.username &&
+                                    <AvatarPin />
+                                  }
                                   <p>{participant.user_id.username}</p>
                                 </CurrentDot>
                               </CenteringProgressDotContainer>
@@ -192,7 +254,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
                       <AllDotContainer showBorder={showBorder}>
                         {allLinks &&
                           [...Array(1)].map((e, i) => (
-                            <AllDot key={i}>
+                            <AllDot key={i} currentUser={participant.user_id.username === user.username}>
+                              {
+                                participant.user_id.username === user.username &&
+                                <MyAvatarPin />
+                              }
+                              {
+                                participant.user_id.username !== user.username &&
+                                <AvatarPin />
+                              }
                               <p>{participant.user_id.username}</p>
                             </AllDot>
                           ))}

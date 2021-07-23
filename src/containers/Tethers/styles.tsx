@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Add } from '../../components/PlusCircle';
 
@@ -36,6 +35,7 @@ export const MainHeader = styled.div`
     margin-right: 21px;
     margin-block-start: 0;
     margin-block-end: 0;
+    padding-top: 8px;
   }
 `;
 
@@ -46,7 +46,7 @@ export const AddNewTether = styled.button`
   padding: 0px 49px;
   cursor: pointer;
   width: 200px;
-  height: 34px;
+  height: 38px;
   background: #003e6a;
   border: none;
   border-radius: 10px;
@@ -56,6 +56,7 @@ export const AddNewTether = styled.button`
   font-size: 18px;
   line-height: 21px;
   color: #ffffff;
+  transform: translateY(5px);
 `;
 
 export const TethersListContainer = styled.div``;
@@ -95,13 +96,15 @@ export const TitleAndEdit = styled.div`
   align-items: baseline;
 `;
 
-export const Edit = styled.div`
+export const Edit = styled.button`
   font-family: Work Sans;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   color: #71a8d0;
   padding-left: 20px;
+  background: none;
+  border: none;
   p {
     cursor: pointer;
   }
@@ -119,6 +122,7 @@ export const Expanded = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 200px;
   p {
     margin: 20px 0px;
     font-size: 24px;
@@ -131,6 +135,7 @@ export const NameAndPercent = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 40px;
 `;
 
 export const TetherContainer = styled.div<{ showBorder: Boolean }>`
@@ -163,7 +168,7 @@ export const ProgressBar = styled.div`
   height: 24px;
   background: #ffffff;
   border-radius: 12px;
-  margin: 50px 0px;
+  margin: 50px 0px 85px 0px;
 `;
 
 export const ProgressButton = styled.button`
@@ -183,6 +188,7 @@ export const ProgressButton = styled.button`
   :hover {
     ${Add} {
       opacity: 1;
+      z-index: 1;
     }
   }
 `;
@@ -225,17 +231,34 @@ export const ZeroDotContainer = styled.div<{ showBorder: Boolean }>`
   margin-left: -50px;
 `;
 
-export const ZeroDot = styled.div`
-  width: 10px;
-  height: 30px;
+export const ZeroDot = styled.div<{ currentUser: {}, key: Number }>`
+  width: 40px;
+  height: 47px;
   border-radius: 60px;
-  background: black;
-  transform: translate(0px, -35px);
+  font-size: 20px;
+  margin-top: -60px;
+  transform: translate(30px, 15px);
   p {
+    white-space: nowrap;
+    margin-top: -45px;
     opacity: 0;
     cursor: default;
     transition: .1s;
+    ${(props) => {
+      if (props.currentUser) {
+        return `
+          margin-top: -110px;
+        `
+      }
+    }}
   }
+  ${(props) => {
+    if (props.currentUser) {
+      return `
+      margin-top: -130px;
+      `
+    }
+  }}
   &:hover {
     p {
       opacity: 1;
@@ -254,16 +277,34 @@ export const AllDotContainer = styled.div<{ showBorder: Boolean }>`
   margin-right: -50px;
 `;
 
-export const AllDot = styled.div`
-  width: 10px;
-  height: 30px;
+export const AllDot = styled.div<{ currentUser: {}, key: Number }>`
+  width: 40px;
+  height: 47px;
   border-radius: 60px;
-  background: gold;
+  font-size: 20px;
+  margin-top: -55px;
+  transform: translate(-30px, 15px);
   p {
+    white-space: nowrap;
+    margin-top: -45px;
     opacity: 0;
     cursor: default;
     transition: .1s;
+    ${(props) => {
+      if (props.currentUser) {
+        return `
+          margin-top: -110px;
+        `
+      }
+    }}
   }
+  ${(props) => {
+    if (props.currentUser) {
+      return `
+      margin-top: -140px;
+      `
+    }
+  }}
   &:hover {
     p {
       opacity: 1;
@@ -281,19 +322,34 @@ export const MainUserDotContainer = styled.div<{ showBorder: Boolean }>`
   max-height: 30px;
 `;
 
-export const CurrentDot = styled.div`
-  width: 10px;
-  height: 30px;
+export const CurrentDot = styled.div<{ currentUser: {}, key: Number }>`
+  width: 40px;
+  height: 47px;
   border-radius: 60px;
-  background: maroon;
   font-size: 20px;
-  margin-top: -80px;
+  margin-top: -100px;
   transform: translate(0px, 15px);
   p {
+    white-space: nowrap;
+    margin-top: -43px;
     opacity: 0;
     cursor: default;
     transition: .1s;
+    ${(props) => {
+      if (props.currentUser) {
+        return `
+          margin-top: -114px;
+        `
+      }
+    }}
   }
+  ${(props) => {
+    if (props.currentUser) {
+      return `
+      margin-top: -247px;
+      `
+    }
+  }}
   &:hover {
     p {
       opacity: 1;
@@ -304,7 +360,7 @@ export const CurrentDot = styled.div`
 export const CenteringProgressDotContainer = styled.div<{ showBorder: Boolean }>`
   background: none;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   ${(props) => props.showBorder && 'border: 2px dashed black;'}
@@ -342,3 +398,32 @@ export const modalStyles = {
     transform: 'translate(-50%, -50%)',
   },
 };
+
+export const RightAlign = styled.div`
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  color: #71a8d0;
+  padding-left: 20px;
+  p {
+    cursor: pointer;
+  }
+  `
+
+export const CompleteTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`
+
+export const CompleteContainer = styled.div`
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  flex-direction: row;
+  align-items: baseline;
+  margin-left: auto;
+  width: 100%;
+`

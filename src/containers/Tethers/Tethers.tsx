@@ -18,8 +18,10 @@ import {
   TethersListContainer,
   CurrentTethersList,
   Map,
-  TitleAndEdit,
   modalStyles,
+  RightAlign,
+  CompleteContainer,
+  CompleteTitle,
 } from './styles';
 import MyParticipant from './MyParticipant';
 
@@ -35,7 +37,7 @@ const Tethers: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
-  const [confettiVisible, setConfettiVisible] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
 
   const handleExpandTether = React.useCallback(
     (my_participant_id: any) => {
@@ -65,19 +67,20 @@ const Tethers: FC = () => {
 
   function closeModal() {
     setModalIsOpen(false);
-    setConfettiVisible(false);
+    setActiveModal('none');
     dispatch(setMyTethers(myParticipants));
   }
 
   function handleShowCreateTetherPage() {
     openModal();
     dispatch(setMyTethers(myParticipants));
+    setActiveModal('AddNew')
   }
 
   return (
     <div>
       <CurrentCompleted>
-        {confettiVisible && (
+        {activeModal === 'Confetti' &&
           <>
             <ConfettiEffect />
             <Modal
@@ -90,7 +93,7 @@ const Tethers: FC = () => {
               <CongratsModal closeModal={closeModal} tetherTitle={tetherTitle} />
             </Modal>
           </>
-        )}
+        }
         <StatusText
           inactive={activeStatus === 'completed'}
           onClick={() => {
@@ -117,7 +120,7 @@ const Tethers: FC = () => {
           <PlusSign />
           Add New
         </AddNewTether>
-        {!confettiVisible && (
+        {activeModal === 'AddNew' && (
           <Modal
             isOpen={modalIsOpen}
             shouldCloseOnOverlayClick={false}
@@ -136,24 +139,26 @@ const Tethers: FC = () => {
               key={myParticipant.id}
               myParticipant={myParticipant}
               expanded={expandedTether === myParticipant.id}
-              setConfettiVisible={setConfettiVisible}
+              setActiveModal={setActiveModal}
               setModalIsOpen={setModalIsOpen}
               handleExpandTether={handleExpandTether}
+              openModal={openModal}
+              closeModal={closeModal}
+              activeModal={activeModal}
+              modalIsOpen={modalIsOpen}
             />
           ))}
         {show === 'completed' &&
           myCompleteTethers?.map((myCompleteTether) => {
-            const formattedDate = dayjs(myCompleteTether.tether_completed_on).format('MM/DD/YYYY');
+            const formattedDate = dayjs(myCompleteTether?.tether_id.tether_completed_on).format('MM/DD/YYYY');
             return (
               <CurrentTethersList>
-                <Map key={myCompleteTether.tether_id}>
-                  <TitleAndEdit>
-                    {/* Right-align the date for readability */}
-                    {/* Show the usernames of people who participated */}
-                    <p>
-                      {myCompleteTether.tether_name} Completed on {formattedDate}
-                    </p>
-                  </TitleAndEdit>
+                <Map key={myCompleteTether.tether_id.tether_id}>
+                  {/* Show the usernames of people who participated */}
+                  <CompleteContainer>
+                    <CompleteTitle>{myCompleteTether.tether_id.tether_name}</CompleteTitle>
+                    <RightAlign>Completed on {formattedDate}</RightAlign>
+                  </CompleteContainer>
                 </Map>
                 <hr />
               </CurrentTethersList>

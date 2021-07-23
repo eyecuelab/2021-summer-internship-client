@@ -8,6 +8,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import { getMyTethers } from '../myTethers/myTethersSlice';
 import { getRecentTethers } from '../recentTethers/recentTethersSlice';
 import { getMyCompleteTethers } from '../myCompleteTethers/myCompleteTethersSlice';
+import { getAllUsersTetherCounts } from '../allUsersTetherCounts/allUsersTetherCountsSlice';
 
 function* registerUser(action: PayloadAction<{ username: string; password: string; email: string }>) {
   const { success, data, error } = yield call(makeRequest, 'register', 'POST', action.payload);
@@ -29,6 +30,7 @@ function* loginUser(action: PayloadAction<{ username: string; password: string }
     yield put(getMyCompleteTethers(data.sessionUser.user.id));
     yield put(getUsers());
     yield put(getRecentTethers());
+    yield put(getAllUsersTetherCounts());
   }
   if (error) {
     // handle api error

@@ -7,6 +7,15 @@
   border-radius: 12px;
 }
 
+.EditModal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  border-radius: 12px;
+}
+
 .CongratsModal {
   position: absolute;
   top: 40px;
@@ -23,6 +32,25 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.users-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.users-enter.tethers-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.users-exit {
+  opacity: 1;
+}
+
+.users-exit-active {
+  opacity: 0;
+  transition: opacity;
 }
 
 /* .Users-logo {

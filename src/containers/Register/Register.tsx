@@ -10,17 +10,23 @@ const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const dispatch = useAppDispatch();
 
   function handleRegister() {
     dispatch(register({ username, email, password }));
+    setSuccessMessage(true)
   }
 
   return (
     <div className="Register">
       <header className="Register-header">
         <Title className="Register-logo">Tether</Title>
+        {
+          successMessage &&
+          <Success>Successfully Registered!</Success>
+        }
         <InputContainer>
           <label htmlFor="username">
             Username{' '}
@@ -37,7 +43,7 @@ const Register: FC = () => {
               onChange={(event) => setPassword(event.target.value)}
               name="password"
               type="password"
-            />
+              />
           </label>
         </InputContainer>
         <RegisterButton onClick={handleRegister}>Submit</RegisterButton>
@@ -54,10 +60,18 @@ export default Register;
 
 const InputContainer = styled.div`
   display: flex;
-  width: 80%;
+  width: 60%;
   justify-content: space-evenly;
   align-items: baseline;
   margin-bottom: 3rem;
+  input {
+    height: 20px;
+    width: 120px;
+    padding-left: 10px;
+    border-radius: 4px;
+    border: none;
+    color: #003E6A;
+  }
 `;
 
 const Title = styled.div`
@@ -92,3 +106,7 @@ const RegisterButton = styled.button`
     color: #003E6A;
   }
 `;
+
+const Success = styled.div`
+  position: fixed;
+`
