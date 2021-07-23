@@ -181,18 +181,26 @@ export const FriendActivityBody = styled.div`
   font-family: Work Sans;
   overflow: hidden;
   position: relative;
+`;
+
+export const TitleAndUsername = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 0px 0px 0px 5px;
+  width: 282px;
+  overflow-x: hidden;
   h2 {
     font-style: normal;
     font-weight: 800;
     font-size: 20px;
     line-height: 23px;
-    margin: auto 0;
-    position: absolute;
+    margin: 0;
     white-space: nowrap;
     transform: translateX(0);
     transition: 3.3s;
     &:hover {
-      transform: translateX(calc(200px - 100%));
+      transform: translateX(calc(100px - 100%));
     }
   }
   p {
@@ -200,19 +208,17 @@ export const FriendActivityBody = styled.div`
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
-    padding-top: 15px;
+    padding-top: 0px;
+    margin-top: 5px;
   }
 `;
 
-export const TitleAndUsername = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  margin: 0px 5px;
+export const TempBorder = styled.div`
+
 `;
 
 export const BadgeBackground = styled.div`
-  background: rgb(80, 152, 201);
+  background: inherit;
   backdrop-filter: blur(25px);
   width: 49px;
   height: 49px;

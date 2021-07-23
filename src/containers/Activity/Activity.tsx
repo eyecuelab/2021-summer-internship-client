@@ -33,6 +33,7 @@ import
     FriendActivityBody,
     TitleAndUsername,
     BadgeBackground,
+    TempBorder,
   } from './styles';
 
 const Activity: FC = () => {
@@ -180,7 +181,9 @@ const Activity: FC = () => {
                   <BadgeBackground>
                     {
                       recentTether.tether_category === 'Art' &&
-                      <Badge12 />
+                      <TempBorder>
+                        <Badge12 />
+                      </TempBorder>
                     }
                     {
                       recentTether.tether_category === 'Exercise' &&
