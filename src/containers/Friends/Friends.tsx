@@ -30,7 +30,7 @@ import {
 
 const Friends: FC = () => {
   const users = useAppSelector((state) => state.users);
-  const allTethersTotal = useAppSelector((state) => state.allUsersTetherCounts);
+  const allTethersTotal: any = useAppSelector((state) => state.allUsersTetherCounts);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState('users');
   const [activeStatus, setActiveStatus] = useState('your');
@@ -95,9 +95,9 @@ const Friends: FC = () => {
         {
           show === 'users' &&
           users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
-            const countInProgress = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
-            const countComplete = allTethersTotal.filter(participant => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_completed_on)).length;
-            const countShared = allTethersTotal.filter((participant) => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_created_by_plain === participant?.user_id?.username)).length;
+            const countInProgress = allTethersTotal.filter((participant: any) => (participant?.user_id?.id) === user.id).length;
+            const countComplete = allTethersTotal.filter((participant: any) => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_completed_on)).length;
+            const countShared = allTethersTotal.filter((participant: any) => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_created_by_plain === participant?.user_id?.username)).length;
             return (
               <YourFriendsList>
                 <FullRowContainer>

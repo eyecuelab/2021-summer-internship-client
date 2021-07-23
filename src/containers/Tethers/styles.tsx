@@ -56,7 +56,6 @@ export const AddNewTether = styled.button`
   font-size: 18px;
   line-height: 21px;
   color: #ffffff;
-  transform: translateY(5px);
 `;
 
 export const TethersListContainer = styled.div``;
