@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { createIncrementId } from '../../store/slices/incrementId/incrementIdSlice';
 import { createRingTheBell } from '../../store/slices/ringTheBell/ringTheBellSlice';
 import { setTetherTitle } from '../../store/slices/setTetherTitle/setTetherTitleSlice';
-import { getMyTethers, setMyTethers } from '../../store/slices/myTethers/myTethersSlice';
+import { getMyTethers } from '../../store/slices/myTethers/myTethersSlice';
 import { getAllParticipantLinks, selectCanCompleteTether } from '../../store/slices/allParticipantLinks/allParticipantLinksSlice';
 import {
   CurrentTethersList,
@@ -48,10 +48,8 @@ interface MyParticipantProps {
   modalIsOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
-  // setConfettiVisible: (bool: boolean) => void;
   setActiveModal: (string: string) => void;
   setModalIsOpen: (bool: boolean) => void;
-  setEditModalIsOpen: (bool: boolean) => void;
   handleExpandTether: (id: string) => void;
 }
 
@@ -62,18 +60,15 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   modalIsOpen,
   openModal,
   closeModal,
-  // setConfettiVisible,
   setActiveModal,
   setModalIsOpen,
   handleExpandTether,
 }: MyParticipantProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.oneUser);
-  const myParticipants = useAppSelector((state) => state.myTethers);
   const tetherParticipants = useAppSelector((state) => state.allParticipantLinks);
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editClickable, setEditClickable] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
@@ -85,7 +80,6 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
       setActiveModal('Confetti');
     };
     dispatch(createRingTheBell({ data, onSuccess }));
-    // setConfettiVisible(true);
     setModalIsOpen(true);
   };
 
@@ -123,7 +117,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
         <TitleAndEdit>
           {myParticipant.tether_id.tether_name}
           {
-            editClickable &&
+            expanded &&
             <Edit onClick={handleShowEditTetherPage}>
               <p>Edit</p>
             </Edit>

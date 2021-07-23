@@ -33,13 +33,10 @@ const Tethers: FC = () => {
   const myParticipants = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
   const tetherTitle = useAppSelector((state) => state.tetherTitle);
-  const allTethersTotal = useAppSelector((state) => state.allUsersTetherCounts);
   const [show, setShow] = useState('tethers');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState('current');
   const [expandedTether, setExpandedTether] = useState('');
-  // const [confettiVisible, setConfettiVisible] = useState(false);
   const [activeModal, setActiveModal] = useState('');
 
   const handleExpandTether = React.useCallback(
@@ -71,9 +68,7 @@ const Tethers: FC = () => {
   function closeModal() {
     setModalIsOpen(false);
     setActiveModal('none');
-    // setConfettiVisible(false);
     dispatch(setMyTethers(myParticipants));
-    console.log(activeModal);
   }
 
   function handleShowCreateTetherPage() {
@@ -88,7 +83,6 @@ const Tethers: FC = () => {
         {activeModal === 'Confetti' &&
           <>
             <ConfettiEffect />
-            {console.log(activeModal)}
             <Modal
               isOpen={modalIsOpen}
               shouldCloseOnOverlayClick={false}
@@ -145,10 +139,8 @@ const Tethers: FC = () => {
               key={myParticipant.id}
               myParticipant={myParticipant}
               expanded={expandedTether === myParticipant.id}
-              // setConfettiVisible={setConfettiVisible}
               setActiveModal={setActiveModal}
               setModalIsOpen={setModalIsOpen}
-              setEditModalIsOpen={setEditModalIsOpen}
               handleExpandTether={handleExpandTether}
               openModal={openModal}
               closeModal={closeModal}
