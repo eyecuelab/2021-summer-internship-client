@@ -70,6 +70,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const totalLinksRendered = parseInt(myParticipant.links_total);
   const completeLinksRendered = parseInt(myParticipant.links_completed);
   const [editClickable, setEditClickable] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const canRingTheBell = useAppSelector(selectCanCompleteTether);
   const linksRemainingUntilComplete = totalLinksRendered - completeLinksRendered - 1; // Do -1 to compensate for it rendering a plus link also
   const currentPluses = totalLinksRendered - completeLinksRendered ? 1 : 0; // Don't render plus link if it's done
@@ -93,7 +94,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
 
   function handleShowEditTetherPage() {
     setModalIsOpen(true);
-    setActiveModal('EditTether');
+    setIsEditing(true);
   }
 
   const bell = canRingTheBell ? (
@@ -123,7 +124,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
             </Edit>
           }
           {
-            activeModal === 'EditTether' &&
+            isEditing &&
             <Modal
               isOpen={modalIsOpen}
               shouldCloseOnOverlayClick={false}
