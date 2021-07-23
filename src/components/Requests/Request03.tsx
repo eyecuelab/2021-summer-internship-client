@@ -22,7 +22,7 @@ const Request03 = () => {
       <AvatarAndInfo>
       <img src={Person3} alt='avatar' />
         <NameAndButtons>
-          <p>Devin Cassidy</p>
+          <p>Doug Funny</p>
           <Buttons>
             <svg width="84" height="18" viewBox="0 0 84 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="84" height="18" rx="9" fill="#003E6A"/>
