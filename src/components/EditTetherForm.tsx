@@ -301,6 +301,9 @@ const FormTitle = styled.div`
   background: linear-gradient(116.35deg, #006DBB 0%, #00B2FF 65.94%);
   color: #FFFFFF;
   padding: 0px 50px;
+  p {
+    text-align: center;
+  }
 `;
 
 const FormInnerContent = styled.div`
@@ -432,7 +435,22 @@ const FormInputRow = styled.div`
 `;
 
 const TetherName = styled.input`
-  width: 200px;
+  width: 300px;
+  height: 30px;
+  background: white;
+  border:none;
+  border-radius: 5px;
+  color: #003E6A;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 16px;
+  text-align: center;
+  &::placeholder {
+    text-align: center;
+    color: white;
+  }
   `;
 
 const TetherActivity = styled.input`

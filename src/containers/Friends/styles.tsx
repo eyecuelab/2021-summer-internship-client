@@ -60,7 +60,7 @@ export const Search = styled.div`
   align-items: center;
   padding: 0px 19px;
   width: 240px;
-  height: 34px;
+  height: 38px;
   background: #003E6A;
   border: none;
   border-radius: 10px;
@@ -124,10 +124,11 @@ export const FriendAttributesHeader = styled.div`
   text-transform: uppercase;
   color: #FFFFFF;
   p {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
   }
   /* border: 1px solid white; */
-  border-bottom: 1px solid #aaaaaa3f;
+  border-bottom: 2px solid #aaaaaa3f;
+  margin-bottom: 15px;
   /* hr {
     opacity: .25;
     border-radius: 80px;
@@ -170,7 +171,7 @@ export const FriendAttributesContainer = styled.div`
 // `;
 
 export const FriendsListContainer = styled.div`
-  height: 52vh;
+  /* height: 52vh; */
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
@@ -254,7 +255,7 @@ export const FullRowContainer = styled.div`
     margin-left: 10px;
   }
   p {
-    font-size: 15px;
+    font-size: 21px;
   }
 `;
 

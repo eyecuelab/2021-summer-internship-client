@@ -6,7 +6,7 @@ export const Badges = styled.div`
   justify-content: center;
   width: 90%;
   height: 40vh;
-  margin: 50px 40px;
+  margin: 0px 0px 0px 40px;
   font-family: Gotham-Black;
   font-style: normal;
   font-weight: normal;
@@ -15,7 +15,7 @@ export const Badges = styled.div`
     font-family: Gotham-Black;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 28px;
     line-height: 21px;
     text-transform: uppercase;
   }
@@ -60,6 +60,7 @@ export const Profile =styled.div`
 
 export const Name = styled.div`
   margin-left: 40px;
+  margin-bottom: 20px;
   font-family: Gotham-Black;
   font-style: normal;
   font-weight: 800;

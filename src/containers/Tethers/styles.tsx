@@ -35,6 +35,7 @@ export const MainHeader = styled.div`
     margin-right: 21px;
     margin-block-start: 0;
     margin-block-end: 0;
+    padding-top: 8px;
   }
 `;
 
@@ -45,7 +46,7 @@ export const AddNewTether = styled.button`
   padding: 0px 49px;
   cursor: pointer;
   width: 200px;
-  height: 34px;
+  height: 38px;
   background: #003e6a;
   border: none;
   border-radius: 10px;
