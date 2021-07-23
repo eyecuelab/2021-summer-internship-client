@@ -40,6 +40,7 @@ import {
   AllDotContainer,
   ZeroDot,
 } from './styles';
+import { getMyCompleteTethers } from '../../store/slices/myCompleteTethers/myCompleteTethersSlice';
 
 interface MyParticipantProps {
   myParticipant: any;
@@ -78,6 +79,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
   const handleRingTheBell = (data: { tether_id: string }) => {
     const onSuccess = () => {
       dispatch(getMyTethers(user.id));
+      dispatch(getMyCompleteTethers(user.id));
       setActiveModal('Confetti');
     };
     dispatch(createRingTheBell({ data, onSuccess }));
