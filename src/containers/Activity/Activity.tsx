@@ -136,6 +136,11 @@ const Activity: FC = () => {
                 } <p>x{countWellness}</p>
               </BadgeCard>
             }
+          </BadgeGrid>
+        </Badges>
+        <Badges>
+          <h1>{`Special Badges`}</h1>
+          <BadgeGrid>
             {showFive &&
               <BadgeCard>
                 {
