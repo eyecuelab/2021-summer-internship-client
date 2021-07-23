@@ -84,6 +84,7 @@ const MyParticipant: React.FC<MyParticipantProps> = ({
     };
     dispatch(createRingTheBell({ data, onSuccess }));
     setModalIsOpen(true);
+    setIsEditing(false);
   };
 
   const handleIncrement = (data: { id: string }) => {
