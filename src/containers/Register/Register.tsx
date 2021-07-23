@@ -17,7 +17,6 @@ const Register: FC = () => {
   function handleRegister() {
     dispatch(register({ username, email, password }));
     setSuccessMessage(true)
-
   }
 
   return (
@@ -26,7 +25,7 @@ const Register: FC = () => {
         <Title className="Register-logo">Tether</Title>
         {
           successMessage &&
-          <p>Successfully Registered!</p>
+          <Success>Successfully Registered!</Success>
         }
         <InputContainer>
           <label htmlFor="username">
@@ -44,7 +43,7 @@ const Register: FC = () => {
               onChange={(event) => setPassword(event.target.value)}
               name="password"
               type="password"
-            />
+              />
           </label>
         </InputContainer>
         <RegisterButton onClick={handleRegister}>Submit</RegisterButton>
@@ -109,5 +108,5 @@ const RegisterButton = styled.button`
 `;
 
 const Success = styled.div`
-
+  position: fixed;
 `
