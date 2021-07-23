@@ -10,17 +10,24 @@ const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const dispatch = useAppDispatch();
 
   function handleRegister() {
     dispatch(register({ username, email, password }));
+    setSuccessMessage(true)
+
   }
 
   return (
     <div className="Register">
       <header className="Register-header">
         <Title className="Register-logo">Tether</Title>
+        {
+          successMessage &&
+          <p>Successfully Registered!</p>
+        }
         <InputContainer>
           <label htmlFor="username">
             Username{' '}
@@ -100,3 +107,7 @@ const RegisterButton = styled.button`
     color: #003E6A;
   }
 `;
+
+const Success = styled.div`
+
+`
