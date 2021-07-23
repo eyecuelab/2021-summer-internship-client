@@ -17,7 +17,6 @@ import {
     SearchInput,
     FriendAttributesHeader,
     FriendAttributesContainer,
-    // FriendAttributes,
     FriendsListContainer,
     YourFriendsList,
     FullRowContainer,
@@ -98,7 +97,7 @@ const Friends: FC = () => {
           users?.filter(user => user.id !== loggedInUser.id && (user.username.toLowerCase().includes(searchTerm.toLowerCase()))).map((user) => {
             const countInProgress = allTethersTotal.filter((participant) => (participant?.user_id?.id) === user.id).length;
             const countComplete = allTethersTotal.filter(participant => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_completed_on)).length;
-            const countShared = 5;
+            const countShared = allTethersTotal.filter((participant) => participant?.user_id?.id === user.id && (participant?.tether_id?.tether_created_by_plain === participant?.user_id?.username)).length;
             return (
               <YourFriendsList>
                 <FullRowContainer>
