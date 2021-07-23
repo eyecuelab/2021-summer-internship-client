@@ -11,7 +11,7 @@ export interface IncrementOneTetherPayload {
 }
 
 function* createNewIncrement(action: PayloadAction<IncrementOneTetherPayload>) {
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/addIncrement/${action.payload.data}`, 'PATCH', action.payload.data.id);
+  const { success, data, error } = yield call(makeRequest, `participants/addIncrement/${action.payload.data}`, 'PATCH', action.payload.data.id);
   if (success) {
     yield put(setIncrementId(data));
     if (action.payload.onIncrementSuccess) {

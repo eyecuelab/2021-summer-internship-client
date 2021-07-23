@@ -11,7 +11,7 @@ export interface RingTheBellPayload {
 }
 
 function* ringTheBell(action: PayloadAction<RingTheBellPayload>) {
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/tethers/complete/${action.payload.data}`, 'PATCH', action.payload);
+  const { success, data, error } = yield call(makeRequest, `tethers/complete/${action.payload.data}`, 'PATCH', action.payload);
   if (success) {
     yield put(setRingTheBell(data));
     if (action.payload.onSuccess) {

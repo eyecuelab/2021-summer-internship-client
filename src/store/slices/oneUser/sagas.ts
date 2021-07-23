@@ -3,7 +3,7 @@ import { makeRequest } from '../../utils/makeRequest';
 import { setOneUser, getOneUser } from './oneUserSlice';
 
 function* fetchOneUser() {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/profile', 'GET');
+  const { success, data, error } = yield call(makeRequest, 'profile', 'GET');
   if (success) {
     yield put(setOneUser(data));
   }

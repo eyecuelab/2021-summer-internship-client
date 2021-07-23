@@ -5,7 +5,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { setImpendingParticipantLink } from '../impendingParticipantLink/fetchImpendingParticipantLinkSlice';
 
 function* fetchAllTethers() {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'GET');
+  const { success, data, error } = yield call(makeRequest, 'tethers', 'GET');
   if (success) {
     yield put(setTethers(data));
   }
@@ -42,7 +42,7 @@ export interface UpdateTetherPayload {
   }
 
 function* createNewTether(action: PayloadAction<CreateTetherPayload>) {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/tethers', 'POST', action.payload.data);
+  const { success, data, error } = yield call(makeRequest, 'tethers', 'POST', action.payload.data);
   if (success) {
     yield put(setImpendingParticipantLink(data.tether_id));
     if (action.payload.onSuccess) {

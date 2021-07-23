@@ -3,7 +3,7 @@ import { makeRequest } from '../../utils/makeRequest';
 import { setUsers, getUsers } from './usersSlice';
 
 function* fetchAllUsers() {
-  const { success, data, error } = yield call(makeRequest, 'http://localhost:8000/users', 'GET');
+  const { success, data, error } = yield call(makeRequest, 'users', 'GET');
   if (success) {
     yield put(setUsers(data));
   }

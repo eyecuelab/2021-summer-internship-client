@@ -12,7 +12,7 @@ export interface fetchMyCompleteTethersPayload {
 
 function* fetchMyCompleteTethers(action: PayloadAction<fetchMyCompleteTethersPayload>) {
   const id = action.payload;
-  const { success, data, error } = yield call(makeRequest, `http://localhost:8000/participants/user/${id}/complete`, 'GET');
+  const { success, data, error } = yield call(makeRequest, `participants/user/${id}/complete`, 'GET');
   if (success) {
     yield put(setMyCompleteTethers(data));
   }
