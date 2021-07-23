@@ -40,12 +40,12 @@ const Activity: FC = () => {
   const myParticipatingTethers = useAppSelector((state) => state.myTethers);
   const myCompleteTethers = useAppSelector((state) => state.myCompleteTethers);
   const recentTethers = useAppSelector((state) => state.recentTethers);
-  const countArt = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Art').length;
-  const countExercise = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Exercise').length;
-  const countMusic = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Music').length;
-  const countNature = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Nature').length;
-  const countSocial = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Social').length;
-  const countWellness = myCompleteTethers.filter((tether) => (tether.tether_category) === 'Wellness').length;
+  const countArt = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Art').length;
+  const countExercise = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Exercise').length;
+  const countMusic = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Music').length;
+  const countNature = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Nature').length;
+  const countSocial = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Social').length;
+  const countWellness = myCompleteTethers.filter((tether) => (tether.tether_id.tether_category) === 'Wellness').length;
   const countTotal = countArt + countExercise + countMusic + countNature + countSocial + countWellness;
   const showFive = (countTotal >= 5) ? true : false;
   const showTwentyFive = (countTotal >= 25) ? true : false;
