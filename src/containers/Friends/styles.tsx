@@ -80,6 +80,7 @@ export const Search = styled.div`
       color: #003E6A;
     }
   }
+  transform: translateY(5px);
 `;
 
 export const SearchInput = styled.input`

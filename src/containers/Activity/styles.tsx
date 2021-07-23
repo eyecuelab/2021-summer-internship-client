@@ -20,7 +20,6 @@ export const Badges = styled.div`
     line-height: 21px;
     text-transform: uppercase;
   }
-  /* border: 2px solid red; */
   transform: translateY(20px);
 `;
 
@@ -32,7 +31,6 @@ export const BadgeCard = styled.div`
   height: 60px;
   flex-direction: row;
   margin-top: 17px;
-  /* border: 2px solid orange; */
 `
 
 export const BadgeIcon = styled.div`
