@@ -5,17 +5,23 @@ import './index.css';
 import App from './App';
 import configureStore from './store/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
 import * as serviceWorker from './serviceWorker';
+import './assets/MumboDisplaySSi.ttf';
+import './assets/GothamBlackRegular.ttf';
+import './assets/WorkSans-Bold.ttf';
 
 const initialState = {};
-const store = configureStore(initialState);
+const {store, persistor} = configureStore(initialState);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <App />
+        </Router>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

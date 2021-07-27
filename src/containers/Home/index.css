@@ -9,9 +9,16 @@
 
 .links {
   display: flex;
-  width: 100%;
+  width: 55%;
   justify-content: space-evenly;
   margin-bottom: 5rem;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 56px;
+  text-transform: uppercase;
+  color: #FFFFFF;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -21,7 +28,7 @@
 }
 
 .App-header {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;

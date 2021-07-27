@@ -2,12 +2,12 @@ import React from 'react';
 import Loading from '../../components/Loading';
 
 // Lazily load routes and code split with webpack
-const LazyRatingsPage = React.lazy(() => import(/* webpackChunkName: "RatingsPage" */ './Ratings'));
+const LazyFriendsPage = React.lazy(() => import(/* webpackChunkName: "LoginPage" */ './Friends'));
 
-const RatingsPage = () => (
+const FriendsPage = () => (
   <React.Suspense fallback={<Loading />}>
-    <LazyRatingsPage />
+    <LazyFriendsPage />
   </React.Suspense>
 );
 
-export default RatingsPage;
+export default FriendsPage;

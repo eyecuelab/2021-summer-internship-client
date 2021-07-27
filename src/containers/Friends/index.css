@@ -1,8 +1,27 @@
-.Ratings {
-  text-align: center;
+.Modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(25px);
+  border-radius: 12px;
 }
 
-.Ratings-logo {
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* .Tethers {
+
+}
+
+.Users-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -15,12 +34,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .Ratings-logo {
+  .Users-logo {
     animation: App-logo-float infinite 3s ease-in-out;
   }
 }
 
-.Ratings-header {
+.Users-header {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -33,10 +52,12 @@
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(10px);
   }
+
   100% {
     transform: translateY(0px);
   }
-}
+} */
